@@ -1,0 +1,690 @@
+@import "../Utils/variables";
+@import "../Utils/extensions";
+@import "../Utils/mixin";
+@import "../Utils/animations";
+
+$C-elt-height: 500px;
+$C-anime: (
+    angel: "",
+    guren: "",
+    sao: ""
+);
+
+%shade {
+    box-shadow: $shade;
+}
+%height-2 {
+    height: 3px;
+}
+%width-2 {
+    width: 2px;
+}
+
+%comments {
+    @extend %fullscreen;
+    @extend %center;
+}
+
+@function translate-x ($direction) {
+    @if ($direction) {
+        @return translate3d(-100%, 0, 0);/*décale l'elt vers la gauche*/
+    }
+    @return translate3d(0, 0, 0);/*décale l'elt vers la droite*/
+}
+@function translate-y ($direction) {
+    @if ($direction) {
+        @return translate3d(0, -100%, 0);/*décale l'elt vers le haut*/
+    }
+    @return translate3d(0, 0, 0);/*décale l'elt vers le bas*/
+}
+@function span-size ($orientation) {
+    @return $orientation;
+}
+
+@mixin span ($coord-y, $coord-x, $translate, $size: span-size(true)) {
+    top: $coord-y;
+    left: $coord-x;
+    transform: $translate;
+    @if ($size) { /*width: 100%; height: 2px;*/
+        @extend %width;
+        @extend %height-2;
+    } @else { /*height: 100%; width: 2px*/
+        @extend %width-2;
+        @extend %height;
+    }
+    @extend %abs;
+}
+
+/*les bordures des conteneurs des animes des tier S A B*/
+%span-1 {
+    @include span(0, 0, translate-x(true)); /*celle du haut*/
+}
+%span-2 {
+    @include span(0, 99.75%, translate-y(true), span-size(false)); /* de la droite*/
+}
+%span-3 {
+    @include span(99%, 100%, translate-x(false));/*du bas*/
+}
+%span-4 {
+    @include span(100%, 0, translate-y(false), span-size(false));/*de la gauche*/
+}
+
+#loading {
+    @extend %center;
+    background: #000;
+    @extend %height;
+    @extend %width;
+    @extend %fixed;
+    transition: all 500ms ease-in-out;
+    @extend %z;
+    &-circle {
+        @extend %center;
+        @extend %rel;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, transparent, transparent 40%, #6bfad6);
+        animation: loop 1s linear infinite, changeColor 2s linear infinite;
+        &::before {
+            content: "";
+            @extend %abs;
+            top: 6px;
+            right: 6px;
+            bottom: 6px;
+            left: 6px;
+            background: #000;
+            @extend %circle;
+            z-index: 1000;
+        }
+        &::after {
+            content: "";
+            @extend %abs;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            left: 0px;
+            background: linear-gradient(45deg, transparent, transparent 40%, #6bfad6);
+            @extend %circle;
+            z-index: 1;
+            filter: blur(30px);
+        }
+        & #star {
+            width: 20px;
+            height: 20px;
+            @extend %opc-0;
+            background: radial-gradient(transparent, #000,rgb(239, 255, 150));
+            z-index: 1001;
+            animation: opaque 2.5s 2s alternate infinite;
+        }
+    }
+}
+
+
+::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+    background: transparent;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+}
+
+img {
+    @extend %size;
+}
+
+#tier-list {
+    @extend %height;
+    @extend %d-grid;
+    grid-template-rows: 150px 800px repeat(3, 250px) auto;
+    grid-template-areas:
+    "header"
+    "GOD"
+    "S"
+    "A"
+    "B"
+    "C";
+    header {
+        @extend %shade;
+        grid-area: header;
+        @extend %rel;
+        &::after {
+            content: "";
+            @extend %abs;
+            @extend %width;
+            @extend %height;
+            @extend %left-corner;
+            background: linear-gradient(90deg, rgba(27, 235, 207, .2), rgba(27, 235, 207, .2), rgba(27, 235, 207, .2), rgba(27, 235, 207, .2));
+            animation: changeColor 10s linear infinite;
+        }
+
+    }
+
+    #tier-god-ctn {
+        @extend %center;
+        grid-area: GOD;
+        margin-bottom: 20px;
+        background: url(../image/art/snk_tier.jpg);
+        background-size: cover;
+        @extend %shade;
+        .tier-god {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            @extend %height;
+            @extend %pointer;
+            @include flex(column, center, center);
+            width: 450px;
+
+            &--letter {
+                height: 20%;
+                width: 60%;
+                transform: translate3d(0, 0, 40px);
+            }
+            &--anime {
+                transform: translate3d(0, 0, -10px);
+                height: 80%;
+                @extend %width;
+                @extend %shade;
+                background: url(../image/cover/snk.jpg);
+                @extend %cover;
+            }
+        }
+    }
+
+        .arrowLeft {
+            grid-area: arrowLeft;
+        }
+        .arrowRight {
+            grid-area: arrowRight;
+        }
+        .letter {
+            grid-area: letter;
+            background: #002001;
+            @extend %center;
+            height: 250px;
+            @extend  %rel;
+            img {
+                @extend %abs;
+            }
+        }
+        .animes {
+            grid-area: anime;
+            @extend %o-hidden;
+            @extend %rel;
+            @include flex(row, space-around, center);
+            span {
+                @extend %z;
+            }
+            div {
+                height: 90%;
+                flex-basis: 250px;
+                flex-shrink: 0;
+                margin-left: 20px;
+                transition: all 250ms linear;
+                @extend %pointer;
+                & img {
+                    @extend %d-block;
+                    @extend %opc-7;
+                    &:hover {
+                        @extend %opc-1;
+                    }
+                }
+            }
+        }
+        
+        .tier-S {
+            grid-area: S;
+            .animes {
+                & span:nth-child(1) {
+                    background: linear-gradient(transparent, rgb(245, 38, 134));
+                }
+                & span:nth-child(2) {
+                    background: linear-gradient(transparent, rgb(230, 59, 139));
+                }
+                & span:nth-child(3) {
+                    background: linear-gradient(to left, transparent, rgb(241, 103, 188));
+                }
+                & span:nth-child(4) {
+                    background: linear-gradient(to top, transparent, rgb(255, 158, 218));
+                }
+            }
+        }
+        .tier-A {
+            grid-area: A;
+            .animes {
+                & span:nth-child(1) {
+                    background: linear-gradient(transparent, rgb(245, 162, 38));
+                }
+                & span:nth-child(2) {
+                    background: linear-gradient(transparent, rgb(252, 196, 76));
+                }
+                & span:nth-child(3) {
+                    background: linear-gradient(to left, transparent, rgb(250, 233, 79));
+                }
+                & span:nth-child(4) {
+                    background: linear-gradient(to top, transparent, rgb(253, 255, 158));
+                }
+            }
+        }
+        .tier-B {
+            grid-area: B;
+            .animes {
+                & span:nth-child(1) {
+                    background: linear-gradient(transparent, rgb(44, 57, 238));
+                }
+                & span:nth-child(2) {
+                    background: linear-gradient(transparent, rgb(87, 117, 250));
+                }
+                & span:nth-child(3) {
+                    background: linear-gradient(to left, transparent, rgb(103, 203, 243));
+                }
+                & span:nth-child(4) {
+                    background: linear-gradient(to top, transparent, rgb(123, 210, 221));
+                }
+            }
+        }
+        #tier-C {
+            @extend %o-hidden;
+            grid-area: C;
+            @extend %rel;
+            @include flex(column);
+            #letters {
+                justify-self: flex-start;
+                background: linear-gradient(90deg, #59ACD2,  #ACE5EE, #71A6D2);
+                transform-origin: left;
+                height: 175px;
+                %letters-size {
+                    height: 70%;
+                }
+                @extend %d-grid;
+                grid-template-columns: 45% 10% 45%;
+
+                %afterAnimated {
+                    animation: opaque 2s linear alternate infinite;
+                }
+                #mentions {
+                    transform: translate3d(-100%, 0, 0);
+                    @extend %opc-0;
+                    @extend %center;
+                    @extend %height;
+                    @extend %rel;
+                    @extend %o-hidden;
+                    &::after {
+                        @extend %pseudo-elt;
+                        background: linear-gradient(90deg, #56c9ff, transparent, transparent);
+                        @extend %afterAnimated;
+                    }
+                    img {
+                        @extend %letters-size;
+                    }
+                }
+                #honorables {
+                    @extend %center;
+                    @extend %height;
+                    @extend %rel;
+                    transform: translate3d(100%, 0, 0);
+                    @extend %opc-0;
+                    &::after {
+                        @extend %pseudo-elt;
+                        background: linear-gradient(90deg, transparent, transparent, #52c8ff);
+                        @extend %afterAnimated;
+                    }
+                    img {
+                        @extend %letters-size;
+                    }
+                }
+                
+                &-C {
+                    @include flex(column, center, center);
+                    @extend %rel;
+                    @extend %o-hidden;
+                    @extend %opc-0;
+                    z-index: 1;
+                    &::before {
+                        content: "";
+                        @extend %abs;
+                        @extend %left-corner;
+                        @extend %width;
+                        @extend %height;
+                        @extend %opc-0;
+                        z-index: -1;
+                        background: linear-gradient(135deg, #f8f8ff, #bfefff);
+                        animation: opaque 1s linear alternate infinite 1s;
+                    }
+                    img {
+                        @extend %letters-size;
+                    }
+                    span {
+                        background: linear-gradient(rgb(0, 182, 223), rgb(169,228,249));
+                    }
+                    .span1 {
+                        @extend %span-1;
+                        animation: span1 linear 1s infinite alternate;
+                        @keyframes span1 {
+                            from {
+                                transform: translate3d(-100%, 0, 0);
+                            }
+                            to {
+                                transform: translate3d(100%, 0, 0);
+                            }
+                        }
+                    }
+                    .span2 {
+                        @extend %span-2;
+                        left: 98.25% !important;
+                        animation: span2 linear 1s infinite alternate 1s;
+                        @keyframes span2 {
+                            from {
+                                transform: translate3d(0, -100%, 0);
+                            }
+                            to {
+                                transform: translate3d(0, 100%, 0);
+                            }
+                        }
+
+                    }
+                    .span3 {
+                        @extend %span-3;
+                        top: 98.75% !important;
+                        animation: span3 linear 1s infinite alternate 2s;
+                        @keyframes span3 {
+                            from {
+                                transform: translate3d(0, 0, 0);
+                            }
+                            to {
+                                transform: translate3d(-200%, 0, 0);
+                            }
+                        }
+
+                    }
+                    .span4 {
+                        @extend %span-4;
+                        animation: span4 linear 1s infinite alternate 3s;
+                        @keyframes span4 {
+                            from {
+                                transform: translate3d(0, 0, 0);
+                            }
+                            to {
+                                transform: translate3d(0, -200%, 0);
+                            }
+                        }
+                    }
+                }
+            }
+            &--animes {
+                @extend %width;
+                @extend %rel;
+                height: $C-elt-height;
+                @include flex(row, space-around, center);
+                transform: translate3d(0, 1000px, 0);
+                & .C-tier {
+                    z-index: 1;
+                    @extend %height;
+                    @extend %cover;
+                    @extend %pointer;
+                    flex-basis: 25%;
+                    flex-shrink: 0;
+                }
+                @each $key, $value in $C-anime {
+                    & .#{$key} {
+                        background: cardFill(#{$key});
+                    }
+                }
+            }
+        }
+
+
+
+    .tier-3 {
+        @extend %d-grid;
+        grid-template-columns: 15% 5% 75% 5%;
+        grid-template-areas: "letter arrowLeft anime arrowRight";
+        background: linear-gradient(to right, rgb(220,220,220), rgb(200, 200, 200), rgb(230, 230, 230), rgb(200, 200, 200,), rgb(220, 220, 220));
+        .arrowLeft, .arrowRight {
+            @extend %center;
+            @extend %pointer;
+        }
+        span {
+            @extend %abs;
+            @extend %d-block;
+            transition: 1s;
+            animation: changeColor 5s linear infinite;
+            &:nth-child(1) {
+                @extend %span-1;
+            }
+            &:nth-child(2) {
+                @extend %span-2;
+            }
+            &:nth-child(3) {
+                @extend %span-3;
+            }
+            &:nth-child(4) {
+                @extend %span-4;
+            }
+        }
+        &:hover span:nth-child(1) {
+            transform: translate3d(0, 0, 0);
+        }
+        &:hover span:nth-child(2) {
+            transform: translate3d(0, 0, 0);
+            animation-delay: 0.5s;
+        }
+        &:hover span:nth-child(3) {
+            transform: translate3d(-100%, 0, 0);
+            animation-delay: 1s;
+        }
+        &:hover span:nth-child(4) {
+            transform: translate3d(0, -100%, 0);
+            animation-delay: 1.5s;
+        }
+    }
+}
+
+/*l'arrière-plan de la page*/
+#background-container {
+    @extend %size;
+    @extend %fixed;
+    @extend %left-corner;
+    z-index: -1;
+    @extend %o-hidden;
+    .background {
+        @extend %size;
+        @extend %abs;
+        @extend %opc-7;
+        video {
+            @extend %height;
+            @extend %width;
+            object-fit: cover;
+        }
+        &:nth-child(even) {
+            transform: rotate(180deg);
+        }
+    }
+}
+
+
+//the container which contains the comments-line
+.comments-container {
+    @extend %fullscreen;
+    place-items: center;
+    background: transparent;
+    & div {
+        @extend %opc-7;
+        width: 50%;
+        height: 50%;
+        animation: apparition3d 300ms ease-in, description ease-out 500ms;
+        @extend %center;
+        a.lien {
+            text-decoration: none;
+            font-size: 20px;
+            @extend %d-block;
+            transform: translateZ(20px);
+        }
+    }
+    @for $i from 1 through 15 {
+        &:nth-child(#{$i}) {
+            div {
+                background: linear-gradient(rgb(245, 38, 134), rgb(230, 59, 139), rgb(241, 103, 188), rgb(255, 158, 218));
+                a.lien {
+                    color: adjust-hue($color: rgb(255, 158, 218), $degrees: 180);
+                    &:hover {
+                        background: adjust-hue($color: rgb(245, 38, 134), $degrees: 240)
+                    }
+                }
+            }
+        }
+    }
+    @for $i from 16 through 47 {
+        &:nth-child(#{$i}) {
+            div {
+                background: linear-gradient(rgb(245, 162, 38), rgb(252, 196, 76), rgb(250, 233, 79), rgb(253, 255, 158));
+                a.lien {
+                    color: adjust-hue($color: rgb(253, 255, 158), $degrees: 180);
+                    &:hover {
+                        background: adjust-hue($color: rgb(245, 162, 38), $degrees: 100)
+                    }
+                }
+            }
+        }
+    }
+    @for $i from 48 through 77 {
+        &:nth-child(#{$i}) {
+            div {
+                background: linear-gradient(rgb(44, 57, 238), rgb(87, 117, 250), rgb(103, 203, 243), rgb(123, 210, 221));
+                a.lien {
+                    color: adjust-hue($color: rgb(123, 210, 221), $degrees: 180);
+                    &:hover {
+                        background: adjust-hue($color: rgb(44, 57, 238), $degrees: 300)
+                    }
+                }
+            }
+        }
+    }
+}
+
+/*animations classes*/
+.animation-C-letters {
+    #mentions {
+        animation: translate-2000 2s forwards; 
+    }
+    #letters-C {
+        animation: opaque 0.5s .5s forwards; 
+    }
+    #honorables {
+        animation: translate2000 1s .75s forwards; 
+    }
+}
+
+.rotateY180 {
+    animation: rotate180 250ms linear forwards;
+    @keyframes rotate180 {
+        to {
+            transform: rotateY(180deg);
+        }
+    }
+}
+
+.jump {
+    animation: 500ms linear jump backwards;
+    @keyframes jump {
+        from {
+            transform: rotateY(0deg);
+        }
+        to {
+            transform: rotateY(360deg);
+        }
+    }
+}
+
+.C-card-animation {
+    animation: up 1s ease-out forwards;
+    @keyframes up {
+        from {
+            transform: translate3d(0, 1000px, 0);
+        }
+        to {
+            transform: translate3d(0, 15%, 0);
+        }
+    }
+}
+.fretille {
+    animation: fretille 100ms  linear infinite alternate;
+    @keyframes fretille {
+        from {
+            transform: rotate(2deg)
+        }
+        to {
+            transform: rotate(-2deg)
+        }
+    }
+}
+
+.header-emergence {
+    animation: apparition3d linear 1s forwards;
+}
+
+/*media*/
+@media screen and (max-width: 900px) {
+    $size: 200px;
+    #tier-list {
+        grid-template-rows: 100px 600px repeat(3, $size) auto;
+        #tier-god-ctn {
+            .tier-god {
+                width: 330px;
+            }
+        }
+        .tier-3 {
+            .letter, .arrowLeft, .animes, .arrowRight {
+                height: $size;
+            }
+            .animes div {
+                flex-basis: $size;
+            }
+        }
+    }
+}
+@media screen and (max-width: 600px) {
+    $size: 150px;
+    #tier-list {
+        grid-template-rows: 75px 450px repeat(3, $size) auto;
+        #tier-god-ctn {
+            .tier-god {
+                width: 246px;
+            }
+        }
+        .tier-3 {
+            .letter, .arrowLeft, .animes, .arrowRight {
+                height: $size;
+            }
+            .animes div {
+                flex-basis: $size;
+            }
+        }
+    }
+}
+@media screen and (max-width: 450px) {
+    $size: 100px;
+    #tier-list {
+        grid-template-rows: 50px 300px repeat(3, $size) auto;
+        #tier-god-ctn {
+            .tier-god {
+                width: 162px;
+            }
+        }
+        .tier-3 {
+            .letter, .arrowLeft, .animes, .arrowRight {
+                height: $size;
+            }
+            .animes div {
+                flex-basis: $size;
+            }
+        }
+    }
+}

@@ -1,0 +1,157 @@
+::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+    background: transparent;
+}
+
+.scrollbar {
+    @extend %scroll;
+    z-index: 10000;
+    @extend %pointer;
+    opacity: .8;    
+    background: linear-gradient(to bottom, rgb(219, 15, 32), rgb(8, 155, 240));
+    transition: all;
+}
+.clickScrollbar {
+    @extend %scroll;
+    @extend %z;
+    @extend %height;
+    background: rgba(170, 170, 170, .8);
+}
+
+@media screen and (max-device-width: 1007px) {
+    .clickScrollbar, .scrollbar {
+        display: none;
+    }
+}
+
+#icon-ctr {
+    %icon-size {
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        @extend %z;
+        @extend %pointer;
+    }
+    %ps-elt {
+        content: "";
+        @extend %abs;
+        @extend %icon-size;
+        @extend %opc-0;
+    }
+    %transition {
+        transition: all 300ms;
+    }
+
+    @include flex(column, space-between);
+    @extend %abs;
+    @extend %fixed;
+    @extend %z;
+    bottom: 10px;
+    right: 20px;
+    height: auto;
+    width: 60px;
+
+    & div {
+        margin-top: 10px;
+    }
+
+    #profile {
+        @extend %icon-size;
+        @extend %rel;
+        img {
+            @extend %size;
+        }
+        &::after {
+            @extend %pseudo-elt;
+            @extend %opc-0;
+            background: #000;
+            border-radius: 50%;
+        }
+        &:hover::after {
+            opacity: 0.1;
+        }
+    }
+
+    #kitsune, #user-profile, #logout {
+        @extend %opc-9;
+        @extend %rel;
+        @extend %pointer;
+        &:hover {
+            @extend %opc-1;
+        }
+    }
+
+    #theme-mode {
+        @extend %icon-size;
+        background-color: lavender;
+        @include flex(column, center, center);
+        @extend %opc-9;
+        @extend %transition;
+        &:hover {
+            @extend %opc-1;
+        }
+        #moon {
+            fill: #d8b70c;
+            stroke: none;
+            z-index: 10000;
+            @extend %transition;
+            & path {
+                transform: translate3d(3px, 25px, 0);
+            }
+        }
+        &.dark-theme {
+            transform: rotate(180deg);
+            &::after {
+                @extend %ps-elt;
+                z-index: -1;
+                background-color:#9900ad;
+                animation: cardsAnimation 300ms forwards;
+            }
+             #moon {
+                fill: #b7ebff;
+            }
+        }
+    }
+    #arrowUp {
+        @extend %icon-size;
+        @extend %center;
+        background-color: rgb(88, 228, 233);
+        @extend %transition;
+        @extend %opc-0;
+        transform: scale(0);
+        &::after {
+            @extend %ps-elt;
+            background: rgb(8, 155, 240);
+            @extend %transition;
+        }
+        &:hover::after {
+            @extend %opc-1;
+            transform: scale(1);
+        }
+        #up {
+            fill: #fff;
+            z-index: 10000;
+            & path {
+                transform: translate3d(3px, 3px, 0);
+            }
+        }
+    }
+}
+
+//le mot qui indique à quoi correspond le bouton
+.title-container  > p{
+    transform:scale(0);
+    color: #10ed17;
+    @extend %opc-0;
+    @extend %abs;
+    margin: 0;
+    bottom: -15%;
+    right: -30%;
+    transition: all 300ms;
+}
+
+.title-container:hover > p {
+    transform: scale(1);
+    @extend %opc-1;
+}

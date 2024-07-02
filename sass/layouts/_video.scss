@@ -1,0 +1,360 @@
+/* variables */
+
+
+/* mixin */
+@mixin pseudo-elt() {
+    content: "";
+    @extend %d-block;
+    @extend %height;
+    @extend %abs;
+    top: 0;
+}
+
+/* extension */
+%transition-default {
+    transition: all ease-in-out 100ms;
+}
+
+.orb {
+    height: 10px;
+    width: 10px;
+    border-radius: 5px;
+    @extend %pointer;
+}
+
+%barre-hover {
+    transform: scale(1);
+}
+
+%anim_opening {
+    animation: anim_opening 1s cubic-bezier(.16,.04,.47,.88);
+}
+@keyframes anim_opening {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 1000px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+/* the video's style */
+.media {
+    @extend %rel;
+    @extend %width;
+    @extend %anim_opening;
+    height: 40%;
+    background-color: black;
+    z-index: 2;
+    @include flex(row, center, center);
+
+    .loader {
+        width: 100px;
+        height: 100px;
+        @extend %abs;
+        @extend %d-none;
+    }
+    video {
+        @extend %width;
+        @extend %height;
+    }
+
+    svg {
+        fill: #fff;
+    }
+
+    button {
+        width: 36px;
+        height: 30px;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        @extend %pointer;
+        @extend %opc-9;
+        @extend %transition-default;
+        &:hover {
+            @extend %opc-1;
+        }
+    }
+
+    .miniature {
+        @extend %abs;
+        @extend %width;
+        @extend %height;
+        @extend %z;
+        @extend %center;
+        @extend %cover;
+        @extend %anim_opening;
+        .miniature-button {
+            width: 107px;
+            height: 93px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, .5);
+            @extend %o-hidden;
+            @extend %abs;
+            @extend %pointer;
+            @extend %fast-transition;
+            &:hover {
+                background-color: rgba(255, 255, 255, .8);
+                &::before, &::after {
+                    opacity: .3;
+                }
+            }
+            &::before {
+                @extend %pseudo-elt;            
+                border-top: 75px solid transparent;
+                border-left: solid 75px #fff;
+                opacity: 0.2;
+            }
+            &::after {
+                content: "";
+                @extend %abs;
+                right: 0;
+                bottom: 0;            
+                border-top: 75px solid transparent;
+                border-right: solid 75px #fff;
+                opacity: 0.2;
+            }
+            svg {
+                @extend %pointer;
+            }
+        }
+    }
+
+    .controls {
+        @extend %abs;
+        width: 624px;
+        z-index: 60;
+        background: rgba(0, 0, 0, .2);
+        margin-left: 12px;
+        left:0;
+        bottom:0;
+        transition: all 250ms ease-in-out;
+        transform-origin: bottom;
+        .barre {
+            @extend %width;
+            height: 5px;
+            background-color: rgba(170, 170, 170, .9);
+            border-radius: 5px;
+            @extend %pointer;
+            &--cover {
+                background:rgba(238, 231, 231, 0.479);
+                border-radius: 5px;
+                @extend %height;
+            }
+            &--fill {
+                transform: scaleY(0.80);
+                @extend %transition-default;
+                background-color: rgb(189, 0, 47);
+                @extend %height;
+                border-radius: 5px;
+                @extend %rel;
+                width: 1px;
+                .orb {
+                    opacity: 0;
+                    @extend %transition-default;
+                    background-color: rgb(189, 0, 47);
+                    transform: scale(0);
+                    margin: -2.5px ;
+                    @extend %abs;
+                    right: -5px;
+                }
+            }
+
+            &:hover {
+                @extend %barre-hover;
+                 .barre--fill {
+                    @extend %barre-hover;
+                    & > .orb {
+                        @extend %opc-1;
+                        @extend %barre-hover;
+                    }
+                }
+                & .barre-cover {
+                    @extend %barre-hover;
+                }
+            }
+        }
+    }
+
+    .buttons {
+        @include flex(row, space-between);
+        @extend %width;
+        height: 36px;
+        &-left {
+            @extend %flex;
+            @extend %height;
+            align-items: center;
+            .play-button {
+                &::before {
+                    @include pseudo-elt;
+                    transform: translate3d(-100%, 0, 0);
+                    width: var(--left-controls-width);
+                }
+            }
+            .volume-area {
+                @extend %flex;
+                height: 30px;
+                min-width: 36px;
+                .volume-icon {
+                    &:hover + .volume-panel {
+                        @extend %barre-hover;
+                        @extend %opc-1;
+                    }
+                }
+                .volume-panel {
+                    @extend %opc-0;
+                    transform: scale(0);
+                    transform-origin: left;
+                    @extend %transition-default;
+                    @extend %pointer;
+                    width: 50px;
+                    .volume-slider {
+                        @extend %rel;
+                        @include flex(row, normal, center);
+                        height: 2.5px;
+                        border-radius: 2.5px;
+                        top: 50%;
+                        margin-top: -1.25px;
+                        background-color: rgba(170, 170, 170, .5);
+                        width: 50px;
+                        left: 0;
+                        &--white {
+                            background-color: white;
+                            @extend %rel;
+                            @extend %height;
+                            width: 0;
+                        }
+                        &--handle {
+                            background-color: white;
+                            @extend %abs;
+                            height: 7.5px;
+                            width: 0;
+                            border-radius: 3.75px;
+                            margin-top: -2.5px;
+                            @extend %pointer;
+                            right: -3.25px;
+                        }
+                    }
+                }
+            }
+            .video-timer {
+                @extend %transition-default;
+                margin-left: 10px;
+                @extend %abs;
+                left: 75px;
+                color: white;
+                width: 75px;
+                /*
+                .current-time {
+        
+                }
+                .video-duration {
+                    
+                }
+                */
+            }
+        }
+    }
+
+    .fullscreen-button {
+        width: 36px;
+        height: 36px;
+        @extend %rel;
+        &::after {
+            @include pseudo-elt;
+            transform: translate3d(100%, 0, 0);
+            width: var(--right-controls-width);
+        }
+        &-circle {
+            height: 36px;
+            width: 36px;
+            border-radius: 36px;
+            background: rgba(170, 170, 170, .2);
+            transform: scale(0);
+            transition: all 250ms ease-in-out;
+            @extend %abs;
+            top: 0;
+            left: 0;
+        }
+        &:hover > .fullscreen-button-circle {
+            @extend %barre-hover;
+        }
+        & g {
+            @extend %opc-1;
+            @extend %barre-hover;
+            transition: all 150ms ease-in;
+        }
+        & {
+            @extend %opc-9;
+        }
+        &:hover &-corner-1 {
+            transform: scale(1.01) translateX(-1px) translateY(-1px);
+        }
+        &:hover &-corner-2 {
+            transform: scale(1.01) translateX(1px) translateY(-1px);
+        }
+        &:hover &-corner-3 {
+            transform: scale(1.01) translateX(1px) translateY(1px);
+        }
+        &:hover &-corner-4 {
+            transform: scale(1.01) translateX(-1px) translateY(1px);
+        }
+    }
+
+    &.trailer {
+        @extend %abs;
+        @extend %coord;
+        height: 60%;
+        @extend %d-none;
+        @extend .anim_menu;
+        .miniature {
+            animation: trailer-miniature-animation 1s cubic-bezier(.16,.04,.47,.88);
+            @keyframes trailer-miniature-animation {
+                from {
+                    opacity: .8;
+                    transform: translate3d(0, -1000px, 0);
+                }
+                66% {
+                    transform: rotate(-10deg);
+                }
+                to {
+                    opacity: 1;
+                    transform: translate3d(0, 0, 0) rotate(0);
+                }
+            }
+        }
+        .croix-ctr {
+            @extend %abs;
+            width: 30px;
+            height: 30px;
+            top: 5px;
+            right: 0;
+            @extend %z;
+            @extend %pointer;
+            @extend %transition-default;
+            &:active {
+                transform: rotate(360deg);
+            }
+            &:hover {
+                @extend %opc-7;
+            }
+            .svg-croix {
+                .path-croix {
+                    fill: rgb(255, 25, 165);
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-device-width: 620px) {
+   .media .buttons-left .volume-area .volume-panel .volume-slider {
+       display: none
+   } 
+   .video-timer span {
+    font-size: 1rem;
+}
+}

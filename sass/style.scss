@@ -1,0 +1,444 @@
+    @import "./Utils/variables";
+@import "./Utils/extensions";
+@import "./Utils/mixin";
+@import "./Utils/animations";
+@import "./layouts/menu";
+@import "./layouts/load";
+@import "./layouts/scrollbar_and_buttons";
+@import "./layouts/_video";
+
+body, html {
+    width: 100vw;
+    min-width: 100vw;
+    max-width: 100vw;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+body {
+    @extend %marge;
+    font-size: 1.3rem;
+    padding: 0;
+    min-height: 100vh;
+    background-color: darken(white, 20%);
+    overflow-x: hidden;
+}
+
+/* les cartes de la fav liste */
+
+#fav-list-ctr {
+    overflow:scroll;
+    @extend %abs;
+    @extend %height;
+    top: 0;
+    right: 0;
+    width: 50%;
+    background: url(../image/orange_background.jpg);
+    @extend %opc-9;
+    @extend %cover;
+    z-index: 10003;
+    @extend %fixed;
+    &-animes {
+        @include flex(row, space-around);
+        flex-wrap: wrap;
+        .new-anime-card {
+            margin-top: 15px;
+            @extend %rel;
+            @extend %d-none;
+            @extend %pointer;
+            @extend %cover;
+            transition: all 250ms ease-in-out; 
+            width: 150px;
+            height: 225px;
+            box-shadow: $shade;
+            
+            &:hover {
+                transform: scaleY(1.04) scaleX(1.03);
+            }
+        } 
+    }
+    & h2 {
+        font-family: 'Great Vibes';
+        margin: 4px 0 0 10px;
+        font-size:2em;  
+    }
+    &-cross {
+        height: 36px;
+        width: 36px;
+        @extend %pointer;
+        @extend %abs;
+        margin: 4px 2px;
+        top: 0;
+        right: 0;
+        &:hover {
+            @extend %opc-7;
+            & svg{
+                fill: #00e2ff;
+            }
+        }
+        & svg {
+            fill: #e7580a;
+        }
+    }
+
+    &.dark-mode {
+        &::after {
+            z-index: -1;
+        }
+        &:hover {
+            &::after {
+                background: rgba(0, 0, 0, .2);
+            }
+        }
+    }
+}
+
+.container {
+    @include grid;
+    @include col($col);
+    place-items: center;
+    .card-container {
+        
+        width: 300px;
+        height: 450px;
+        transition: transform 350ms ease-in-out;
+        &:hover {
+            transform: scaleY(1.04) scaleX(1.03);
+            & .card > .card-front > .card_forward {
+                animation: description 250ms ease-in-out forwards;
+            }
+            
+        }
+        .card {
+            @include card_front_background($anime);
+            @extend %rel;
+            //@extend %opc-0;
+            @extend %size;
+            transition: transform 1s ease-in-out;
+            transform-style: preserve-3d;
+            /*la carte de l'anime*/
+            &-back {
+                @include card_back_background($anime);
+                transform: rotateY(180deg);
+            }
+            &-front, &-back {
+                @include flex(column, normal, center);
+                @extend %pointer;
+                @extend %abs;
+                @extend %opc-1;
+                @extend %size;
+                @extend %cover;
+                padding: 0;
+                box-shadow: $shade;
+                border-radius: 5%;
+                backface-visibility: hidden;
+                // backface-visibility: hidden;
+                &.dark-mode {
+                    box-shadow: $darkMode-shade;
+                }
+                /*le rectangle noir qui décrit rapidement les critères de l'anime*/
+                & .card_forward {
+                    @include flex(column, center, flex-start);
+                    @extend %abs;
+                    @extend %opc-0;
+                    color: white;
+                    background-color: black;
+                    bottom: 0;
+                    max-width: 300px;
+                    min-width: 290px;
+                    height: 34%;
+                    line-height: 1.5rem;
+                    font-size: 1rem;
+                    padding: 0 5px 0 5px;
+                    border-radius: 5%;
+                    p {
+                        margin: 0;
+                    }
+                }
+                /*on a cliqué sur l'une des cartes de la fav-list et on redirige vers la carte en question, on met un effet visuel pour la repérer*/
+                &.focus-card {
+                    animation: focus-card 750ms ease-in-out infinite alternate;
+                    @keyframes focus-card {
+                        from {
+                            box-shadow: 0 0 10px 1px #ed1e1e;
+                        }
+                        to {
+                            box-shadow: 0 0 25px 1px #ed1e1e;
+                        }
+        
+                    }
+                }        
+             }
+        }
+    }
+
+    .empty-star-container {
+        @extend %abs;
+        height: 36px;
+        width: 36px;
+        top: 1%;
+        right: 1%;
+        z-index: 3;
+        & img {
+            @extend %size;
+        }
+
+        &:hover {
+            @extend %opc-9;
+        }
+    }
+
+    .filled-star-container {
+        @extend .empty-star-container;
+        @extend %opc-0;
+    }
+    
+}
+
+.fullscreen {
+    @extend %fullscreen;
+    @include anime_background($anime);
+    &-back {
+        background: rgba(0,0,0,.3);
+        z-index: 2001;
+        @extend %height;
+        @extend %width;
+    }
+    &_description {
+        @extend %fixed;
+        @extend %z;
+        width: 69%;
+        @extend %height;
+        @extend %marge;
+        @extend %coord;
+        box-shadow: 0 0 20px #abdef1;
+        flex-direction: column;
+        &_wrap {
+            @include flex(row, stretch);
+            height: 60%;
+            .trailer_card {
+                @extend %rel;
+                @extend .translate-2000;
+                @extend %center;
+                flex-shrink: 0;
+                & > img {
+                    @extend %size;
+                }
+                .play_button {
+                    @extend %abs;
+                    height: 60px;
+                    width: 60px;
+                    background: black;
+                    border-radius: 30px;
+                    @extend %center;
+                    @extend %pointer;
+                }
+            }
+        }
+    }
+    &_text {
+        padding: 5px;
+        color: rgb(88, 84, 84);
+        font-weight: bold;
+        box-shadow: 0 0 20px rgb(29, 27, 27) inset;
+        z-index: 1;
+        @extend %cover;
+        @extend .translate2000;
+        font-size: 1.2rem;
+        @extend %rel;
+        & strong {
+            font-size: 1.2em;
+            text-shadow:#d1f2ff41 0 0;
+            color: mediumseagreen;
+            @extend %opc-7;
+        }
+        & p {
+            margin: 10px 0 10px 0; 
+        }
+        &.sl-ft-11 {
+            font-size: 1.1rem;
+        }
+        &.sl-ft-1 {
+            font-size: 1rem;
+        }
+        & .tier {
+            top: 0;
+            right: 2%;
+            @extend %abs;
+            @media screen and (max-width: 1007px) {
+                right: 5%;
+            }
+        }
+    }
+}
+
+.white {
+    color: darken(white, 25%);
+    font-weight: normal;
+    text-shadow: 2px 0 black;
+}
+
+/*media*/
+@media screen and (max-width: 1007px) {
+    .glowing {
+        height: 100vh;
+    }
+    .container .card_forward {
+        display: none !important;
+    }
+    .fullscreen {
+        grid-template-rows: 30% 40% 30%;
+        z-index: 10003;
+        &_description {
+            width: 100%;
+            .media, .trailer {
+                width: 50% !important;
+                height: 50% !important;
+            }
+            .media.trailer {
+                top: 50%;
+                left: 50%;
+                & .croix-ctr {
+                    top: -98%;
+                    z-index: 10003
+                }
+            }
+            &_wrap {
+                width: 100%;
+                height: 50%;
+                .trailer_card {
+                    display: none !important;
+                }
+            }
+        }
+        &_text {
+            width: 100%
+        }
+    }    
+}
+
+/*main-background*/
+$glowing-pos: calc(80px * var(--i));
+$particules-back-1: rgba(134, 255, 0, 1);
+$p-back-bis-1: rgba(134, 255, 0, .1);
+$particules-back-2: rgba(255, 214, 0, 1);
+$p-back-bis-2: rgba(255, 214, 0, .1);
+$particules-back-3: rgba(0, 226, 255, 1);
+$p-back-bis-3: rgba(0, 226, 255, .1);
+
+.glowing {
+    @include flex(row, center, center);
+    @extend %width;
+    @extend %height;
+    background: rgb(200, 200, 200);
+    @extend %o-hidden;
+    @extend %fixed;
+    z-index: -1;
+    &-particules {
+        @extend %rel;
+        min-width: 8vw;
+        height: 55vh;
+        margin: -150px;
+        transform-origin: right;
+        animation: particules-colorChange 5s linear infinite;
+        @for $i from 1 through 5 {
+            &:nth-child(#{$i}) {
+                animation-delay: calc(-1s * #{$i});
+            }
+        }
+        &:nth-child(even) {
+            transform-origin: left;
+        }
+        & span {
+            @extend %abs;
+            top: $glowing-pos;
+            left: $glowing-pos;
+            bottom: $glowing-pos;
+            right: $glowing-pos;
+            &::before {
+                content: "";
+                @extend %abs;
+                top: 50%;
+                left: -8px;
+                width: 15px;
+                height: 15px;
+                background: #f00;
+                border-radius: 50%;
+            }
+            &:nth-child(3n + 1) {
+                animation: particules-rotating 10s cubic-bezier(1, 0, 0, 1) infinite;
+                &::before {
+                    background: $particules-back-1;
+                    box-shadow: 0 0 20px $particules-back-1,
+                                0 0 40px $particules-back-1,
+                                0 0 60px $particules-back-1,
+                                0 0 80px $particules-back-1,
+                                0 0 0 8px $p-back-bis-1;
+                }  
+    
+            }
+            &:nth-child(3n + 2) {
+                animation: particules-rotating-reverse 3s alternate infinite;
+                &::before {
+                    background: $particules-back-2;
+                    box-shadow: 0 0 20px $particules-back-2,
+                                0 0 40px $particules-back-2,
+                                0 0 60px $particules-back-2,
+                                0 0 80px $particules-back-2,
+                                0 0 0 8px $p-back-bis-2;
+                }    
+    
+            }       
+            &:nth-child(3n + 3) {
+                animation: particules-rotating 8s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+                &::before {
+                    background: $particules-back-3;
+                    box-shadow: 0 0 20px $particules-back-3,
+                                0 0 40px $particules-back-3,
+                                0 0 60px $particules-back-3,
+                                0 0 80px $particules-back-3,
+                                0 0 0 8px $p-back-bis-3;
+                }         
+            }     
+        }
+    }
+}
+@keyframes particules-colorChange {
+    from {
+        filter: hue-rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        filter: hue-rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+@keyframes particules-rotating {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+@keyframes particules-rotating-reverse {
+    from {
+        transform: rotate(360deg);
+    }
+    to {
+        transform: rotate(0deg);
+    }
+}
+
+.dark-mode {
+    &::after {
+        @extend %pseudo-elt;
+        background: rgba(0, 0, 0, .2);
+        z-index: 2;
+    }
+    &:hover {
+        &::after {
+            background: rgba(0, 0, 0, 0);
+        }
+    }
+}

@@ -1,0 +1,267 @@
+/*écran de chargement*/
+$span-size: 40px;
+$span-color: #00ff0a;
+$dot-clr: #a0fbd5;
+
+%particules-block {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.loading-screen {
+    @extend %size;
+    background: #001200;
+    @extend %center;
+    @extend %o-hidden;
+    @extend %fixed;
+    z-index: 10005;
+    transition: transform 250ms;
+    animation: changeColor 5s linear infinite;
+    & .particules-ctr {
+        @extend %size;
+        @include flex(row, space-around);
+        flex-wrap: wrap;
+    }
+    .loader-ctr {
+        @include flex(column, center, center);
+        @extend %abs;
+        height: auto;
+        z-index: 1;
+        background-color: #001200;
+        box-shadow: 0 0 100px 50px #000;
+    }
+    & .loader {
+        @extend %rel;
+        display: flex;
+        & + h2 {
+            color: $dot-clr;
+            font-family: consolas;
+            font-weight: 300;
+            letter-spacing: 10px;
+            margin: 0;
+        }
+    
+        & .dot {
+            @extend %rel;
+            display: block;
+            width: 20px;
+            height: 20px;
+            background-color: $dot-clr;
+            box-shadow: 0 0 10px $dot-clr,
+                        0 0 20px $dot-clr,
+                        0 0 60px $dot-clr,
+                        0 0 40px $dot-clr,
+                        0 0 80px $dot-clr,
+                        0 0 100px $dot-clr;
+            margin: 20px 10px;
+            transform: scale(0.1);
+            border-radius: 50%;
+            animation: animateDot 2s linear infinite;
+            animation-delay: calc(0.1s * var(--i));
+        }
+        @keyframes animateDot {
+            0% {
+                transform: scale(0.1)
+            }
+            10% {
+                transform: scale(1);
+            }
+            50%,100% {
+                transform: scale(0.1);
+            }
+        }
+        &:last-child .dot {
+            animation-delay: calc(-0.1s * var(--i));
+        }
+    }
+
+    span {
+        @extend %rel;
+        width: $span-size;
+        height: $span-size;
+        display: block;
+        &::before{
+            @extend %pseudo-elt;
+            background: $span-color;
+            transform: scale(0.1);
+            box-shadow: 0 0 10px $span-color,
+             0 0 20px $span-color,
+             0 0 $span-size $span-color,
+             0 0 60px $span-color,
+             0 0 80px $span-color,
+             0 0 100px $span-color;
+             border-radius: 50%;
+             pointer-events: none;
+             transition: 2s;
+        }
+        &:hover::before {
+            transform: scale(1);
+            transition: 0s;
+        }
+    }
+}
+
+/*chargement lors du clic sur les cartes*/
+
+/*chargement de le réordinnation des cartes lors du clic sur la catégorie "épisodes"*/
+$circle-size: 600px;
+$pos-size: 16.66%;
+$circle-clr: #0f0;
+@mixin pseudo-elt-composition {
+    content: '';
+    @extend %abs; 
+    top: $pos-size;
+    right: $pos-size;
+    bottom: $pos-size;
+    left: $pos-size;
+    border: 20px solid #fff;
+    border-radius: 50%;
+}
+
+.loading-episodes_order {
+    @include flex(row, center, center);
+    @extend %width;
+    @extend %height;
+    @extend %fixed;
+    background: rgb(0, 24, 4);
+    z-index: 10001;
+    .ring {
+        width: 49%;
+        @extend %height;
+        @extend %center;
+        background: rgb(0, 24, 4);
+        & .circle {
+            @extend %rel;
+            width: 76.53%;
+            height: 79.26%;
+            filter: url(#wavy) blur(1px);
+            &:nth-child(2)::before {
+                animation-delay: -2.5s;
+            }
+            &::before {
+                @include pseudo-elt-composition;
+                box-shadow: 0 0 50px $circle-clr, inset 0 0 50px $circle-clr;
+                -webkit-box-reflect: below 10px linear-gradient(transparent, transparent,#0002);
+                animation: animate 5s linear infinite;
+            }
+            &::after {
+                @include pseudo-elt-composition;
+                box-shadow: 0 0 10px #fff, inset 0 0 20px #fff;
+            }
+        }    
+    }
+    #ring-first {
+        transform-origin: bottom left;
+    }
+    #ring-second {
+        transform-origin: bottom right;
+    }
+    .giri1 {
+        animation: giri1 3s cubic-bezier(0,.5,1,.01);
+        @keyframes giri1 {
+            from {
+                transform: rotate(0deg);
+            }
+            23% {
+                transform: rotate(-20deg);
+            }
+            to {
+                transform-origin: bottom;
+                transform: translate3d(0, 100%, 0) rotate(0deg);
+            }
+        }
+    }
+    .giri2 {
+        animation: giri2 3s cubic-bezier(0,.5,1,.01);
+        @keyframes giri2 {
+            from {
+                transform: rotate(0deg);
+            }
+            20% {
+                transform: rotate(20deg);
+            }
+            to {
+                transform: translate3d(0, 100%, 0) rotate(0deg);
+            }
+        }
+    }
+    & svg {
+        height: 0;
+        width: 0;
+    }
+}
+@keyframes animate {
+    from {
+        box-shadow: 0 0 50px $circle-clr, inset 0 0 50px $circle-clr;
+        filter: hue-rotate(0deg);
+    }
+    20% {
+        box-shadow: 0 0 60px $circle-clr, inset 0 0 60px $circle-clr;
+    }
+    40% {
+        box-shadow: 0 0 40px $circle-clr, inset 0 0 40px $circle-clr;
+    }
+    60% {
+        box-shadow: 0 0 80px $circle-clr, inset 0 0 80px $circle-clr;
+    }
+    80% {
+        box-shadow: 0 0 100px $circle-clr, inset 0 0 100px $circle-clr;
+    }
+    to {
+        box-shadow: 0 0 50px $circle-clr, inset 0 0 50px $circle-clr;
+        filter: hue-rotate(360deg);
+    }
+}
+
+#ring { /*svg element*/
+    width: 0;
+    height: 0;
+}
+
+
+//la ligne de découpage
+#line {
+    width: 2%;
+    @extend %height;
+    @extend %rel;
+
+    &-dotted {
+        @include flex (column, space-around, center);
+        @extend %height;
+        @extend %width;
+        @extend %rel;
+        & #line-guide {
+            @extend %abs;
+            @extend %height;
+            width: 50%;
+            transform-origin: top;
+            transform: scale(0);
+            animation: cardsAnimation 3s linear infinite;
+            background: linear-gradient(rgba(222, 232, 233, 0.3), rgba(222, 232, 233, 0.3), rgb(255, 255, 255, .4));
+        }
+        & span {
+            transform: scale(0);
+            box-shadow: 0 0 20px rgb(255, 255, 255, .5);
+            opacity: .7;
+            background: #fafafa;
+            height: 2.64%;
+            width: 25%;
+            border-radius: 50%;
+            transform-origin: top;
+            animation: scale 1s linear infinite;
+            animation-delay: calc(0.02s * var(--i));
+        }
+    }
+    &-white {
+        position: relative;
+        height: 0;
+        opacity: 0;
+        background: linear-gradient(rgb(255, 255, 255), rgba(255, 255, 255, 0.651), rgb(255, 255, 255));
+        transition: opacity;
+    }
+}
+
+
+
+/*des animations qu'on voudrait qu'elles soient là mais qu'on ne sait pas quoi en faire*/
+

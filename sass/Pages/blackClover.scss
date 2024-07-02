@@ -1,0 +1,557 @@
+@import "../Utils/variables";
+@import "../Utils/extensions";
+@import "../Utils/mixin";
+@import "../Utils/animations";
+
+$cover: (
+    golden-dawn: url(../image/blackClover/golden-dawn.png),
+    black-bull: url(../image/blackClover/black-bull.png),
+    silver-eagle: url(../image/blackClover/silver-eagle.png),
+    blue-rose: url(../image/blackClover/blue-rose.png),
+    crimson-lion: url(../image/blackClover/crimson-lion.png),
+    green-mantis: url(../image/blackClover/green-mantis.png),
+    coral-peacock: url(../image/blackClover/coral-peacock.png),
+    purple-orca: url(../image/blackClover/purple-orca.png),
+    aqua-deer: url(../image/blackClover/aqua-deer.png)
+);
+
+$cover-clr: (
+    golden-dawn: linear-gradient(#eca611, #fdc823, #fff36a),
+    black-bull: linear-gradient(#503317, #ce9305, #e1b303, #0d0707),
+    silver-eagle: linear-gradient(#a3a3ac, #b8babd, #d8dddf, #f3f3f3),
+    blue-rose: linear-gradient(#034e8b, #fffe45),
+    crimson-lion: linear-gradient(#da3732, #e4762f, #f7be33),
+    green-mantis: linear-gradient(#7d8f2c, #dcc75b, #b3c430),
+    coral-peacock: linear-gradient(#b49998, #eae1da, #fffeaf, #fff36a),
+    purple-orca: linear-gradient(#9e3ea7, #fff36a),
+    aqua-deer: linear-gradient(#71c2cc, #d8ebf9, #fffeaf, #fff36a)
+);
+
+$shadow-1: 0 0 20px #eca611, 0 0 10px  #fdc823, 0 0 20px #fff36a;
+$shadow-2: 0 0 20px #503317, 0 0 10px  #ce9305, 0 0 20px #e1b303, 0 0 10px #0d0707;
+$shadow-3: 0 0 20px #a3a3ac, 0 0 10px  #b8babd, 0 0 20px #d8dddf, 0 0 10px #f3f3f3;
+$shadow-4: 0 0 20px #034e8b, 0 0 10px  #fffe45;
+$shadow-5: 0 0 20px #da3732, 0 0 10px  #e4762f, 0 0 20px #f7be33;
+$shadow-6: 0 0 20px #7d8f2c, 0 0 10px  #dcc75b, 0 0 20px #b3c430;
+$shadow-7: 0 0 20px #b49998, 0 0 10px  #eae1da, 0 0 20px #fffeaf;
+$shadow-8: 0 0 20px #9e3ea7, 0 0 10px  #fff36a;
+$shadow-9: 0 0 20px #71c2cc, 0 0 10px  #d8ebf9, 0 0 20px #fffeaf, 0 0 10px #fff36a;
+
+$img-shadow: (
+    golden-dawn: $shadow-1,
+    black-bull: $shadow-2,
+    silver-eagle: $shadow-3,
+    blue-rose: $shadow-4,
+    crimson-lion: $shadow-5,
+    green-mantis: $shadow-6,
+    coral-peacock: $shadow-7,
+    purple-orca: $shadow-8,
+    aqua-deer: $shadow-9
+);
+
+$cover-width: (
+    coral-peacock: 220px,
+    silver-eagle: 240px,
+    black-bull: 240px,
+    golden-dawn: 220px
+);
+
+.bold {
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.touche-perso {
+    color: black;
+    text-shadow: 0 0 5px rgb(221, 75, 75);
+}
+
+::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+    background: transparent;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    cursor: default;
+}
+
+h2 {
+    font-size: 40px;
+    color:adjust-hue($color: #eae1da, $degrees: 50) ;
+}
+
+body {
+    background: url(https://64.media.tumblr.com/56d9e7d33f9538074dca94953b7d4b69/tumblr_ph1wcaGH9e1xjvcs9o1_1280.png);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    @extend %cover;
+}
+
+#svg-holder {
+    margin-bottom: 20px;
+}
+
+#title {
+    @extend %center;
+    @extend %width;
+    font-size: 40px;
+
+}
+
+#description-container {
+    @extend %center;
+    height: 400px;
+    @extend %width;
+    #description {
+        @extend %rel;
+        p {
+            font-size: 1.15rem;
+            color: white;
+            text-shadow: 0 0 5px #4ed1fd;
+        }
+        @extend %glass;
+        @include flex(column, space-around);
+        @extend %height;
+        width: 95%;
+        #genres {
+            p {
+                @extend .bold;
+                color: #58989c;
+                }
+        }
+        #themes {
+            p {
+                @extend .bold;
+                color: darken(#f56b34, 10%);
+                }
+        }
+        #episodes {
+            p {
+                @extend .bold;
+                color: #ceb900;
+                }
+        }
+        #tier {
+            p {
+                @extend .bold;
+                color: lighten(yellow, 20%);
+            }
+        }
+        &-image {
+            width: 160px;
+            height: 200px;
+            z-index: -1;
+            @extend %abs;
+            top: 20px;
+            right: 20px;
+            background: url(https://static.wikia.nocookie.net/blackclover/images/7/74/Le_serment_d%27Asta_et_Yuno.png/revision/latest/top-crop/width/360/height/450?cb=20171103121300&path-prefix=fr);
+            @extend %cover;
+            box-shadow: 0 0 12px rgba(172, 113, 123, 0.788), 0 0 2px lighten(rgba(253, 155, 172, 0.788), 100%), 0 0 8px darken(rgba(253, 155, 172, 0.788), 100%);
+            @keyframes description-image {
+                from {
+                    opacity: 0;
+                    transform: perspective(200px) translate3d(-10px, 0, -20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: perspective(200px) translate3d(-10px, 0, 10px);
+                }
+            }
+        }    
+    }
+}
+
+#video-container {
+    @include flex(column, space-around);
+    height: 800px;
+
+    #trailer-container {
+        @extend %center;
+        @extend %slow-transition;
+        transform: translate3d(-100%, 0, 0);
+    }
+    
+    #opening-container {
+        @extend %center;
+        #openings {
+            width: 95%;
+            @include flex(row, space-around);
+            &-inner {
+                @extend %rel;
+                @extend %center;
+                @extend %width;
+                height: 360px;
+                .opening {
+                    @extend %abs;
+                    @extend %slow-transition;
+                    @extend %opc-0;
+                    height: 90%;
+                    width: 41%;
+                    perspective: 100px;
+                    //placement des openings
+                    &-1, &-2 {
+                        @extend %opc-7;
+                        z-index: -1;
+                    }
+                    &-1 {
+                        transform: perspective(1000px) translate3d(-50%, 0, -20px);
+                    }
+                    &-2 {
+                        transform: perspective(1000px) translate3d(50%, 0, -20px);
+                    }
+                    &-3 {
+                        @extend %opc-1;
+                        z-index: 1;
+                        transform: perspective(1000px) translate3d(0, 0, 20px);
+                    }
+                }
+        
+            }
+        }
+    }    
+}
+
+.arrow-container {
+    @extend %center;
+    .leftArrow, .rightArrow {
+        width: 50px;
+        height: 60px;
+        @extend %pointer;
+        &:hover svg{
+            fill: black;
+        }
+        svg {
+            transition: all 250ms;
+            fill: #fff;
+        }
+    }
+}
+
+ #squad-container {
+     @extend %glass;
+     @include flex(row, space-around);
+     @extend %width;
+     height: 450px;
+     margin-bottom: 20px;
+     //contains all the squads
+     #squads {
+        @include flex(row, space-around);
+        @extend %height;
+        width: 90%;
+        @extend %o-hidden;
+        .squad {
+            @extend %fast-transition;
+            @extend %height;
+            flex-basis: 300px;
+            flex-shrink: 0;
+            margin: 0 10px 0 10px;
+            @extend %cover;
+            @extend %rel;
+            @extend %center;
+            @each $key, $value in $cover-clr {
+                &--#{$key} {
+                    background: $value;
+                }
+            }
+            @each $key, $value in $img-shadow {
+                &--#{$key} {
+                    .img-container {
+                        box-shadow: $value;
+                        @extend %rel;
+                        span {
+                            @extend %abs;
+                            bottom: 0;
+                            right: 3%;
+                            font-weight: bold;
+                        }
+                    }
+                }
+            }
+            h2 {
+                @extend %abs;
+                top: 0;
+                opacity: .67;
+            }
+            //emblem
+            &-cover {
+                width: 200px;
+                height: 251px;
+                @extend %cover;
+                @extend %pointer;
+                @each $key, $value in $cover {
+                    &--#{$key} {
+                        background: $value;
+                    }
+                }
+                @each $key, $value in $cover-width {
+                    &--#{$key} {
+                        width: $value;
+                    }
+                }
+                &--purple-orca {
+                    height: 310px;
+                }
+                &--green-mantis {
+                    height: 255px;
+                }
+            }
+            & .characters-container {
+                @extend %disparition;       
+                z-index: -1;
+                @extend %abs;
+                @extend %size;
+                @extend %abs;
+                @include flex(column, space-around, center);
+                & img {
+                    @extend %size;
+                    @extend %d-block;
+                    transform: translate3d(0, -450px, 0);
+                    @extend %opc-0;
+                }
+                & .img-container {
+                    @extend %rel;
+                    @extend %glass;
+                    @for $i from 1 through 15 {
+                        &:nth-child(#{$i}) {
+                            & img {
+                                animation-delay: calc(0.1s * #{$i});
+                            }
+                        }
+                    }
+                }
+                .captain {
+                    @extend %center;
+                    & .img-container {
+                        height: 100px;
+                        width: 100px;
+                    }
+                }
+                .members {
+                    @include flex(row, space-around, space-around);
+                    flex-wrap: wrap;
+                    & .img-container {
+                        height: 90px;
+                        width: 90px;
+                        margin: 0 5px 5px 5px;
+                    }
+                }
+                &--2 {
+                    .members {
+                        & .img-container  {
+                            height: 80px;
+                            width: 80px;
+                        }
+                    }
+                }
+            }
+            
+        }   
+     }
+ }
+
+ //animation classes
+ .animation-characters {
+     .vanilla-container {
+         @extend %fast-transition;
+         @extend %disparition;
+         .squad-cover {
+            @extend %fast-transition;
+            @extend %disparition;
+         }
+     }
+        h2 {
+            transition: all 300ms;
+            @extend %disparition;
+        }
+    @for $i from 1 through 9 {
+        .characters-container--#{$i} {
+            z-index: 1 !important;
+            transform: scale(1) !important;
+            opacity: 1 !important;
+            
+        }
+    }
+    .characters-container {
+        & img {
+            animation: characters-animation 200ms ease-in forwards;
+        }
+    }
+
+ }
+
+@keyframes characters-animation {
+    to {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+}
+
+/*loading screen*/
+#loading {
+    @extend %center;
+    background: #000;
+    @extend %height;
+    @extend %width;
+    @extend %fixed;
+    transition: all 500ms ease-in-out;
+    @extend %z;
+    &-circle {
+        @extend %center;
+        @extend %rel;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, transparent, transparent 40%, #6bfad6);
+        animation: loop 1s linear infinite, changeColor 2s linear infinite;
+        &::before {
+            content: "";
+            @extend %abs;
+            top: 6px;
+            right: 6px;
+            bottom: 6px;
+            left: 6px;
+            background: #000;
+            @extend %circle;
+            z-index: 1000;
+        }
+        &::after {
+            content: "";
+            @extend %abs;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            left: 0px;
+            background: linear-gradient(45deg, transparent, transparent 40%, #6bfad6);
+            @extend %circle;
+            z-index: 1;
+            filter: blur(30px);
+        }
+    }
+}
+
+
+@media screen and (max-width: 850px) {
+    h2 {
+        font-size: 30px;
+    }
+    #description-container {
+        height: auto;
+        #description-image {
+            display: none;
+        }    
+    }
+    
+    #video-container {
+        height: 1600px;
+        #trailer-container {
+            iframe {
+                width: 90%;
+            }
+        }
+    
+        #opening-container {
+            #openings {
+                @include flex(column, space-around, center);
+                .arrow-container {
+                    display: none;
+                }
+                &-inner {
+                    @include flex(column, space-around, center);
+                    height: 1150px;
+                    .opening {
+                        transform: none;
+                        position: initial;
+                        height: 360px;
+                        width: 90%;
+                        &:nth-child(odd) {
+                            animation: translate-2000 800ms cubic-bezier(.02,.56,.96,1) forwards;
+                        }
+                        &:nth-child(2) {
+                            animation: translate2000 800ms cubic-bezier(.19,.39,.22,1) forwards;
+                        } 
+                    }
+                }
+            }
+        }        
+    }
+    
+    #squad-container {
+        @extend %glass;
+        @include flex(row, space-around);
+        @extend %width;
+        height: 450px;
+        margin-bottom: 20px;
+        //contains all the squads
+        #squads {
+        @include flex(row, space-around);
+        @extend %height;
+        width: 90%;
+        @extend %o-hidden;
+        .squad {
+            flex-basis: 250px;
+            & .characters-container {
+                .captain {
+                    & .img-container {
+                        height: 84px;
+                        width: 84px;
+                    }
+                }
+                .members {
+                    & .img-container {
+                        height: 75px;
+                        width: 75px;
+                    }
+                }
+                &--2 {
+                    .members {
+                        & .img-container  {
+                            height: 67px;
+                            width: 67px;
+                            }
+                        }
+                    }
+                }
+            }   
+        }
+    }    
+}
+
+//arrow animation
+.remove-arrow {
+    animation: remove-arrow 300ms ease-in forwards;
+    @keyframes remove-arrow {
+        from {
+            transform: scale(1);
+            opacity: 1;
+        }
+        80% {
+            transform: scale(1);
+            opacity: .2;
+        }
+        to {
+            transform: scale(0);
+            opacity: 0;
+        }
+    }
+}
+
+.add-arrow {
+    animation: add-arrow 300ms ease-out forwards;
+    @keyframes add-arrow {
+        from {
+            transform: scale(0);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+}

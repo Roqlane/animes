@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+$back_genre: linear-gradient(40deg, rgb(31 123 168), rgb(112 99 186), rgb(134 3 120) 80%);
+$back_theme: linear-gradient(40deg, rgb(31 123 168), rgb(112 99 186), rgb(134 3 120) 80%);
+$font_size_menu: 2rem;
+$shade: 2px 2px 15px 2px black;
+$darkMode-shade: 2px 2px 15px 2px white;
+$index-anim: 11000;
+
+//background card
+@function cardFill ($key) {
+    $path: "../image/cover/";
+    $format: ".jpg";
+    @return url($path + $key + $format);
+}
+
+$anime: (
+    fullmetal: "Il a été mon premier manga, que j'ai adoré, et l'anime original n'est pas très bien (animation, bande-sonore... éclatés), c'est pourquoi j'ai mis celui-là qui est bien plus beau.",
+    grand_blue: "C'est certainement l'anime le plus drôle que j'ai vu de toute ma vie, y'a rien qui va dans cet animes, et ce, dès le début. C'est le genre d'anime auquel tu ne te lasses pas peu importe le nombre de fois que tu le regardes. En plus c'est l'été c'est le bon moment pour le regarder.",
+    noragami: "Honêtement, c'est une déception. Après j'avais mis la barre un peu haute vu la hype qu'il a eu ainsi que quelques extraits que j'avais vu mais malheureusement il n'a pas du tout rempli mes attentes. Mis à part ça, il n'en reste pas moins un anime très sympatique, on s'attache beaucoup on personnages principal (c'est un dieu en jogging mais c'est rien ,c'est la rue il est fauché en ce moment).",
+    mha: "Le meilleur shônen, très clairement (je ne considère pas snk comme un shônen), l'animation est incroyable, les personnages sont géniaux, si je me souviens bien, l'anime les développe tous à peu près bien et surtout les ost sont monstrueuses, de quoi te donner une bonne dose de hype.",
+    nogamenolife: "J'aurais envie de dire de ne pas regarder cet anime, non pas parce qu'il est mauvais bien parce qu'il est génial. Le problème étant sa fin, une fin brutale car baclée alors que le potentiel scénaristique est gigantesque, je pense que s'ils avaient pu continuer, on aurait pu facilement avoir une centaine d'épisodes mais non malheureusement pas de saison 2. Après, ils ont pensé à un petit remontant en faisant un film sur ce qui s'est passé avoir l'histoire actuel(je ne l'ai pas aimé mais je conseil de le voir, niveau animation il en jette).",
+    tkg: "Alors lui faut lire le manga, l'histoire est vraiment pas mal mais l'anime... a un petit peu gaché ça: l'animation est NUL. T'as l'impression que les combats sont statiques, pas vivant, tu vois limite juste des traits floutés qui bougent, c'est décevant. Mais après il n'en reste pas moins un classiques et si jamais l'animation ne dérange pas, regarde quand même car ce qu'il a de bien c'est qu'au moins on s'accroche à l'histoire.",
+    rezero: "",
+    opm:  "",
+    overlord:  "",
+    tensura:  "",
+    dororo:  "",
+    sakamoto:  "",
+    darling:  "",
+    parasyte:  "",
+    erased:  "",
+    april:  "",
+    youjo_senki:  "",
+    shield:  "",
+    prison:  "",
+    fire_force:  "",
+    knights_magic:  "",
+    akame:  "",
+    k:  "",
+    id_invaded:  "",
+    kakegurui: "",
+    vinland: "",
+    destructive_god:  "",
+    rettousei:  "",
+    kabaneri:  "",
+    bungou:  "",
+    kaguya:  "",
+    seraph: "",
+    iwgp:  "",
+    hxh:  "",
+    code_geass:  "",
+    stone:  "",
+    assassination_classroom: " ",
+    demon_slayer: " ",
+    fate: " ",
+    death_note: " ",
+    snk: " ",
+    haikyuu:  "",
+    black_butler: "",
+    nanatsu: "",
+    free: " ",
+    goblin_slayer: " ",
+    kuroko:  "",
+    millionaire:  "",
+    elite: " ",
+    moriarty: "",
+    kill:  "",
+    guren: " ",
+    food: "",
+    konosuba: " ",
+    death_parade:  "",
+    mob: " ",
+    yuri: " ",
+    aldnoah: "",
+    amagi:  "",
+    angel:  "",
+    beelzebub:  "",
+    brynhildr: " ",
+    saiki: " ",
+    sao: " ",
+    genome: " ",
+    tpn:  "",
+    akudama: " ",
+    mushoku: " ",
+    angels_death: " ",
+    kaisen:  "",
+    gangsta: " ",
+    gate: " ",
+    cautious: " ",
+    zestiria: "",
+    kekkai: " ",
+    horimya: "",
+    go:  "",
+);
+
+$col: (
+    col1: 1,
+    col2: 2,
+    col3: 3,
+    col4: 4
+);
+
+@function backFill ($key) {
+    $path: "../image/art/";
+    $format: "_background.jpg";
+    @return url($path + $key + $format);
+}
