@@ -386,11 +386,11 @@
                         <strong>Fullmetal Alchemist: Brotherhood</strong>
                         <p>Episodes: 64</p>
                         <p>Genres: Action - Aventure - Comédie - Drame - Fantasy - Psychologique - Surnaturel - Thriller</p>
-                        <p>Tier: A</p>
+                        <p>Studio: Bones</p>
                     </div>
                 </div>
                 <div class="card-back card-back--fullmetal">
-                    <p>Synopsis: meow meow meow meow meow meow meow meow</p>
+                    <p>Synopsis: <span class="white">Fullmetal Alchemist: Brotherhood suit les frères Edward et Alphonse Elric, qui utilisent l'alchimie pour tenter de ramener leur mère à la vie. La tentative échoue : Edward perd une jambe et un bras, remplacés par des prothèses mécaniques, et Alphonse perd son corps, son âme étant scellée dans une armure. Pour retrouver leurs corps, ils cherchent la Pierre Philosophale, un artefact légendaire. En chemin, ils découvrent les secrets de leur pays, Amestris, et affrontent les homonculus, êtres artificiels incarnant les sept péchés capitaux. La série explore les thèmes du sacrifice, de la morale et de la quête de l'humanité.</span></p>
                 </div>
             </div>
         </div>

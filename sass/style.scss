@@ -99,11 +99,14 @@ body {
     place-items: center;
     .card-container {
         
-        width: 300px;
-        height: 450px;
+        width: 320px;
+        height: 480px;
         transition: transform 350ms ease-in-out;
+        backface-visibility: hidden;
+        transform: translateZ(0);
+        -webkit-font-smoothing: subpixel-antialiased;
         &:hover {
-            transform: scaleY(1.04) scaleX(1.03);
+            transform: translateZ(0) scaleY(1.01) scaleX(1.01) perspective(1px);
             & .card > .card-front > .card_forward {
                 animation: description 250ms ease-in-out forwards;
             }
@@ -116,19 +119,24 @@ body {
             @extend %size;
             transition: transform 1s ease-in-out;
             transform-style: preserve-3d;
-            /*la carte de l'anime*/
             &-back {
+                @include flex(column, center, center);
                 @include card_back_background($anime);
                 transform: rotateY(180deg);
+                color: rgb(88, 84, 84);
+                padding: 0 10px 0 10px;
+            }
+            &-front {
+                @include flex(column, normal, center);
+                padding: 0;
+
             }
             &-front, &-back {
-                @include flex(column, normal, center);
                 @extend %pointer;
                 @extend %abs;
                 @extend %opc-1;
                 @extend %size;
                 @extend %cover;
-                padding: 0;
                 box-shadow: $shade;
                 border-radius: 5%;
                 backface-visibility: hidden;
