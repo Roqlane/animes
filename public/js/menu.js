@@ -1,6 +1,6 @@
 episodesSelect(episodesI, 11, 13);
 episodesSelect(episodesII, 24, 27);
-episodesSelect(episodesIII, 30, 100);
+episodesSelect(episodesIII, 30, 200);
 
 
 clicMenuThemeGenre(genreText, genreContainer, "reverse-translate-2000 350ms ease-out");

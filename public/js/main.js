@@ -70,8 +70,7 @@ const ANIMES_CARD = []
 
 const NAMES = ["fullmetal", "grand_blue", "noragami", "mha", "nogamenolife", "tkg", "rezero", "opm", "overlord", "tensura", "dororo", "sakamoto", "darling", "parasyte", "erased", "april", "youjo_senki", "shield", "prison", "fire_force", "knights_magic", "akame", "k", "id_invaded", "kakegurui", "vinland", "destructive_god", "rettousei", "kabaneri", "bungou", "kaguya", "seraph", "iwgp", "hxh", "code_geass", "stone", "assassination_classroom", "demon_slayer", "fate", "death_note", "haikyuu", "black_butler", "nanatsu", "free", "goblin_slayer", "kuroko", "millionaire", "elite", "moriarty", "kill", "guren", "food", "konosuba", "death_parade", "mob", "yuri", "aldnoah", "amagi", "angel", "beelzebub", "brynhildr", "saiki", "sao", "genome", "tpn", "akudama", "mushoku", "angels_death","jjk", "gangsta", "gate", "cautious", "zestiria", "kekkai", "horimya", "go"];
 
-const TITLES = ["Fullmetal Alchemist: Brotherhood", "Grand Blue", "Noragami", "My Hero Academia", "No Game No Life", "Tokyo Ghoul", "Re:zero", "One Punch Man", "Overlord", "Tensei Shitara Slime Datta Ken", "Dororo", "Sakamoto desu ga ?", "Darling in the Franxx", "Parasyte", "Erased", "Your lie in April", "Youjo Senki", "The Rising of the Shield Hero", "Prison School", "Fire Force", "Knight's & Magic", "Akame ga KILL!", "K-project", "ID:INVADED", "Kakegurui", 
-    "Vinland Saga", "Boku no Tonari ni Ankoku Hakaishin ga Imasu.", "Mahouka Koukou no Rettousei", "Kabaneri of the Iron Fortress", "Bungou Stray Dogs", "Kaguya-sama - Love is War", "Owari no Seraph", "Ikebukuro West Gate Park", "Hunter X Hunter", "Code Geass", "Dr Stone", "Assassination Classroom", "Demon Slayer", "Fate/stay night : Unlimited Blade Works", "Death Note", "Shingeki no kyojin", "Haikyū!!", "Black Butler", "Nanatsu no Taizai", "Free!", "Goblin Slayer", "Kuroko no Basket", "The Millionaire Detective - Balance: Unlimited", "Classroom of the Elite", "Moriarty the Patriot", "Kill la Kill", "Tengen Toppa Gurren-Lagann", "Food Wars", "Kono Subarashii Sekai ni Shukufuku wo!", "Death Parade", "Mob Psycho 100", "Yuri!!! on Ice", "Aldnoah.Zero", "Amagi Brilliant Park", "Angel Beats!", "Beelzebub", "Brynhildr in the Darkness", "Saiki Kusuo no Ψ Nan", "Sword Art Online", "Naka no Hito Genome [Jikkyouchuu]", "The Promised Neverland", "Akudama Drive", "Mushoku Tensei : Isekai Ittara Honki Dasu", "Angels of Death", "Jujutsu Kaisen", "GANGSTA.", "Gate : Jieitai Kanochi nite, Kaku Tatakaeri", "Cautious Hero", "Tales of Zestiria the X", "Kekkai Sensen", "Horimya", "The Quintessential Quintuplets"];
+const TITLES = ["Fullmetal Alchemist: Brotherhood", "Grand Blue", "Noragami", "My Hero Academia", "No Game No Life", "Tokyo Ghoul", "Re:zero", "One Punch Man", "Overlord", "Tensei Shitara Slime Datta Ken", "Dororo", "Sakamoto desu ga ?", "Darling in the Franxx", "Parasyte", "Erased", "Your lie in April", "Youjo Senki", "The Rising of the Shield Hero", "Prison School", "Fire Force", "Knight's & Magic", "Akame ga KILL!", "K-project", "ID:INVADED", "Kakegurui", "Vinland Saga", "Boku no Tonari ni Ankoku Hakaishin ga Imasu.", "Mahouka Koukou no Rettousei", "Kabaneri of the Iron Fortress", "Bungou Stray Dogs", "Kaguya-sama - Love is War", "Owari no Seraph", "Ikebukuro West Gate Park", "Hunter X Hunter", "Code Geass", "Dr Stone", "Assassination Classroom", "Demon Slayer", "Fate/stay night : Unlimited Blade Works", "Death Note", "Shingeki no kyojin", "Haikyū!!", "Black Butler", "Nanatsu no Taizai", "Free!", "Goblin Slayer", "Kuroko no Basket", "The Millionaire Detective - Balance: Unlimited", "Classroom of the Elite", "Moriarty the Patriot", "Kill la Kill", "Tengen Toppa Gurren-Lagann", "Food Wars", "Kono Subarashii Sekai ni Shukufuku wo!", "Death Parade", "Mob Psycho 100", "Yuri!!! on Ice", "Aldnoah.Zero", "Amagi Brilliant Park", "Angel Beats!", "Beelzebub", "Brynhildr in the Darkness", "Saiki Kusuo no Ψ Nan", "Sword Art Online", "Naka no Hito Genome [Jikkyouchuu]", "The Promised Neverland", "Akudama Drive", "Mushoku Tensei : Isekai Ittara Honki Dasu", "Angels of Death", "Jujutsu Kaisen", "GANGSTA.", "Gate : Jieitai Kanochi nite, Kaku Tatakaeri", "Cautious Hero", "Tales of Zestiria the X", "Kekkai Sensen", "Horimya", "The Quintessential Quintuplets"];
 
 
 const GENRES = [
@@ -103,7 +102,27 @@ const GENRES = [
     "Action, Aventure, Drame, Historique",
     "Comédie, Fantastique, Romance, École",
     "Science-fiction, Fantastique, Action, École, Isekai",
-    "Action, Horreur, Post-apocalyptique, Drame, Steampunk"
+    "Action, Horreur, Post-apocalyptique, Drame, Steampunk",
+    "Action, Mystère, Supernatural, Seinen",
+    "Comédie, Romance, School Life, Psychologique",
+    "Action, Fantastique, Drame, Surnaturel, Shounen",
+    "Drame, Mystère, Crime, Slice of Life",
+    "Action, Aventure, Fantasy, Shounen",
+    "Action, Mecha, Drame, Science-fiction, Psychologique",
+    "Science-fiction, Aventure, Shounen, Post-apocalyptique",
+    "Comédie, Action, School Life, Sci-Fi, Drame",
+    "Action, Aventure, Fantastique, Surnaturel, Shounen",
+    "Action, Fantastique, Surnaturel, Drame, Romance",
+    "Thriller, Mystère, Psychologique, Supernaturel",
+    "Action, Fantastique, Drame, Post-apocalyptique, Mystère",
+    "Sport, Drame, École, Comédie",
+    "Dark Fantasy, Mystère, Drame, Supernaturel",
+    "Action, Aventure, Fantastique, Shounen",
+    "Sport, Drame, École, Slice of Life",
+    "Action, Fantastique, Aventure, Dark Fantasy",
+    "Sport, Drame, École, Shounen",
+    "Action, Mystère, Comédie, Drame",
+    "Drame, Psychologique, Thriller, École, Shounen"
 ]
 
 
@@ -136,7 +155,27 @@ const STUDIOS = [
     "WIT Studio, MAPPA",
     "EMT Squared",
     "Madhouse, 8bit",
-    "Wit Studio"
+    "Wit Studio",
+    "Bones",
+    "A-1 Pictures",
+    "Wit Studio",
+    "Doga Kobo",
+    "Madhouse",
+    "Sunrise",
+    "TMS Entertainment",
+    "Lerche",
+    "Ufotable",
+    "Ufotable",
+    "Madhouse",
+    "Wit Studio, MAPPA",
+    "Production I.G, MBS",
+    "A-1 Pictures",
+    "A-1 Pictures",
+    "Kyoto Animation",
+    "White Fox",
+    "Production I.G",
+    "CloverWorks",
+    "Lerche"
 ]
 
 const EPISODES = [
@@ -168,7 +207,27 @@ const EPISODES = [
     "30+",
     "12",
     "39",
-    "12"
+    "12",
+    "36",
+    "37",
+    "24",
+    "12",
+    "148",
+    "50",
+    "35",
+    "47",
+    "44",
+    "26",
+    "37",
+    "87",
+    "85",
+    "36",
+    "+100",
+    "37",
+    "12+",
+    "75",
+    "11",
+    "24+"
 ]
 
 const SYNOPSIS = [
@@ -201,8 +260,28 @@ const SYNOPSIS = [
     "Boku no Tonari ni Ankoku Hakaishin ga Imasu. suit la vie quotidienne de Fuuka, une lycéenne qui découvre que son nouveau voisin, une mystérieuse fille appelée Yūhi, est en réalité un démon seigneur des ténèbres déguisé. Yūhi, qui est venue dans le monde humain pour échapper à ses responsabilités et à ses ennemis, vit incognito tout en essayant de s'adapter à la vie normale. Fuuka se retrouve rapidement mêlée aux mésaventures de Yūhi, et les deux développent une relation complexe mêlant humour et romance. L'anime explore les thèmes de la coexistence entre les mondes, les relations interpersonnelles, et les déboires quotidiens dans un cadre où le fantastique et la vie scolaire se rencontrent.",
     "Mahouka Koukou no Rettousei se déroule dans un monde où la magie est une science codifiée et enseignée dans des écoles spécialisées. L'histoire suit Tatsuya Shiba, un élève de première année à l'Académie de Magie, qui entre dans l'école avec sa sœur cadette Miyuki. Tandis que Miyuki excelle dans l'art magique et est placée dans la section élite des élèves, Tatsuya est classé en tant que \"élève ordinaire\" en raison de ses capacités magiques perçues comme faibles. Cependant, il possède en réalité des compétences exceptionnelles en ingénierie magique et en combat. L'anime explore les défis de Tatsuya pour prouver sa valeur, tout en naviguant dans les intrigues scolaires et les menaces extérieures dans un univers où la magie et la technologie se rejoignent.",
     "Kabaneri of the Iron Fortress se déroule dans un monde post-apocalyptique où l'humanité est menacée par des créatures zombiesques appelées Kabane. Les survivants se réfugient dans des forteresses mobiles appelées \"trains blindés\", protégées par des murs et des canons. L'histoire suit Ikoma, un jeune ingénieur et combattant qui est mordu par un Kabane mais parvient à survivre en développant une méthode pour contrôler son infection. Avec l'aide de Mumei, une mystérieuse et redoutable guerrière, Ikoma lutte pour défendre son train, le Kōtetsujō, tout en cherchant un moyen de sauver l'humanité de l'extinction. L'anime est connu pour ses scènes d'action intenses, son atmosphère sombre et son mélange unique de steampunk et d'horreur.",
+    "Bungou Stray Dogs suit Atsushi Nakajima, un jeune orphelin qui découvre qu'il possède une capacité surnaturelle après avoir été sauvé par un détective du nom de Osamu Dazai. Dazai fait partie de l'Agence des Détectives Armés, une organisation composée d'individus aux pouvoirs spéciaux, chargée de résoudre des affaires dangereuses et de protéger la ville de Yokohama. Atsushi rejoint l'agence et se retrouve impliqué dans des affrontements contre la Mafia Portuaire, une organisation criminelle également composée de membres aux pouvoirs extraordinaires. L'anime explore les conflits entre les différentes factions, les mystères à résoudre, et le passé tumultueux des personnages, tout en mettant en avant des références littéraires à des auteurs célèbres.",
+    "Kaguya-sama: Love is War se déroule à l'académie Shuchiin, une école prestigieuse où les étudiants les plus brillants rivalisent d'intelligence. L'histoire suit Kaguya Shinomiya, la vice-présidente du conseil des élèves, et Miyuki Shirogane, le président du conseil, deux génies amoureux l'un de l'autre mais trop fiers pour avouer leurs sentiments. Plutôt que de se déclarer, ils se lancent dans des batailles psychologiques complexes pour pousser l'autre à avouer en premier, croyant que celui qui confesse perdra en dignité. Leurs plans ingénieux et leurs stratagèmes humoristiques entraînent des situations hilarantes et touchantes. L'anime explore les thèmes de l'amour, de l'orgueil et des dynamiques de pouvoir dans les relations.",
+    "Owari no Seraph se déroule dans un monde où un virus mystérieux a exterminé la majeure partie de l'humanité, épargnant uniquement les enfants de moins de 13 ans. Suite à cette catastrophe, les vampires émergent des profondeurs de la terre et réduisent les enfants survivants en esclavage. L'histoire suit Yūichirō Hyakuya, un jeune garçon déterminé à venger la mort de sa famille adoptive massacrée par les vampires. Yūichirō rejoint l'armée de démons de l'Empire Japonais pour exterminer les vampires. Aux côtés de ses camarades, il se bat pour la survie de l'humanité tout en découvrant des vérités sur son propre passé et les secrets de ce nouveau monde. L'anime explore les thèmes de la vengeance, de l'amitié, et de la lutte désespérée contre un ennemi surnaturel.",
+    "Ikebukuro West Gate Park se déroule dans le quartier animé d'Ikebukuro à Tokyo. L'histoire suit Makoto Majima, un jeune homme connu comme le \"troubleshooter\" de la région. Fils d'un propriétaire de magasin de fruits, Makoto utilise son réseau de contacts et son esprit vif pour résoudre divers problèmes auxquels sont confrontés les habitants d'Ikebukuro, allant des disputes de gangs aux disparitions mystérieuses. Bien qu'il soit ami avec le chef du gang des G-Boys, Makoto maintient une position neutre, cherchant toujours à aider ceux dans le besoin plutôt qu'à prendre parti. L'anime explore les conflits sociaux, les luttes personnelles et les dynamiques complexes de la vie urbaine, tout en mettant en lumière les liens de camaraderie et de loyauté dans un environnement souvent hostile.",
+    "Hunter x Hunter suit l'histoire de Gon Freecss, un jeune garçon qui découvre que son père, qu'il croyait mort, est en réalité un Hunter de renommée mondiale. Décidé à suivre les traces de son père et à le retrouver, Gon se lance dans une aventure pour devenir Hunter, un titre prestigieux donné à ceux qui excèlent dans diverses activités dangereuses, de la chasse aux trésors à la capture de criminels. Au cours de son voyage, Gon se lie d'amitié avec d'autres aspirants Hunters : Kurapika, Leorio, et Killua. Ensemble, ils passent l'examen de Hunter et affrontent divers défis, de puissants ennemis et des mystères surnaturels. L'anime explore des thèmes de camaraderie, de persévérance et de quête personnelle dans un monde riche en aventures et en dangers.",
+    "Code Geass se déroule dans un monde alternatif où l'Empire de Britannia a conquis le Japon et rebaptisé le pays Area 11. L'histoire suit Lelouch vi Britannia, un prince exilé de Britannia, qui obtient le pouvoir du Geass, lui permettant de contrôler les actions des autres. Sous le masque du mystérieux Zero, Lelouch mène une rébellion contre Britannia pour venger sa mère, protéger sa sœur Nunnally, et créer un monde où elle peut vivre en paix. Il forme et dirige les Chevaliers Noirs, une organisation de résistants, tout en affrontant son ami d'enfance Suzaku Kururugi, un soldat de Britannia. L'anime explore les thèmes de la justice, du sacrifice et des conséquences du pouvoir dans un récit complexe et émotionnel.",
+    "Dr. Stone commence avec un événement cataclysmique où un mystérieux flash de lumière pétrifie toute l'humanité, les transformant en pierre. Des millénaires plus tard, Senku Ishigami, un génie scientifique, se réveille et découvre un monde où la civilisation a disparu. Décidé à restaurer la société avec le pouvoir de la science, Senku entreprend de réveiller d'autres humains et de reconstruire la civilisation à partir de zéro. Avec l'aide de ses amis, Taiju Oki et Yuzuriha Ogawa, il utilise ses vastes connaissances scientifiques pour surmonter les défis de ce nouveau monde et affronter Tsukasa Shishio, un puissant adversaire qui croit en la survie du plus fort. L'anime explore les thèmes de l'ingéniosité humaine, de la persévérance et de la redécouverte des merveilles de la science.",
+    "Assassination Classroom suit la classe 3-E du collège Kunugigaoka, dont les élèves ont pour mission de tuer leur professeur, Koro-sensei, une créature extraterrestre ayant détruit une partie de la Lune et menaçant de détruire la Terre. Koro-sensei possède des pouvoirs surhumains, rendant la tâche extrêmement difficile. Cependant, il se révèle être un enseignant exceptionnel, dévoué à aider ses élèves à s'améliorer tant académiquement qu'en tant qu'assassins. Les élèves doivent jongler entre les tentatives d'assassinat et leurs études, tout en découvrant des secrets sur l'origine de Koro-sensei et ses véritables intentions. L'anime explore les thèmes de la rédemption, du travail en équipe, et de la croissance personnelle dans un contexte unique et souvent hilarant.",
+    "Demon Slayer: Kimetsu no Yaiba suit Tanjiro Kamado, un jeune garçon dont la famille est massacrée par des démons, à l'exception de sa sœur Nezuko, qui est transformée en démon. Déterminé à venger sa famille et à rendre son humanité à Nezuko, Tanjiro devient un pourfendeur de démons, rejoignant le Corps des Pourfendeurs. Il s'entraîne intensivement et se lance dans des missions dangereuses pour éliminer les démons et découvrir une cure pour Nezuko. Accompagné de ses amis Zenitsu Agatsuma et Inosuke Hashibira, Tanjiro affronte de puissants démons et découvre des secrets sur l'origine des démons et leurs véritables intentions. L'anime est acclamé pour ses superbes animations, ses scènes de combat intenses et ses personnages émouvants.",
+    "Fate/stay night: Unlimited Blade Works suit l'histoire de Shirou Emiya, un lycéen qui se retrouve impliqué dans la cinquième Guerre du Saint Graal, une bataille secrète entre mages pour obtenir un artefact magique capable d'exaucer tous les vœux. Chaque mage, appelé Master, invoque un Servant, un héros légendaire, pour combattre à ses côtés. Shirou, accidentellement invoqué en tant que Master, se retrouve lié à Saber, l'un des plus puissants Servants. Avec l'aide de Rin Tohsaka, une mage talentueuse et son alliée réticente, Shirou doit naviguer à travers les dangers de la guerre, affrontant d'autres Masters et leurs Servants. L'anime explore des thèmes de héros, de sacrifice, et de l'idéalisme contre le pragmatisme, tout en offrant des combats visuellement époustouflants et une intrigue complexe.",
+    "Death Note suit Light Yagami, un lycéen brillant qui découvre un carnet mystérieux, le \"Death Note\", qui permet de tuer quiconque dont le nom est écrit à l'intérieur. Initialement décidé à utiliser ce pouvoir pour éliminer les criminels et créer un monde parfait, Light se transforme en un vigilant redouté sous le pseudonyme de Kira. Sa série de meurtres attire l'attention des autorités et d'un génie détective connu sous le nom de L, qui se lance dans une chasse pour capturer Kira. Le jeu du chat et de la souris entre Light et L est intensifié par des intrigues complexes, des retournements de situation, et des dilemmes moraux. L'anime explore les thèmes de la justice, du pouvoir, et des conséquences du vigilantisme dans une lutte psychologique captivante.",
+    "Shingeki no Kyojin se déroule dans un monde où l'humanité vit confinée dans des villes entourées de gigantesques murs pour se protéger des Titans, d'énormes créatures humanoïdes qui dévorent les humains. L'histoire suit Eren Yeager, sa sœur adoptive Mikasa Ackerman, et leur ami Armin Arlert, dont les vies sont bouleversées lorsque les Titans envahissent leur ville et détruisent leur foyer. Après la tragédie, Eren et ses amis rejoignent l'armée pour combattre les Titans et découvrir la vérité derrière leur existence. En explorant les mystères des Titans, des complots politiques, et des vérités cachées sur leur monde, ils découvrent des secrets qui changent à jamais leur compréhension de la réalité. L'anime est salué pour ses scènes d'action épiques, son intrigue complexe, et ses thèmes de survie et de liberté.",
+    "Haikyū!! suit Shoyo Hinata, un lycéen passionné de volley-ball, qui rêve de devenir un grand joueur malgré sa petite taille. Après avoir vu un match de volley, il rejoint le club de son lycée, Karasuno, où il rencontre Kageyama Tobio, un talentueux mais difficile joueur de volley. Ensemble, ils forment une paire redoutable, mais doivent surmonter leurs différences et développer une véritable synergie. L'anime suit les compétitions de Karasuno contre d'autres équipes, mettant en avant les défis personnels et les croissances des joueurs. À travers des matchs intenses et des entraînements rigoureux, Haikyū!! explore les thèmes de l'esprit d'équipe, du travail acharné, et de la persévérance, tout en offrant des moments inspirants et émouvants.",
+    "Black Butler suit Ciel Phantomhive, un jeune noble anglais de 12 ans, qui dirige le célèbre domaine Phantomhive après avoir été sauvé d'une expérience horrifique. Pour venger la mort de ses parents et retrouver les coupables, Ciel fait un pacte avec un démon, Sebastian Michaelis, qui devient son majordome. Sebastian est extrêmement compétent dans toutes les tâches domestiques, mais ses véritables intentions sont de dévorer l'âme de Ciel une fois que sa vengeance sera accomplie. L'anime mélange mystère, enquête, et éléments surnaturels, en mettant en scène les aventures de Ciel et Sebastian dans un monde victorien sombre. L'histoire explore des thèmes de vengeance, de loyauté, et les conséquences du pacte avec le diable.",
+    "Nanatsu no Taizai se déroule dans un royaume médiéval appelé Britannia, où les Sept Péchés Capitaux, un groupe de chevaliers légendaires, sont accusés de trahison et dissous après une fausse accusation. L'histoire suit Elizabeth Liones, une princesse en quête des Sept Péchés Capitaux pour sauver son royaume du tyrannique Ordre des Chevaliers Sacrés. Elle retrouve Meliodas, le leader des Péchés, et découvre qu'il est un puissant guerrier avec une personnalité charismatique mais mystérieuse. Ensemble, ils rassemblent les autres membres du groupe, chacun ayant des pouvoirs uniques liés aux péchés capitaux. L'anime explore des thèmes de loyauté, de rédemption et de lutte contre des forces démoniaques dans une aventure épique remplie de combats, de magie et de révélations.",
+    "Free! suit un groupe d'adolescents passionnés de natation qui se retrouvent après plusieurs années de séparation. L'histoire commence avec Haruka Nanase, un nageur talentueux, qui retrouve ses anciens amis d'enfance, Makoto Tachibana et Nagisa Hazuki, au lycée Iwatobi. Ensemble, ils rejoignent le club de natation de l'école et affrontent des rivalités avec d'autres équipes, notamment le prestigieux lycée Samezuka dirigé par Rin Matsuoka, un ancien ami devenu rival. L'anime explore les thèmes de l'amitié, de la rivalité, et des défis personnels à travers des compétitions de natation intenses et des moments de camaraderie. Avec des animations fluides et des scènes de compétition captivantes, Free! met en avant les parcours émotionnels et sportifs des personnages.",
+    "Goblin Slayer suit un aventurier mystérieux connu sous le nom de Goblin Slayer, qui est obsédé par l'éradication des gobelins. Après que sa sœur et ses parents aient été massacrés par ces créatures, il a juré de les anéantir. L'histoire commence avec une jeune prêtresse qui rejoint un groupe d'aventuriers pour sa première quête. Le groupe est rapidement confronté à des gobelins et est sauvé par Goblin Slayer, qui se révèle être un expert dans la traque et l'élimination de ces monstres. L'anime explore les défis brutaux et les tactiques de survie face à des ennemis impitoyables, tout en dévoilant lentement le passé et la motivation du protagoniste. Avec des scènes de combat intenses et une ambiance sombre, Goblin Slayer met en avant la brutalité de l'univers et la détermination du héros.",
+    "Kuroko no Basket suit l'histoire de Kuroko Tetsuya, un joueur de basket-ball discret et mystérieux qui était autrefois le sixième homme de l'équipe légendaire des \"Génies du Basket\" au lycée Teikou. Après que cette équipe se soit séparée, Kuroko entre au lycée Seirin avec l'espoir de mener son nouveau club à la victoire. Il se lie d'amitié avec Kagami Taiga, un joueur talentueux qui rêve de battre les anciens membres des Génies. Ensemble, ils affrontent les puissantes équipes de lycée, dont les anciens membres des Génies du Basket, chacun ayant des compétences uniques et des styles de jeu spectaculaires. L'anime explore les thèmes de la persévérance, de l'esprit d'équipe, et de la rivalité à travers des matchs de basket intenses et des développements de personnages profonds.",
+    "The Millionaire Detective - Balance: Unlimited suit Daisuke Kanbe, un détective milliardaire qui rejoint l'unité des affaires criminelles de la police de Tokyo. Kanbe, doté d'une immense fortune, utilise son argent sans limite pour résoudre des affaires et résoudre des mystères, ce qui crée des conflits avec ses collègues plus modestes. Son partenaire, Haru Kato, est un détective intègre et rigide qui privilégie les méthodes traditionnelles et l'éthique. Ensemble, ils enquêtent sur des crimes complexes et affrontent des adversaires puissants tout en confrontant leurs différences de philosophie. L'anime mêle des éléments de comédie et de drame, explorant les thèmes de la justice, de la moralité, et des relations professionnelles à travers des enquêtes palpitantes et des moments humoristiques.",
+    "Classroom of the Elite se déroule dans l'élite académique japonaise, au lycée Kōdo Ikusei, réputé pour son système éducatif rigide et ses installations luxueuses. Les étudiants sont classés en quatre sections, avec les résultats déterminant leur avenir et leur statut social. L'histoire suit Kiyotaka Ayanokōji, un étudiant de la classe D, perçu comme ordinaire mais en réalité doté d'une intelligence exceptionnelle et d'une stratégie manipulatrice. À l'école, les élèves sont confrontés à des compétitions et des jeux psychologiques, mettant à l'épreuve leurs compétences et leur morale. Avec l'aide de ses camarades, Ayanokōji navigue dans un environnement impitoyable où la survie dépend de la manipulation et de la stratégie. L'anime explore les thèmes de la rivalité, des stratagèmes, et des dynamiques sociales dans un cadre scolaire intense.",
 
-]
+]   
 
 
 //create cards 

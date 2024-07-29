@@ -140,7 +140,6 @@ body {
                 box-shadow: $shade;
                 border-radius: 5%;
                 backface-visibility: hidden;
-                // backface-visibility: hidden;
                 &.dark-mode {
                     box-shadow: $darkMode-shade;
                 }
