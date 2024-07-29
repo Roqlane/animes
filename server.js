@@ -12,7 +12,7 @@ app.use(express.static('public'))
 //main page
 app.get('/', (req, res) => {
     
-    res.sendFile(path.join(__dirname, 'public/html/ index.html'))
+    res.sendFile(path.join(__dirname, 'public/html/index.html'))
 })
 
 //404 handler

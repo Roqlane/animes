@@ -4,6 +4,10 @@
     background: transparent;
 }
 
+html {
+    scrollbar-width: none;
+ }
+
 .scrollbar {
     @extend %scroll;
     z-index: 10000;

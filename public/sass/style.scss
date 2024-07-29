@@ -124,7 +124,7 @@ body {
                 color: rgb(88, 84, 84);
                 padding: 0 10px 0 10px;
                 & p {
-                    font-size: 1vw;
+                    font-size: clamp(17px, 1vw, 17px);;
                 }
             }
             &-front {
