@@ -64,12 +64,6 @@ function boucle(fn) {
   }
 }
 
-function eventDefault(e) {
-  e.preventDefault();
-  e.stopPropagation();
-}
-
-
 function moveToAnimeCard(animeName) {
   //le paramètre est vide
   if (animeName === null || typeof animeName === undefined) return
@@ -86,9 +80,9 @@ function moveToAnimeCard(animeName) {
       .on retire la bordure rouge à l'anime qui la possédait
       .on applique la bordure à l'anime que l'on a cliqué
   */
- cards.forEach(c => {
-  if (c.classList.contains("focus-card")) c.classList.remove("focus-card")
- })
+ focusedCards = document.getElementsByClassName('focus-card')
+ focusedCards.forEach((c) => c.classList.remove('focus-card'))
+ 
  animeCard.classList.add("focus-card")
 
   //et on se déplace jusqu'à la location
@@ -96,12 +90,4 @@ function moveToAnimeCard(animeName) {
       top: animePosition,
       behavior: 'smooth'
   });
-}
-
-//ajoute le numéro de la carte en classe pour pouvoir les récupérer à l'aide d'un nombre
-for (let i = 0; i<cardLength; i++) {
-  cards[i].classList.add(i);
-  animesDescription[i].classList.add(i);
-  fullscreen[i].classList.add(i); 
-  fullscreenBack[i].classList.add(i);
 }

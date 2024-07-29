@@ -212,27 +212,7 @@ function trailerCardize(elt) {
     } 
 }
 
-//crée le trailer lorsqu'on est en responsive
-const trailerCreation = (i) => {
-    let isTrailerCreated = false;
-    if (fullscreenDescription[i].children[2] != undefined && media1007.matches) {
-        isTrailerCreated = true;
-        return;
-    }
-    if (media1007.matches && isTrailerCreated == false) media(animesTitle[i], fullscreenDescription[i], true);
 
-} 
-
-//lors du clic sur une carte on va ajouter les vidéos
-for (let i = 0; i<cardLength; i++) {
-    media(animesTitle[i], fullscreenDescription[i], false);
-
-    trailerCreation(i);
-    window.addEventListener("resize", () => trailerCreation(i));
-    play_button[i].addEventListener("click", () => {
-        media(animesTitle[i], fullscreenDescription[i], true);
-    });
-};
 
 //adapte la taille des cartes par rappport à l'écran lorsque qu'on est en mode tablette out smartphone
 function cardSizeResponsiveMobile() {
@@ -363,8 +343,8 @@ if (typeof kitsune != typeof undefined) {
         filledStarContainer.addEventListener('click', addOrRemoveCardToFavList);
 
         //si des cookies sont définis alors on met les animes correspondant dans la fav-list
-        const cookieValue = readCookie(`anime-fav-${i}`);
-        if (cookieValue != null) document.getElementById(cookieValue).children[2].click();
+        // const cookieValue = readCookie(`anime-fav-${i}`);
+        // if (cookieValue != null) document.getElementById(cookieValue).children[2].click();
     }
 }
 

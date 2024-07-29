@@ -162,7 +162,8 @@ class triEpisodes {
                     const screenHeight = document.documentElement.clientHeight;
 
                     function onLineMousedown (e) {
-                        eventDefault(e);
+                        e.preventDefault();
+                        e.stopPropagation();
                         let start = 0.06605019815059446 * screenHeight; //la marge maximal où l'utilisateur peut cliqué pour faire la slash
                         
                         //l'utilisateur clique sur le début de la ligne de pointillés
@@ -176,7 +177,8 @@ class triEpisodes {
                     $line.on("mousedown", onLineMousedown);
             
                     function onLineMousemove (e) {
-                        eventDefault(e);
+                        e.preventDefault();
+                        e.stopPropagation();
                         if (e.offsetY > 0 && e.offsetY >= 20) {
                             $whiteLine.height(e.clientY); //la ligne clanche "suit" le curseur
                             $whiteLine.css("opacity", e.clientY / $line.height() + 0.15); //on gère son opacité en fonction de sa taille
@@ -186,7 +188,8 @@ class triEpisodes {
                     }
             
                     function onWindowMouseup (e) {
-                        eventDefault(e);
+                        e.preventDefault();
+                        e.stopPropagation();
                         //lorsque l'utilisateur a relaché la souris après qu'il ait fait le slash (la ligne blanche prend prend presque toute la hauteur de l'écran)
                         if ($whiteLine.height() >= screenHeight - 30) {
                             $epLoaderCtr.css("background", "transparent"); //le fond devient transparent

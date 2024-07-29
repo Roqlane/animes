@@ -1,5 +1,5 @@
 
-<?php
+<!-- <?php
     session_start();
 
     $userDefined = isset($_SESSION['pseudo']) && isset($_SESSION['email']) && isset($_SESSION['password']);
@@ -11,7 +11,7 @@
          //echo $pseudo . $email . $password;
     }    
 
-?>
+?> -->
 
 <!doctype html>
 <html lang="Fr">
@@ -144,12 +144,12 @@
         <div class="scrollbar"></div>
         <div class="clickScrollbar"></div>
 
-        <?php if ($userDefined) {
-            ?>
+        <!-- <?php if ($userDefined) {
+            ?> -->
             
         <!-- le conteneur de la fav-list-->
         <section id="fav-list-ctr" class="reverse-translate2000">
-            <?php echo '<h2 > Yahallo ' . $pseudo . '!!!</h2>';?>
+            <!-- <?php echo '<h2 > Yahallo ' . $pseudo . '!!!</h2>';?> -->
 
             <div id="fav-list-ctr-animes"></div>
             <div id="fav-list-ctr-cross">
@@ -158,16 +158,16 @@
                 </svg>
             </div>
         </section>
-        
+<!--         
         <?php
         }
-        ?>
+        ?> -->
 
         <div id="icon-ctr">
-            <?php
+            <!-- <?php
             //si l'utilisateur est connecté 
             if ($userDefined) {
-            ?>
+            ?> -->
             <!-- l'icon  avec le masque de renard -->
             <div id="kitsune"><img src="../image/kitsune.png" alt="kitsune" srcset="" width="100%" height="100%"></div>
             <script>
@@ -198,18 +198,18 @@
                 const userProfile = document.getElementById("user-profile")
                 userProfile.addEventListener("click", () => document.location = "./logs/profile.php")
             </script>
-
+<!-- 
             <?php
             }
             //sinon on affiche l'icon profile pour se rediriger vers le formulaire
             else {
-            ?>
+            ?> -->
 
             <div id="profile">
                 <img src="../image/svg/profile.png" alt="profile" srcset="">
             </div>
 
-            <?php }?>
+            <!-- <?php }?> -->
 
             <!-- le logo lune qui permet de changer le mode du site-->
             <div id="theme-mode">
@@ -381,16 +381,36 @@
             
         <div class="card-container">
             <div class="card">
-                <div class="card-front card--fullmetal 0" id="fullmetal">
-                    <div class="card_forward 0">
-                        <strong>Fullmetal Alchemist: Brotherhood</strong>
-                        <p>Episodes: 64</p>
-                        <p>Genres: Action - Aventure - Comédie - Drame - Fantasy - Psychologique - Surnaturel - Thriller</p>
-                        <p>Studio: Bones</p>
+                <div class="card-front card--fullmetal" id="fullmetal">
+                    <div class="card_forward">
+                        <h4>Fullmetal Alchemist: Brotherhood</h4>
+                        <div class="card_forward_content">
+                            <p>Episodes: 64</p>
+                            <p>Genres: Action - Aventure - Comédie - Drame - Fantasy - Psychologique - Surnaturel - Thriller</p>
+                            <p>Studio: Bones</p>
+                        </div>
                     </div>
                 </div>
                 <div class="card-back card-back--fullmetal">
                     <p>Synopsis: <span class="white">Fullmetal Alchemist: Brotherhood suit les frères Edward et Alphonse Elric, qui utilisent l'alchimie pour tenter de ramener leur mère à la vie. La tentative échoue : Edward perd une jambe et un bras, remplacés par des prothèses mécaniques, et Alphonse perd son corps, son âme étant scellée dans une armure. Pour retrouver leurs corps, ils cherchent la Pierre Philosophale, un artefact légendaire. En chemin, ils découvrent les secrets de leur pays, Amestris, et affrontent les homonculus, êtres artificiels incarnant les sept péchés capitaux. La série explore les thèmes du sacrifice, de la morale et de la quête de l'humanité.</span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-container">
+            <div class="card">
+                <div class="card-front card--grand_blue" id="grand_blue">
+                    <div class="card_forward">
+                        <h4>Grand Blue</h4>
+                        <div class="card_forward_content">
+                            <p>Episodes: 12</p>
+                            <p>Genres: Comédie - Ecchi - School Life - Slice of Life</p>
+                            <p>Studio: Zero-G</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-back card-back--grand_blue">
+                    <p>Synopsis: <span class="white">Grand Blue suit Iori Kitahara, un étudiant qui emménage chez son oncle pour commencer sa vie universitaire près de l'océan. Il découvre rapidement le club de plongée local, Grand Blue, peuplé de membres excentriques plus intéressés par la fête que par la plongée. Malgré ses réticences initiales, Iori est entraîné dans un tourbillon de beuveries, de nudité impromptue et de situations hilarantes. À travers ces expériences, Iori forge des amitiés inattendues et découvre la beauté de la plongée sous-marine. L'anime mélange comédie exubérante et moments de camaraderie sincère, tout en explorant la vie étudiante et les défis de la transition vers l'âge adulte.</span></p>
                 </div>
             </div>
         </div>
@@ -3034,25 +3054,13 @@
 
                 </div>
             </div>
-
-            <script>
-                let start = Date.now()
-            </script>
-
-            <script src="../node_modules/jquery/dist/jquery.min.js"></script> 
             
-            <script src="../js/card.js"></script>
             <script src="../js/variables_elt.js"></script>
             <script src="../js/variables_menu.js"></script>  
             <script src="../js/menu.js"></script> 
             <script type="module" src="../js/scrollbar_and_buttons.js"></script>
-            <script src="../js/video.js"></script> 
             <script src="../js/main.js" defer></script>   
 
-            <script>
-                let end = Date.now()
-                console.log(end - start + "ms");
-            </script>
 
 
             <!--

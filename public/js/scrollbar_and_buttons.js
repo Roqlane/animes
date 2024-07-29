@@ -57,7 +57,8 @@ import { createCookie, readCookie } from "./module/cookie_handler.js";
 
     //switch either light or dark mode
     function onThemeModeClick(e) {
-      eventDefault(e);
+      e.preventDefault();
+      e.stopPropagation();
       if (readCookie("mode") == "light") {
         darkMode();
         
@@ -109,7 +110,8 @@ import { createCookie, readCookie } from "./module/cookie_handler.js";
     
     //come back to the top of the page
     function onArrowUpClick (e) {
-      eventDefault(e);
+      e.preventDefault();
+      e.stopPropagation();
       window.scrollTo({
         top: 0,
         behavior: "smooth"
@@ -139,17 +141,20 @@ import { createCookie, readCookie } from "./module/cookie_handler.js";
   
   //gère le scroll de la fenêtre en fonction de l'elevator losque l'on le bouge
   function onElevatorMousedown (e) {
-    eventDefault(e);
+    e.preventDefault();
+    e.stopPropagation();
     window.addEventListener("mousemove", onElevatorMousemove, false);
     window.addEventListener("mouseup", onElevatorMouseup, false);
 
   };
     function onElevatorMousemove (e) {
-    eventDefault(e);
+    e.preventDefault();
+    e.stopPropagation();
     DOM_CONTAINER.scrollTop = e.clientY * (scrollSize / boxSize);
   };
   function onElevatorMouseup (e) {
-    eventDefault(e);
+    e.preventDefault();
+    e.stopPropagation();
     window.removeEventListener("mousemove", onElevatorMousemove);
     window.removeEventListener("mouseup", onElevatorMouseup);
   };

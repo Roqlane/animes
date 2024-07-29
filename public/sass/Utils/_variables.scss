@@ -6,6 +6,8 @@ $font_size_menu: 2rem;
 $shade: 2px 2px 15px 2px black;
 $darkMode-shade: 2px 2px 15px 2px white;
 $index-anim: 11000;
+$card-width: 320px;
+$card-height: 480px;
 
 //background card
 @function cardFill ($key) {
