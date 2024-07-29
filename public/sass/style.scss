@@ -1,4 +1,4 @@
-    @import "./Utils/variables";
+@import "./Utils/variables";
 @import "./Utils/extensions";
 @import "./Utils/mixin";
 @import "./Utils/animations";
@@ -123,6 +123,9 @@ body {
                 transform: rotateY(180deg);
                 color: rgb(88, 84, 84);
                 padding: 0 10px 0 10px;
+                & p {
+                    font-size: 1vw;
+                }
             }
             &-front {
                 @include flex(column, normal, center);
@@ -211,10 +214,10 @@ body {
     @extend %fullscreen;
     @include anime_background($anime);
     &-back {
-        background: rgba(0,0,0,.3);
-        z-index: 2001;
         @extend %height;
         @extend %width;
+        background: rgba(0,0,0,.3);
+        z-index: 2001;
     }
     &_description {
         @extend %fixed;
@@ -285,7 +288,7 @@ body {
 }
 
 .white {
-    color: darken(white, 25%);
+    color: #fff;
     font-weight: normal;
     text-shadow: 2px 0 black;
 }

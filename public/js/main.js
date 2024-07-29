@@ -1,8 +1,69 @@
-//les cartes arriveront de la droite ou de la gauche lors du scroll
-//l'idée c que lorsque l'on aura atteint un groupe de cartes, il arrive, par exemple de la droite pour rester figé
-//Une fois qu'on remontera il redisparaîtra donc de là où il est apparu
 cards =  document.getElementsByClassName('card');
 let cardsBack = document.getElementsByClassName('card-back');
+
+const names = ["akame", "akudama", "aldnoah", "amagi", "angel", "angels_death", "april", "assassination_classroom", "beelzebub", "black_butler", "brynhildr", "bungou", "cautious", "code_geass", "darling", "death_note", "death_parade", "demon_slayer", "destructive_god", "dororo", "elite", "erased", "fate", "fire_force", "food", "free", "fullmetal", "gangsta", "gate", "genome", "go", "goblin_slayer", "grand_blue", "guren", "haikyuu", "horimya", "hxh", "id_invaded", "iwgp", "kabaneri", "kaguya", "kaisen", "kakegurui", "k", "kekkai", "kill", "knights_magic", "konosuba", "kuroko", "mha", "millionaire", "mob", "moriarty", "mushoku", "nanatsu", "nogamenolife", "noragami", "opm", "overlord", "parasyte", "prison", "rettousei", "rezero", "saiki", "sakamoto", "sao", "seraph", "shield", "snk", "stone", "tensura", "tkg", "tpn", "vinland", "youjo_senki", "yuri", "zestiria"];
+
+const titles = ["Fullmetal Alchemist: Brotherhood", "Grand Blue", "Noragami", "My Hero Academia", "No Game No Life", "Tokyo Ghoul", "Re:zero", "One Punch Man", "Overlord", "Tensei Shitara Slime Datta Ken", "Dororo", "Sakamoto desu ga ?", "Darling in the Franxx", "Parasyte", "Erased", "Your lie in April", "Youjo Senki", "The Rising of the Shield Hero", "Prison School", "Fire Force", "Knight's & Magic", "Akame ga KILL!", "K-project", "ID:INVADED", "Kakegurui", "Vinland Saga", "Boku no Tonari ni Ankoku Hakaishin ga Imasu.", "Mahouka Koukou no Rettousei", "Kabaneri of the Iron Fortress", "Bungou Stray Dogs", "Kaguya-sama - Love is War", "Owari no Seraph", "Ikebukuro West Gate Park", "Hunter X Hunter", "Code Geass", "Dr Stone", "Assassination Classroom", "Demon Slayer", "Fate/stay night : Unlimited Blade Works", "Death Note", "Shingeki no kyojin", "Haikyū!!", "Black Butler", "Nanatsu no Taizai", "Free!", "Goblin Slayer", "Kuroko no Basket", "The Millionaire Detective - Balance: Unlimited", "Classroom of the Elite", "Moriarty the Patriot", "Kill la Kill", "Tengen Toppa Gurren-Lagann", "Food Wars", "Kono Subarashii Sekai ni Shukufuku wo!", "Death Parade", "Mob Psycho 100", "Yuri!!! on Ice", "Aldnoah.Zero", "Amagi Brilliant Park", "Angel Beats!", "Beelzebub", "Brynhildr in the Darkness", "Saiki Kusuo no Ψ Nan", "Sword Art Online", "Naka no Hito Genome [Jikkyouchuu]", "The Promised Neverland", "Akudama Drive", "Mushoku Tensei : Isekai Ittara Honki Dasu", "Angels of Death", "Jujutsu Kaisen", "GANGSTA.", "Gate : Jieitai Kanochi nite, Kaku Tatakaeri", "Cautious Hero", "Tales of Zestiria the X", "Kekkai Sensen", "Horimya", "The Quintessential Quintuplets"];
+
+
+const genres = [
+    "Action, Aventure, Fantastique, Drame",
+    "Comédie, Slice of Life, Sport",
+    "Action, Aventure, Fantastique, Surnaturel",
+    "Action, Aventure, Super-héros, Drame",
+    "Fantastique, Aventure, Comédie, Jeu",
+    "Action, Horreur, Surnaturel, Drame ",
+    "Fantasy, Aventure, Drame, Psychologique",
+    "Action, Comédie, Super-héros, Parodie",
+    "Fantasy, Action, Aventure, Isekai",
+    "Fantasy, Isekai, Aventure, Comédie",
+    "Action, Aventure, Drame, Surnaturel"
+]
+
+
+const studios = [
+    "Bones",
+    "Zero-G",
+    "Bones",
+    "Bones",
+    "Madhouse",
+    "Studio Pierrot",
+    "White Fox",
+    "Madhouse, J.C. Staff",
+    "Madhouse",
+    "Eight Bit",
+    "MAPPA, Tezuka Productions"
+]
+
+const episodes = [
+    "64",
+    "12",
+    "25",
+    "+140",
+    "12",
+    "24",
+    "50+",
+    "24",
+    "40+",
+    "50+",
+    "24"
+]
+
+const synopsis = [
+    "Fullmetal Alchemist: Brotherhood suit les frères Edward et Alphonse Elric, qui utilisent l'alchimie pour tenter de ramener leur mère à la vie. La tentative échoue : Edward perd une jambe et un bras, remplacés par des prothèses mécaniques, et Alphonse perd son corps, son âme étant scellée dans une armure. Pour retrouver leurs corps, ils cherchent la Pierre Philosophale, un artefact légendaire. En chemin, ils découvrent les secrets de leur pays, Amestris, et affrontent les homonculus, êtres artificiels incarnant les sept péchés capitaux. La série explore les thèmes du sacrifice, de la morale et de la quête de l'humanité.",
+    "Grand Blue suit Iori Kitahara, un étudiant qui emménage chez son oncle pour commencer sa vie universitaire près de l'océan. Il découvre rapidement le club de plongée local, Grand Blue, peuplé de membres excentriques plus intéressés par la fête que par la plongée. Malgré ses réticences initiales, Iori est entraîné dans un tourbillon de beuveries, de nudité impromptue et de situations hilarantes. À travers ces expériences, Iori forge des amitiés inattendues et découvre la beauté de la plongée sous-marine. L'anime mélange comédie exubérante et moments de camaraderie sincère, tout en explorant la vie étudiante et les défis de la transition vers l'âge adulte.",
+    "Noragami suit Yato, un dieu mineur autoproclamé \"Dieu de la Livraison\", qui rêve de devenir un dieu vénéré avec des millions de fidèles. Pour ce faire, il accomplit des tâches pour 5 yens, espérant gagner en popularité. Yato rencontre Hiyori Iki, une lycéenne dont l'âme quitte fréquemment son corps après un accident, et Yukine, une âme perdue qui devient son arme divine. Ensemble, ils affrontent les menaces surnaturelles et les autres dieux. La série explore les thèmes de l'identité, de la rédemption et de la lutte pour trouver sa place dans le monde, tout en mêlant action et comédie.",
+    "My Hero Academia se déroule dans un monde où presque tout le monde possède des \"Quirks\", des pouvoirs surnaturels. Izuku Midoriya, un jeune garçon né sans Quirk, rêve de devenir un héros comme son idole All Might. Après un incident avec All Might, il reçoit un pouvoir spécial, One For All, et est accepté à l'Académie des Héros U.A. Là, il apprend à maîtriser ses nouvelles capacités tout en affrontant des vilains et des menaces. L'anime explore les défis de la formation des héros, les luttes personnelles, et la dynamique entre les héros en devenir et les vilains menaçants.",
+    "No Game No Life suit Sora et Shiro, un frère et une sœur géniaux, connus sous le pseudonyme de \"Blank\" dans le monde des jeux en ligne. Après avoir été défiés et transportés dans un monde parallèle où tout est décidé par des jeux, ils rencontrent le mystérieux dieu des jeux, Tet. Dans ce monde, les conflits sont résolus par des jeux plutôt que par la violence. Sora et Shiro utilisent leur intelligence et leurs compétences exceptionnelles pour défier les règles et les autres puissants joueurs afin de conquérir ce monde et défier Tet lui-même. L'anime est connu pour son style visuel unique, ses intrigues captivantes et ses stratégies de jeu complexes.",
+    "Tokyo Ghoul suit Ken Kaneki, un étudiant ordinaire qui devient un hybride après une transplantation d'organes d'une goule, des créatures carnivores qui se cachent parmi les humains. Désormais obligé de vivre en tant que goule, Kaneki lutte pour s'adapter à sa nouvelle vie tout en cachant sa véritable nature. Il découvre un monde caché de goules avec ses propres règles et conflits, tout en étant pourchassé par des enquêteurs humains spécialisés dans l'extermination des goules. L'anime explore les thèmes de l'identité, de la survie et du conflit intérieur entre l'humanité et les instincts de goule.",
+    "Re:Zero suit Subaru Natsuki, un adolescent qui est soudainement transporté dans un monde fantastique alors qu'il rentre de l'épicerie. Il découvre qu'il a la capacité de revenir à la vie après la mort, mais au prix de devoir revivre et recommencer chaque fois qu'il meurt. Avec cette capacité, Subaru tente de sauver ses amis et résoudre les mystères entourant ce nouveau monde. En parallèle, il se confronte à des dilemmes moraux, des ennemis puissants, et ses propres faiblesses émotionnelles. L'anime est connu pour ses rebondissements dramatiques, son exploration des thèmes de la désespérance et du courage, et sa profondeur psychologique.",
+    "One Punch Man suit Saitama, un super-héros ordinaire qui est devenu incroyablement puissant au point de pouvoir vaincre n'importe quel ennemi d'un seul coup de poing. Malgré ses capacités surhumaines, Saitama est en proie à l'ennui et à la frustration, car il ne trouve aucun adversaire capable de le défier. Cherchant à se faire reconnaître et à trouver un véritable défi, il rejoint l'Association des Héros et s'attaque à des monstres et des criminels tout en cachant son incroyable force. L'anime combine action intense, humour satirique et réflexion sur les tropes des récits de super-héros.",
+    "Overlord suit Suzuki Satoru, un joueur d’un jeu de réalité virtuelle massivement multijoueur (DMMORPG) qui se retrouve transporté dans le monde du jeu lorsque les serveurs sont fermés. En tant que personnage qu'il contrôlait, le puissant seigneur des ténèbres Momonga, il découvre que le jeu est devenu réalité et que les PNJ ont acquis une conscience. Avec son armée de créatures et de serviteurs loyaux, Momonga décide de conquérir ce nouveau monde et de découvrir ses mystères. Tout en établissant sa domination, il explore les dynamiques de pouvoir, les politiques et les dangers de ce monde fantastique. L’anime est apprécié pour ses éléments de stratégie, sa construction du monde riche et ses personnages complexes.",
+    "Tensura suit Satoru Mikami, un employé de bureau qui se réincarne dans un monde fantastique après avoir été tué dans un accident. Il se réveille sous la forme d'un slime avec des pouvoirs spéciaux, dont la capacité d'absorber les compétences et les attributs des autres créatures. En utilisant ses nouvelles capacités, il établit un territoire pacifique et forme des alliances avec diverses créatures fantastiques. Il devient rapidement une figure influente dans ce monde tout en cherchant à améliorer la vie de ses habitants et à explorer les mystères de sa nouvelle existence. L’anime combine action, aventures et construction du monde, tout en mettant l'accent sur la croissance personnelle du protagoniste.",
+    "Dororo se déroule au Japon féodal et suit Hyakkimaru, un jeune guerrier dont le père, un seigneur ambitieux, a sacrifié ses organes et parties du corps pour obtenir un pouvoir démoniaque. Hyakkimaru est abandonné à sa naissance, mais survit grâce à des prothèses et des capacités surnaturelles. En quête de récupérer ses membres et ses organes, il affronte des démons et des créatures malveillantes. En chemin, il rencontre Dororo, un jeune voleur sans famille, qui devient son allié. Ensemble, ils explorent des thèmes de rédemption, de vengeance, et de la lutte contre le destin. L’anime est salué pour son ambiance sombre, sa profondeur émotionnelle et son animation de qualité.",
+
+]
+
 for (let i = 0; i < cards.length; i++) {
     const card = cards[i];
     card.addEventListener('click', onCardClick);
