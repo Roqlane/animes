@@ -2,7 +2,7 @@
        
 window.onload = function() {
     //applique le nombre de cartes par lignes par rapport à la largeur de l'écran
-    document.getElementById('container').style.gridTemplateColumns = `repeat(${NUMBER_OF_CARDS_IN_ARROW}, 1fr)`
+    document.getElementById('container').style.gridTemplateColumns = `repeat(${NUMBER_OF_CARDS_IN_ROW}, 1fr)`
 
     //lorsque l'on vient de la page "tier list" et que l'on a cliqué sur le lien d'un anime, on redirige l'utilisateur vers celui-ci
     let params = new URLSearchParams(document.location.search); //on récupère les paramètres de l'url

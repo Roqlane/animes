@@ -99,6 +99,7 @@ body {
     place-items: center;
     .card-container {
         @extend %pointer;
+        @extend %opc-0;
         width: $card-width;
         height: $card-height;
         transition: transform 350ms ease-in-out;
