@@ -188,15 +188,9 @@ function shuffleCards() {
 function cardAnimation () {
     
     const scroll_top = document.documentElement.scrollTop
-    const user_position = document.documentElement.clientHeight + scroll_top
-    const starter = HEADER_HEIGHT //la position de la 1ere ligne dans le dom
-    const starter_row = 1 //la première ligne où on met les animations de translate
+    const user_position = document.documentElement.clientHeight + scroll_top    
     
-    
-    const CURRENT_ROW = Math.floor((user_position - HEADER_HEIGHT) / CARD_HEIGHT)
-    const CURRENT_ROW_POSITION = starter + THIRD_OF_CARD_HEIGHT + CARD_HEIGHT * (CURRENT_ROW - starter_row) //position de la ligne de la carte dans le dom et à laquelle on veut que l'animation se déclenche
-    console.log(CURRENT_ROW, CURRENT_ROW_POSITION)
-    console.log(user_position - THIRD_OF_CARD_HEIGHT)
+    const CURRENT_ROW = Math.round((user_position + HEADER_HEIGHT - 2*THIRD_OF_CARD_HEIGHT) / CARD_HEIGHT)
     
 
     let i = 0
