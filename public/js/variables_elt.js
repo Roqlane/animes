@@ -1,36 +1,9 @@
-//les medias
-let media1500 = window.matchMedia('screen and (min-width: 1240px) and (max-width: 1500px)'); //ne peut plus contenir une rangée de 5
-let media1240 = window.matchMedia('screen and (min-width: 1007px) and (max-width: 1240px)'); //ne peut plus contenir une rangée de 4
-let media1007 = window.matchMedia('screen and (max-width: 1007px)'); //n'est plus considéré comme un ordinateur
-
-const main = document.getElementsByClassName("container")[0];  
-let cards = document.querySelectorAll("div.card");
-let cardLength = cards.length;
-const animesDescription = document.querySelectorAll(".card_forward");
-
-let animesTitle = ["fullmetal", "grand_blue", "noragami", "mha", "nogamenolife", "tkg", "rezero", "opm", "overlord", "tensura", "dororo",
-"sakamoto", "darling", "parasyte", "erased", "april", "youjo_senki", "shield", "prison", "fire_force", "knights_magic", "akame", "k",
-"id_invaded", "kakegurui", "vinland", "destructive_god", "rettousei", "kabaneri", "bungou", "kaguya", "seraph", "iwgp", "hxh", "code_geass",
-"stone", "assassination_classroom", "demon_slayer", "fate", "death_note", "snk", "haikyuu", "black_butler", "nanatsu", "free", "goblin_slayer",
-"kuroko", "millionaire", "elite", "moriarty", "kill", "guren", "food", "konosuba", "death_parade", "mob", "yuri", "aldnoah",
-"amagi", "angel", "beelzebub", "brynhildr", "saiki", "sao", "genome", "tpn", "akudama", "mushoku", "angels_death", "kaisen", "gangsta",
-"gate", "cautious", "zestiria", "kekkai", "horimya", "go"];
-
-const play_button = document.getElementsByClassName("play_button");
-
-let fullscreen = document.getElementsByClassName("fullscreen");
-const fullscreenBack = document.getElementsByClassName("fullscreen-back");
-const fullscreenDescription = document.getElementsByClassName("fullscreen_description");
-
-let cardsAnimationContainer = document.querySelectorAll("div.card--animate");
-
-const dom = document.documentElement;
 
 
 
 function cardsRemoveAnimation () {
   cardsAnimationContainer.forEach(cardsRemoveClassAnimation);
-  window.removeEventListener("scroll", cardMove);
+  window.removeEventListener("scroll", cardAnimation);
 };
 function cardsRemoveClassAnimation(c) {
   c.style.animationDelay = "0ms";

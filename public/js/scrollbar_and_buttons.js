@@ -2,6 +2,9 @@ import { createCookie, readCookie } from "./module/cookie_handler.js";
 
 (function () {
   "use strict";
+  //no scrollbar for devices other than computer
+  if (media1007.matches) return;
+
     /* dom elements */
     const DOM_CONTAINER = document.documentElement;
     const DOM_SCROLLBAR = document.querySelector(".clickScrollbar");
@@ -34,7 +37,7 @@ import { createCookie, readCookie } from "./module/cookie_handler.js";
 
     var observer = new MutationObserver(scrollbarHeight);
 
-    observer.observe(main, {
+    observer.observe(container, {
       subtree: true,
       childList: true,
     });

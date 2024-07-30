@@ -1,3 +1,40 @@
+let genreText = document.getElementById("genre");
+let themeText = document.getElementById("theme");
+let genreContainer = document.getElementsByClassName("genre")[0];
+let themeContainer = document.getElementsByClassName("genre")[1];
+
+
+let sousMenuChild = document.querySelectorAll("ul.sous-menu li");
+let episodes = document.querySelector(".has-children").children[0];
+let episodesI = document.querySelectorAll(".sous-menu li")[0];
+let episodesII = document.querySelectorAll(".sous-menu li")[1];
+let episodesIII = document.querySelectorAll(".sous-menu li")[2];
+let episodesChild = document.querySelectorAll(".sous-menu > li");
+
+
+let genreChild = document.querySelectorAll(".genre")[0].querySelectorAll("p");
+let themeChild = document.querySelectorAll(".genre")[1].querySelectorAll("p");
+
+let themeGenre = document.querySelectorAll("div.genre > p");
+
+function tlc (elt) {
+    return elt.innerText.toLowerCase();
+}
+
+
+let histogram = [];
+function resetArray () {
+    histogram = [];
+    for (let i =0; i<ANIMES_CARDS.length; i++) {
+        histogram.push(0);
+    }
+}
+resetArray();
+
+const search = document.querySelector("div.form input");
+
+
+
 episodesSelect(episodesI, 11, 13);
 episodesSelect(episodesII, 24, 27);
 episodesSelect(episodesIII, 30, 200);
@@ -69,14 +106,8 @@ function themeGenreContainerDarkMode() {
 function selectCategorieInitialisation (nb, e) {
     let g;
     let t;
-    for (let a = 0; a < cardLength; a++) {
-        if (cards[nb].classList.contains(a) == true && fullscreen[a].classList.contains(a) == true) {
-            g = tlc(fullscreen[a].children[1].children[0].children[1].children[2]);
-            t = tlc(fullscreen[a].children[1].children[0].children[1].children[3]);
-        }
-    }
-    if (getComputedStyle(e).color == "rgb(255, 201, 102)" && (g.includes(tlc(e)) == false && t.includes(tlc(e)) == false)) arrayOfMiracle[nb]++;
-    else if (e.classList.contains("themeGenre-children-active") && (g.includes(tlc(e)) == false && t.includes(tlc(e)) == false) && arrayOfMiracle[nb] != 0) arrayOfMiracle[nb]--;
+    if (getComputedStyle(e).color == "rgb(255, 201, 102)" && (g.includes(tlc(e)) == false && t.includes(tlc(e)) == false)) histogram[nb]++;
+    else if (e.classList.contains("themeGenre-children-active") && (g.includes(tlc(e)) == false && t.includes(tlc(e)) == false) && histogram[nb] != 0) histogram[nb]--;
 }
 function selectCategorieSetUp (e) {
     for (let i = 0; i < cardLength; i++) selectCategorieInitialisation(i, e.target);
@@ -88,8 +119,8 @@ function selectCategorie(word) {
     if (word != "-" && word.length < 20) for (let nb = 0; nb < cardLength; nb++) {
         let g = tlc(fullscreen[nb].children[1].children[0].children[1].children[2]); //anime genres
         let t = tlc(fullscreen[nb].children[1].children[0].children[1].children[3]); // anime themes
-        if ((g.includes(word) === true || t.includes(word) === true) && arrayOfMiracle[nb] == 0) cardsApparition(cardsAnimationContainer[nb]);
-        else if ((g.includes(word) === false || t.includes(word) === false) && arrayOfMiracle[nb] == 0) cardsApparition(cardsAnimationContainer[nb]);
+        if ((g.includes(word) === true || t.includes(word) === true) && histogram[nb] == 0) cardsApparition(cardsAnimationContainer[nb]);
+        else if ((g.includes(word) === false || t.includes(word) === false) && histogram[nb] == 0) cardsApparition(cardsAnimationContainer[nb]);
         else cardsDisparition(cardsAnimationContainer[nb]);    
     }
 }
@@ -227,8 +258,8 @@ class triEpisodes {
                 elt.addEventListener("click", selectCategorieSetUp);
             })
             cardsAnimationContainer = document.querySelectorAll("div.card--animate");
-            cardMove();
-            window.addEventListener("scroll", cardMove); 
+            cardAnimation();
+            window.addEventListener("scroll", cardAnimation); 
             }, 1000);
 
             //fait le tri entre le nombre d'épisodes que possèdent les cartes et les ranges dans l'orde correspondant
@@ -289,7 +320,7 @@ search.addEventListener("input", (e) => {
     let value = e.target.value; //ce que l'on cherche 
     if (value === "") { //si le formulaire est vide
         cardsAnimationContainer.forEach((c) => cardsApparition(c)); //on fait apparaître toutes les cartes
-        window.addEventListener("scroll", cardMove); //et on remet les apparitions continuelles des cartes lors du scroll
+        window.addEventListener("scroll", cardAnimation); //et on remet les apparitions continuelles des cartes lors du scroll
     }
     if (value !== "") { //si le formulaire est rempli
         cardsRemoveAnimation(); //on retire les animations aux cartes (celles lors du scroll)

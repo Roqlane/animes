@@ -124,7 +124,8 @@ body {
                 color: rgb(88, 84, 84);
                 padding: 0 10px 0 10px;
                 & p {
-                    font-size: clamp(17px, 1vw, 17px);;
+                    overflow: hidden;
+                    font-size: clamp(17px, 2vw, 20px);;
                 }
             }
             &-front {
@@ -160,6 +161,7 @@ body {
                     border-radius: 5%;
                     h4 {
                         margin: auto;
+                        text-align: center;
                     }
                     
                     &_content {
