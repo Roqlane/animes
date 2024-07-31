@@ -105,7 +105,6 @@ body {
         transition: transform 350ms ease-in-out;
         backface-visibility: hidden;
         &:hover {
-            transform: translateZ(0) scaleY(1.01) scaleX(1.01) perspective(1px);
             & .card > .card-front > .card_forward {
                 animation: description 250ms ease-in-out forwards;
             }
@@ -124,6 +123,9 @@ body {
                 transform: rotateY(180deg);
                 color: rgb(88, 84, 84);
                 padding: 0 10px 0 10px;
+                &:hover {
+                    transform: rotateY(180deg) scaleY(1.01) scaleX(1.01);
+                }
                 & p {
                     overflow: hidden;
                     font-size: clamp(17px, 2vw, 20px);;
@@ -132,7 +134,9 @@ body {
             &-front {
                 @include flex(column, normal, center);
                 padding: 0;
-
+                &:hover {
+                    transform: scaleY(1.01) scaleX(1.01);
+                }
             }
             &-front, &-back {
                 @extend %abs;
@@ -142,6 +146,7 @@ body {
                 box-shadow: $shade;
                 border-radius: 5%;
                 backface-visibility: hidden;
+                transition: transform 350ms ease-in-out;
                 &.dark-mode {
                     box-shadow: $darkMode-shade;
                 }

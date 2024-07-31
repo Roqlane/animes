@@ -15,42 +15,39 @@ let episodesChild = document.querySelectorAll(".sous-menu > li");
 let genreChild = document.querySelectorAll(".genre")[0].querySelectorAll("p");
 let themeChild = document.querySelectorAll(".genre")[1].querySelectorAll("p");
 
-let themeGenre = document.querySelectorAll("div.genre > p");
 
-function tlc (elt) {
-    return elt.innerText.toLowerCase();
-}
+const search = document.querySelector("div.form input");
 
 
+let numberOfFiltersActivated = 0;
 let histogram = [];
 function resetArray () {
     histogram = [];
-    for (let i =0; i<ANIMES_CARDS.length; i++) {
+    for (let i =0; i<CURRENT_ANIMES_CARDS.length; i++) {
         histogram.push(0);
     }
 }
 resetArray();
 
-const search = document.querySelector("div.form input");
+clicMenuThemeGenre(genreText, genreContainer, "reverse-translate-2000 350ms ease-out");
+clicMenuThemeGenre(themeText, themeContainer, "reverse-translate2000 350ms ease-out");
 
 
+genreContainer.addEventListener("click", filtersSelect);
+themeContainer.addEventListener("click", filtersSelect);
 
 episodesSelect(episodesI, 11, 13);
 episodesSelect(episodesII, 24, 27);
 episodesSelect(episodesIII, 30, 200);
 
 
-clicMenuThemeGenre(genreText, genreContainer, "reverse-translate-2000 350ms ease-out");
-clicMenuThemeGenre(themeText, themeContainer, "reverse-translate2000 350ms ease-out");
 
-genreContainer.addEventListener("click", (e) => menuColorElt(e, genreContainer));
-themeContainer.addEventListener("click", (e) => menuColorElt(e, themeContainer));
 
-themeGenre.forEach((elt) => elt.addEventListener("click", selectCategorieSetUp));
+function tlc (elt) {
+    return elt.innerText.toLowerCase();
+}
 
-genreContainer.addEventListener("click", genreSelect);
-themeContainer.addEventListener("click", themeSelect);
-
+//display the menu containers
 function clicMenuThemeGenre(text1, container, animation) {
     function removeThemeGenreContainer(e, container, text) {
         if (!container.contains(e.target) && !text.contains(e.target)) {
@@ -86,58 +83,61 @@ function clicMenuThemeGenre(text1, container, animation) {
 
 
 
-//gère les couleurs lorsque l'on clique sur les genres ou thèmes
-function menuColorElt(e, elt) {
-   if (e.target != elt && e.target.innerText != '-') e.target.classList.toggle("themeGenre-children-active");
-}
-
 function themeGenreContainerLightMode() {
     genreContainer.classList.remove("themeGenre--darkMode"); 
     themeContainer.classList.remove("themeGenre--darkMode");
 }
 
-//passe en mode "néon" lors du dark mode
 function themeGenreContainerDarkMode() {
     genreContainer.classList.add("themeGenre--darkMode");
     themeContainer.classList.add("themeGenre--darkMode");
 }
 
-//fonction qui va trier les animes en fonction des genres et des themes, il les fait disparaître et apparaître en fonction de leur compatibilité
-function selectCategorieInitialisation (nb, e) {
-    let g;
-    let t;
-    if (getComputedStyle(e).color == "rgb(255, 201, 102)" && (g.includes(tlc(e)) == false && t.includes(tlc(e)) == false)) histogram[nb]++;
-    else if (e.classList.contains("themeGenre-children-active") && (g.includes(tlc(e)) == false && t.includes(tlc(e)) == false) && histogram[nb] != 0) histogram[nb]--;
-}
-function selectCategorieSetUp (e) {
-    for (let i = 0; i < cardLength; i++) selectCategorieInitialisation(i, e.target);
-    episodesLiRemoveColor();
-};
-
 //affichera toutes les cartes possédant ce mot
-function selectCategorie(word) {
-    if (word != "-" && word.length < 20) for (let nb = 0; nb < cardLength; nb++) {
-        let g = tlc(fullscreen[nb].children[1].children[0].children[1].children[2]); //anime genres
-        let t = tlc(fullscreen[nb].children[1].children[0].children[1].children[3]); // anime themes
-        if ((g.includes(word) === true || t.includes(word) === true) && histogram[nb] == 0) cardsApparition(cardsAnimationContainer[nb]);
-        else if ((g.includes(word) === false || t.includes(word) === false) && histogram[nb] == 0) cardsApparition(cardsAnimationContainer[nb]);
-        else cardsDisparition(cardsAnimationContainer[nb]);    
-    }
+function selectCategorie(e) {
+    let word = tlc(e.target)
+    if (word == '-') return
+    if (e.target == genreContainer || e.target == themeContainer) return
+
+    e.target.classList.toggle("themeGenre-children-active");
+    const filterActivated = e.target.classList.contains("themeGenre-children-active")
+
+    let newCardsInDom = [];
+    let newFragment = new Fragment();
+
+    //filter the card that contains the activated filters
+    for (let nb = 0; nb < ANIMES_CARDS.length; nb++) {
+        const cardContainer = ANIMES_CARDS[nb].GetCard()
+        let g = tlc(cardContainer.children[0].children[0].children[0].children[1].children[1]); //anime genres
+        let t = tlc(cardContainer.children[0].children[0].children[0].children[1].children[2]); // anime studios
+
+        //increment the histogram elements if a card does not contain one of the filter
+        const includedInCard = g.includes(word) || t.includes(word)
+        if (filterActivated && !includedInCard) histogram[nb]++;
+        else if (!filterActivated && !includedInCard && histogram[nb] != 0) histogram[nb]--;
+    
+        //if the histogram elements are equal to 0, it means that all the filters match with the card
+        if (histogram[nb] == 0) {
+            newCardsInDom.push(ANIMES_CARDS[nb])
+        }
+
+    } 
+    CURRENT_ANIMES_CARDS = newCardsInDom;
+    //recreate the dom based on the new list
+    fragment.RemoveDomFragment(container);
+    newFragment.CreateDomFragment(container, newCardsInDom);
+    //update scroll animation
+    window.removeEventListener('scroll', windowScrollListener)  
+    windowScrollListener = () => cardsAnimations(newCardsInDom)
+    window.addEventListener('scroll', windowScrollListener)
+    cardsAnimations(newCardsInDom)  
 }
 
 //fait le tri entre les genres que veut l'utilisateurs et les cartes qui correspondent
-function genreSelect(e) {
-    cardsRemoveAnimation ();
-    selectCategorie(e.target.innerText.toLowerCase());
+function filtersSelect(e) {
     inputTextDeleter();
-};
-
-//fait le tri entre quels thèmes veut l'utilisateur et les cartes qui correspondent aux thèmes
-function themeSelect(e) {
-    cardsRemoveAnimation ();
-    selectCategorie(e.target.innerText.toLowerCase());
-    inputTextDeleter();
-};  
+    selectCategorie(e);
+}; 
 
 //met la couleur des thèmes et des genres à l'initiale comme il n'y a plus de tri de leur côté
 function colorCategoriesNone () {
@@ -145,6 +145,7 @@ function colorCategoriesNone () {
     themeChild.forEach((t) => t.classList.remove("themeGenre-children-active"));
 } 
 
+/* SORT BY EPISODES */
 
 //s'occupe de ranger les cartes au nombre croissant d'épisodes au 1er clic et au nombre décroissant d'épisodes au 2e clic
 class triEpisodes {
@@ -253,13 +254,9 @@ class triEpisodes {
                 })();  
             //réinitialise toutes les cartes
             cards = document.querySelectorAll("div.card");
-            themeGenre.forEach(elt => {
-                elt.removeEventListener("click", selectCategorieSetUp);
-                elt.addEventListener("click", selectCategorieSetUp);
-            })
             cardsAnimationContainer = document.querySelectorAll("div.card--animate");
-            cardAnimation();
-            window.addEventListener("scroll", cardAnimation); 
+            cardsAnimations();
+            window.addEventListener("scroll", cardsAnimations); 
             }, 1000);
 
             //fait le tri entre le nombre d'épisodes que possèdent les cartes et les ranges dans l'orde correspondant
@@ -313,6 +310,9 @@ function episodesSelect (ep, v1, v2) {
 function episodesLiRemoveColor() {
     episodesChild.forEach(li => li.classList.remove("episodes-children-active"));
  }
+
+/* SEARCH Feature */
+
 //action de la barre de recherche: on recherche si ce que l'utilisateur a écrit se trouve quelque part dans les titres des animes
 search.addEventListener("input", (e) => {
     episodesLiRemoveColor(); //retire la couleur de la tranche sélectionnée du sous-menu
@@ -320,7 +320,7 @@ search.addEventListener("input", (e) => {
     let value = e.target.value; //ce que l'on cherche 
     if (value === "") { //si le formulaire est vide
         cardsAnimationContainer.forEach((c) => cardsApparition(c)); //on fait apparaître toutes les cartes
-        window.addEventListener("scroll", cardAnimation); //et on remet les apparitions continuelles des cartes lors du scroll
+        window.addEventListener("scroll", cardsAnimations); //et on remet les apparitions continuelles des cartes lors du scroll
     }
     if (value !== "") { //si le formulaire est rempli
         cardsRemoveAnimation(); //on retire les animations aux cartes (celles lors du scroll)

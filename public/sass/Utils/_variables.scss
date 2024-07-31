@@ -2,7 +2,7 @@
 
 $back_genre: linear-gradient(40deg, rgb(31 123 168), rgb(112 99 186), rgb(134 3 120) 80%);
 $back_theme: linear-gradient(40deg, rgb(31 123 168), rgb(112 99 186), rgb(134 3 120) 80%);
-$font_size_menu: 2rem;
+$font_size_menu: clamp(20px, 2rem, 28px);
 $shade: 2px 2px 15px 2px black;
 $darkMode-shade: 2px 2px 15px 2px white;
 $index-anim: 11000;
@@ -105,6 +105,6 @@ $col: (
 
 @function backFill ($key) {
     $path: "../image/art/";
-    $format: "_background.jpg";
+    $format: "_trailer.jpg";
     @return url($path + $key + $format);
 }

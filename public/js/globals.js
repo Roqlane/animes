@@ -11,9 +11,10 @@ const HEADER_HEIGHT = document.getElementsByTagName("header")[0].offsetHeight
 const CARD_HEIGHT = 480
 const CARD_WIDTH = 320
 const THIRD_OF_CARD_HEIGHT = CARD_HEIGHT / 3
-const NUMBER_OF_CARDS_IN_ROW = Math.floor(window.innerWidth / CARD_WIDTH)
+let NUMBER_OF_CARDS_IN_ROW = Math.floor(window.innerWidth / (CARD_WIDTH + 20))
 //cards features
 const ANIMES_CARDS = []
+let CURRENT_ANIMES_CARDS = []
 
 const NAMES = ["fullmetal", "grand_blue", "noragami", "mha", "nogamenolife", "tkg", "rezero", "opm", "overlord", "tensura", "dororo", "sakamoto", "darling", "parasyte", "erased", "april", "youjo_senki", "shield", "prison", "fire_force", "knights_magic", "akame", "k", "id_invaded", "kakegurui", "vinland", "destructive_god", "rettousei", "kabaneri", "bungou", "kaguya", "seraph", "iwgp", "hxh", "code_geass", "stone", "assassination_classroom", "demon_slayer", "fate", "death_note", "snk", "haikyuu", "black_butler", "nanatsu", "free", "goblin_slayer", "kuroko", "millionaire", "elite", "moriarty", "kill", "guren", "food", "konosuba", "death_parade", "mob", "yuri", "aldnoah", "amagi", "angel", "beelzebub", "brynhildr", "saiki", "sao", "genome", "tpn", "akudama", "mushoku", "angels_death", "kaisen", "gangsta", "gate", "cautious", "zestiria", "kekkai", "horimya", "go"];
 
@@ -113,3 +114,11 @@ const SYNOPSIS = [
     "Horimiya raconte l'histoire de Kyouko Hori, une lycéenne populaire et brillante, et d'Izumi Miyamura, un étudiant introverti et discret, chacun ayant une vie cachée. Hori semble être la parfaite élève modèle à l'école, mais elle a une vie privée chargée, s'occupant de son jeune frère et de la maison. Miyamura, de son côté, est un \"geek\" avec un style de vie alternatif et un passé de délinquant, ce qui contraste avec son apparence calme et ordinaire à l'école. Leur rencontre fortuite en dehors de l'école révèle leurs véritables personnalités et leur mène à une amitié inattendue qui évolue en une romance douce et sincère. Horimiya est apprécié pour son traitement réaliste des relations adolescentes, son humour chaleureux, et la profondeur de ses personnages.",
     "The Quintessential Quintuplets suit Fuutarou Uesugi, un étudiant au lycée qui se voit offrir un travail de tuteur pour des quintuplettes identiques, chacune ayant une personnalité distincte et des difficultés scolaires différentes. Les sœurs Nakano — Ichika, Miku, Yotsuba, Nino et Rena — sont toutes réticentes à l'idée d'avoir un tuteur, mais Fuutarou persévère et commence à développer des relations avec chacune d'elles. Alors qu'il aide les quintuplettes à améliorer leurs notes et à surmonter leurs problèmes personnels, il se retrouve également impliqué dans une romance compliquée. L’anime explore la dynamique entre Fuutarou et les sœurs, leur évolution personnelle, et le mystère de l'identité de la future épouse de Fuutarou, révélée dans le dernier épisode."
 ]   
+
+function removeCardsClass (c) {
+    c.classList.remove("reverse-translate2000");
+    c.classList.remove("reverse-translate-2000")
+    c.classList.remove("translate2000");
+    c.classList.remove("translate-2000");
+    c.classList.remove("anim_card");
+  }

@@ -16,10 +16,6 @@ class Card {
         if (this.cardContainer != null) return this.cardContainer
     }
 
-    GetIndex() {
-        if (this.index != null) return this.index
-    }
-
     SetIndex(value) {
         this.index = value
     }
@@ -86,10 +82,18 @@ class Card {
         if (window.matchMedia('screen and (max-width: 1007px)').matches || this.index == null) return
         //index the card container wether it is inside an odd or even row for card animation
         const ARROW_INDEX =  Math.floor(this.index / NUMBER_OF_CARDS_IN_ROW)
-        ARROW_INDEX % 2 == 0 ? this.cardContainer.setAttribute("even", "") : this.cardContainer.setAttribute("odd", "")
+        if (ARROW_INDEX % 2 == 0) {
+            this.cardContainer.removeAttribute("odd")
+            this.cardContainer.setAttribute("even", "")
+        }
+        else {
+            this.cardContainer.removeAttribute("even")
+            this.cardContainer.setAttribute("odd", "")
+        }
     }
 
     SetAnimationAndDelay() {
+        this.RemoveAnimations()
         const MIN_TIME = 50
         const MAX_TIME = MIN_TIME * NUMBER_OF_CARDS_IN_ROW
         const ANIMATION_COEF = MIN_TIME * (this.index % NUMBER_OF_CARDS_IN_ROW)
@@ -118,47 +122,50 @@ class Card {
         this.cardContainer.style.opacity = "1"
     }
 
+    Update(index) {
+        //set new animations
+        this.SetIndex(index)
+        this.IndexCard()
+        this.SetAnimationAndDelay()
+    }
+
+    RemoveAnimations() {
+        this.cardContainer.style.animationDelay = "0ms"
+        this.cardContainer.classList.remove("translate2000")
+        this.cardContainer.classList.remove("translate-2000")
+        this.cardContainer.classList.remove("reverse-translate2000")
+        this.cardContainer.classList.remove("reverse-translate-2000")
+        this.cardContainer.classList.remove("anim_card")
+    }
+
 
 }
 
+const fragment = new Fragment();
 
-
-//create cards 
-const fragment = document.createDocumentFragment();
-
-
-//append anime cards to dom
+//create anime cards to dom
 for (let i = 0; i < SYNOPSIS.length; i++) {
     const card = new Card(NAMES[i], TITLES[i], GENRES[i], STUDIOS[i], EPISODES[i], SYNOPSIS[i])
     card.CreateCard()
-    card.SetIndex(i)
     ANIMES_CARDS.push(card)
 }
 
 //shuffle anime cards
-shuffleCards()
-
+shuffleCards(ANIMES_CARDS)
+CURRENT_ANIMES_CARDS = ANIMES_CARDS
 //add card
-for (let i = 0; i < ANIMES_CARDS.length; i++) {
-    const card = ANIMES_CARDS[i];
-
-    //set card animation
-    card.IndexCard()
-    card.SetAnimationAndDelay()
-
-    fragment.appendChild(card.GetCard())
-}
-
-//add fragment
-container.appendChild(fragment)
+fragment.CreateDomFragment(container, CURRENT_ANIMES_CARDS)
 
 // Event delegation: add a single event listener to the container
 container.addEventListener('click', function(event) {
     //flip the card
     var targetElement = event.target;
-    while (!targetElement.classList.contains("card")) {
+
+    while (targetElement.parentElement != null && !targetElement.classList.contains("card")) {
         targetElement = targetElement.parentElement
     }
+
+    if (targetElement.parentElement == null) return
 
     targetElement.classList.toggle('flip-card')
 
@@ -170,37 +177,33 @@ container.addEventListener('click', function(event) {
         targetElement.children[1].children[0].style.overflow = "hidden"
     }
 });
+let windowScrollListener = () => cardsAnimations(CURRENT_ANIMES_CARDS);
+window.addEventListener('scroll', windowScrollListener)
 
-//add card animation on scroll
-window.addEventListener('scroll', cardAnimation)
 
-function shuffleCards() {
-    for (let i = ANIMES_CARDS.length - 1; i > 0; i--) {
+function shuffleCards(animesCards) {
+    for (let i = animesCards.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        const temp = ANIMES_CARDS[i];
-        ANIMES_CARDS[i] = ANIMES_CARDS[j];
-        ANIMES_CARDS[i].SetIndex(i)
-        ANIMES_CARDS[j] = temp;
-        ANIMES_CARDS[j].SetIndex(j)
+        const temp = animesCards[i];
+        animesCards[i] = animesCards[j];
+        animesCards[j] = temp;
     }
 }
 
-function cardAnimation () {
-    
+function cardsAnimations (animesCards) {    
     const scroll_top = document.documentElement.scrollTop
     const user_position = document.documentElement.clientHeight + scroll_top    
     
-    const CURRENT_ROW = Math.round((user_position + HEADER_HEIGHT - 2*THIRD_OF_CARD_HEIGHT) / CARD_HEIGHT)
+    const CURRENT_ROW = Math.round((user_position + HEADER_HEIGHT - 2 * THIRD_OF_CARD_HEIGHT ) / (CARD_HEIGHT + 20))
     
-
     let i = 0
-    while (i < ANIMES_CARDS.length && i < CURRENT_ROW * NUMBER_OF_CARDS_IN_ROW) {
+    while (i < animesCards.length && i < CURRENT_ROW * NUMBER_OF_CARDS_IN_ROW) {
         
-        ANIMES_CARDS[i].Appear()
+        animesCards[i].Appear()
         i++
     }
-    while (i < ANIMES_CARDS.length) {
-        ANIMES_CARDS[i].Disappear()
+    while (i < animesCards.length) {
+        animesCards[i].Disappear()
         i++
     }
 

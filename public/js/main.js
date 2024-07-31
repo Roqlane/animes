@@ -1,8 +1,6 @@
-
-       
+let resizeTimeout;
 window.onload = function() {
-    //applique le nombre de cartes par lignes par rapport à la largeur de l'écran
-    document.getElementById('container').style.gridTemplateColumns = `repeat(${NUMBER_OF_CARDS_IN_ROW}, 1fr)`
+
 
     //lorsque l'on vient de la page "tier list" et que l'on a cliqué sur le lien d'un anime, on redirige l'utilisateur vers celui-ci
     let params = new URLSearchParams(document.location.search); //on récupère les paramètres de l'url
@@ -10,8 +8,11 @@ window.onload = function() {
     moveToAnimeCard(animeName)
 
     //animation des cartes
-    //responsiveLoading()
-    //window.addEventListener("resize", responsiveLoading)
+    cardsAnimations(CURRENT_ANIMES_CARDS)
+    responsiveLoading()
+
+    //resize event
+    window.addEventListener('resize', responsiveResize);
 
     
     //on retire l'écran l'écran de chargement
@@ -38,45 +39,95 @@ window.onload = function() {
 
 }
 
+function responsiveResize() {
+    responsiveLoading()
+    //update card animations
+    clearTimeout(resizeTimeout);
+
+    //remove previous listeners
+    window.removeEventListener("scroll", windowScrollListener);
+
+    resizeTimeout = setTimeout(() => {
+        if (!media1007.matches) {
+            CURRENT_ANIMES_CARDS.forEach(c => {
+                c.IndexCard()
+                c.SetAnimationAndDelay()
+            })
+            cardsAnimations(CURRENT_ANIMES_CARDS)
+            windowScrollListener = () => cardsAnimations(CURRENT_ANIMES_CARDS)
+            window.addEventListener("scroll", windowScrollListener);
+        };
+    }, 300);
+}
+
 function responsiveLoading() {
+    media1007 = window.matchMedia('screen and (max-width: 1007px)');
+    cardSize()
+
+    
     //mobile
     //on retire l'animation des cartes pour en mettre une autre plus simple
     if (media1007.matches) {
-        window.removeEventListener("scroll", cardAnimation)
-        window.removeEventListener("resize", cardAnimation)
-        ANIMES_CARDS.forEach(c => (c = c.GetCard()) => {
-            removeCardsClass(c)
-            c.classList.add("anim_card")
+        CURRENT_ANIMES_CARDS.forEach(c => {
+            c.RemoveAnimations()
+            c.GetCard().classList.add("anim_card")
         })
     }
     //ordinateur
     //on met l'animation des cartes
     else {
-        cardAnimation();
-        window.removeEventListener("scroll", cardAnimation);
-        window.addEventListener("scroll", cardAnimation);
-
+        //applique le nombre de cartes par lignes par rapport à la largeur de l'écran
+        NUMBER_OF_CARDS_IN_ROW = Math.floor(window.innerWidth / (CARD_WIDTH + 20))
+        container.style.gridTemplateColumns = `repeat(${NUMBER_OF_CARDS_IN_ROW}, 1fr)`
     }
 }
 
 //adapte la taille des cartes par rappport à l'écran lorsque qu'on est en mode tablette out smartphone
-function cardSizeResponsiveMobile() {
+function cardSize() {
     if (media1007.matches) {
         let width = 0.3 * document.documentElement.offsetWidth;
         let height = 1.5 * width;
-        ANIMES_CARDS.forEach(c => (c = c.GetCard()) => {
-            c.style.width = width + "px";
-            c.style.height = height + "px";
+        CURRENT_ANIMES_CARDS.forEach(c => {
+            c.GetCard().style.width = width + "px";
+            c.GetCard().style.height = height + "px";
         });
         return;
     }
-    ANIMES_CARDS.forEach(c => (c = c.GetCard()) => {
-        c.style.width = 320 + "px";
-        c.style.height = 480 + "px";
-    });
+    if (CURRENT_ANIMES_CARDS[0].GetCard().style.width != CARD_WIDTH + "px") {
+        CURRENT_ANIMES_CARDS.forEach(c => {
+            c.GetCard().style.width = CARD_WIDTH + "px";
+            c.GetCard().style.height = CARD_HEIGHT + "px";
+        });
+    }
 }
-cardSizeResponsiveMobile();
-window.addEventListener("resize", cardSizeResponsiveMobile);
+
+function moveToAnimeCard(animeName) {
+    //le paramètre est vide
+    if (animeName === null || typeof animeName === undefined) return
+  
+    let animeCard = document.getElementById(`${animeName}`); //la carte de l'anime
+  
+    //la carte n'existe pas
+    if (animeCard === null) return
+  
+    //on cherche la position de la carte
+    let animePosition = Math.abs(document.body.getBoundingClientRect().top - animeCard.getBoundingClientRect().top)
+    
+    /*-on veut reconnaître l'anime qu'on a cliqué donc on va lui rajouter une bordure rouge
+        .on retire la bordure rouge à l'anime qui la possédait
+        .on applique la bordure à l'anime que l'on a cliqué
+    */
+   focusedCards = document.getElementsByClassName('focus-card')
+   focusedCards.forEach((c) => c.classList.remove('focus-card'))
+   
+   animeCard.classList.add("focus-card")
+  
+    //et on se déplace jusqu'à la location
+    window.scrollTo({
+        top: animePosition,
+        behavior: 'smooth'
+    });
+  }
 
 /* toutes les fonctionnalités si l'utilisateur est connecté */
 if (typeof kitsune != typeof undefined) {
@@ -127,7 +178,7 @@ if (typeof kitsune != typeof undefined) {
 
 /* création des étoiles et de tout ce qui concerne la fav-list*/
 
-    for(let i = 0; i < ANIMES_CARDS.length; i++) {
+    for(let i = 0; i < CURRENT_ANIMES_CARDS.length; i++) {
         //création de l'étoile "vide"
         const emptyStarContainer = document.createElement('div');
         emptyStarContainer.classList.add('empty-star-container');
@@ -145,8 +196,8 @@ if (typeof kitsune != typeof undefined) {
         filledStarContainer.appendChild(filledStar);
 
         //on ajoute ces éléments dans les cartes
-        ANIMES_CARDS[i].GetCard().appendChild(emptyStarContainer)
-        ANIMES_CARDS[i].GetCard().appendChild(filledStarContainer)
+        CURRENT_ANIMES_CARDS[i].GetCard().appendChild(emptyStarContainer)
+        CURRENT_ANIMES_CARDS[i].GetCard().appendChild(filledStarContainer)
 
         /*place une miniature de la carte correspondante dans la liste "j'aime" */
 

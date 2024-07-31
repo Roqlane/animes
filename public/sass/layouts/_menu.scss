@@ -11,7 +11,6 @@
     text-transform: lowercase;
     font-size: 1.5rem;
     p {
-        margin-left: 40px;
         font-weight: bold;
         &.hover:hover {
             color: lighten(orange, 20%); //#ffc966 rgb(255, 201, 102)
@@ -241,27 +240,30 @@
     .theme {
         @extend %categorie-div;
         background: $back_theme;
+        max-height: 135px;
         justify-self: flex-end;
         font-size: 1.1rem;
-        text-transform: uppercase;
+        text-transform: none;
         animation: translate2000 350ms ease-out;
         p {
-            font-weight: normal !important;
-            @extend %marge_theme_elt;
+            margin: 10px;
         }
         b {
-             @extend %marge_theme_elt;
+            margin: auto;
         }
     }
 }
-    
+
 .genre {
     @extend %categorie-div;
+    overflow: scroll;
     margin-top: 15px;
     animation: translate-2000 350ms ease-in;
     font-size: 1.3rem;
+    height: 135px;
     & p {
         color: #000;
+        margin-left: 40px;
     }
     b {
         margin: 18px 0 24px 40px;
