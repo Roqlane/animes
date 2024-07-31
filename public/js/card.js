@@ -141,7 +141,7 @@ class Card {
 
 }
 
-const fragment = new Fragment();
+fragment = new Fragment();
 
 //create anime cards to dom
 for (let i = 0; i < SYNOPSIS.length; i++) {

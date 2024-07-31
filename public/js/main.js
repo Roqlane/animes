@@ -62,7 +62,7 @@ function responsiveResize() {
 
 function responsiveLoading() {
     media1007 = window.matchMedia('screen and (max-width: 1007px)');
-    cardSize()
+    responsiveCardSize()
 
     
     //mobile
@@ -83,7 +83,7 @@ function responsiveLoading() {
 }
 
 //adapte la taille des cartes par rappport à l'écran lorsque qu'on est en mode tablette out smartphone
-function cardSize() {
+function responsiveCardSize() {
     if (media1007.matches) {
         let width = 0.3 * document.documentElement.offsetWidth;
         let height = 1.5 * width;

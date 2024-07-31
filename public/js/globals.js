@@ -5,6 +5,7 @@ let media1007 = window.matchMedia('screen and (max-width: 1007px)'); //n'est plu
 
 //dom elements
 const container = document.getElementById("container")
+let fragment;
 
 //numeric values
 const HEADER_HEIGHT = document.getElementsByTagName("header")[0].offsetHeight

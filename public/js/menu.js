@@ -10,6 +10,7 @@ let episodesI = document.querySelectorAll(".sous-menu li")[0];
 let episodesII = document.querySelectorAll(".sous-menu li")[1];
 let episodesIII = document.querySelectorAll(".sous-menu li")[2];
 let episodesChild = document.querySelectorAll(".sous-menu > li");
+let episodesContainer = document.querySelector(".sous-menu")
 
 
 let genreChild = document.querySelectorAll(".genre")[0].querySelectorAll("p");
@@ -19,33 +20,48 @@ let themeChild = document.querySelectorAll(".genre")[1].querySelectorAll("p");
 const search = document.querySelector("div.form input");
 
 
-let numberOfFiltersActivated = 0;
 let histogram = [];
-function resetArray () {
-    histogram = [];
-    for (let i =0; i<CURRENT_ANIMES_CARDS.length; i++) {
-        histogram.push(0);
-    }
+for (let i =0; i<CURRENT_ANIMES_CARDS.length; i++) {
+    histogram.push(0);
 }
-resetArray();
 
 clicMenuThemeGenre(genreText, genreContainer, "reverse-translate-2000 350ms ease-out");
 clicMenuThemeGenre(themeText, themeContainer, "reverse-translate2000 350ms ease-out");
 
+genreContainer.addEventListener("click", onClickMenuGenresStudioComponent);
+themeContainer.addEventListener("click", onClickMenuGenresStudioComponent);
 
 genreContainer.addEventListener("click", filtersSelect);
 themeContainer.addEventListener("click", filtersSelect);
-
-episodesSelect(episodesI, 11, 13);
-episodesSelect(episodesII, 24, 27);
-episodesSelect(episodesIII, 30, 200);
+episodesContainer.addEventListener('click', filtersSelect)
 
 
 
+function updateDomCards(newFragment, newCardsInDom) {
+    CURRENT_ANIMES_CARDS = newCardsInDom;
+    //recreate the dom based on the new list
+    fragment.RemoveDomFragment(container);
+    newFragment.CreateDomFragment(container, newCardsInDom);
+    fragment = newFragment;
+    //update scroll animation
+    window.removeEventListener('scroll', windowScrollListener)  
+    windowScrollListener = () => cardsAnimations(newCardsInDom)
+    window.addEventListener('scroll', windowScrollListener)
+    cardsAnimations(newCardsInDom)
+}
 
 function tlc (elt) {
     return elt.innerText.toLowerCase();
 }
+
+function onClickMenuGenresStudioComponent(e) {
+    if (e.target == genreContainer || e.target == themeContainer) return
+    let word = tlc(e.target)
+    if (word == '-') return
+
+    e.target.classList.toggle("themeGenre-children-active");
+}
+
 
 //display the menu containers
 function clicMenuThemeGenre(text1, container, animation) {
@@ -93,14 +109,29 @@ function themeGenreContainerDarkMode() {
     themeContainer.classList.add("themeGenre--darkMode");
 }
 
+
+
 //affichera toutes les cartes possédant ce mot
-function selectCategorie(e) {
+function applyFilter(e) {
+    if (e.target == genreContainer || e.target == themeContainer || e.target == episodesContainer) return
     let word = tlc(e.target)
     if (word == '-') return
-    if (e.target == genreContainer || e.target == themeContainer) return
+    inputTextDeleter()
 
-    e.target.classList.toggle("themeGenre-children-active");
-    const filterActivated = e.target.classList.contains("themeGenre-children-active")
+    const genresStudiosFilterClicked = e.target.classList.contains("genresStudiosChildren")
+    const episodesFilterClicked = e.target.classList.contains("episodesChildren")
+    
+    if (episodesFilterClicked) e.target.classList.toggle('episodes-children-active')
+
+    const episodesActivated = document.querySelectorAll('.episodes-children-active').length == 0 ? [e.target] : document.querySelectorAll('.episodes-children-active');
+
+    if (!genresStudiosFilterClicked) {
+        episodesActivated.forEach((li2) => {
+                if (li2 !== e.target ) {
+                    li2.classList.remove("episodes-children-active")
+                };
+            })
+    }
 
     let newCardsInDom = [];
     let newFragment = new Fragment();
@@ -108,42 +139,64 @@ function selectCategorie(e) {
     //filter the card that contains the activated filters
     for (let nb = 0; nb < ANIMES_CARDS.length; nb++) {
         const cardContainer = ANIMES_CARDS[nb].GetCard()
-        let g = tlc(cardContainer.children[0].children[0].children[0].children[1].children[1]); //anime genres
-        let t = tlc(cardContainer.children[0].children[0].children[0].children[1].children[2]); // anime studios
+
+        //the user clicked on genres or studios
+        if (genresStudiosFilterClicked) {
+            let g = tlc(cardContainer.children[0].children[0].children[0].children[1].children[1]); //anime genres
+            let t = tlc(cardContainer.children[0].children[0].children[0].children[1].children[2]); // anime studios
+
+            const includedInCard = g.includes(word) || t.includes(word)
+            const filterActivated = e.target.classList.contains("themeGenre-children-active")
+
+            if (filterActivated && !includedInCard) histogram[nb]++;
+            else if (!filterActivated && !includedInCard && histogram[nb] != 0) histogram[nb]--;
+
+        }
+        //the user clicked on an episode range
+        else if (episodesFilterClicked) {
+            //tous les éléments du sous-menu sauf le cliqué ont leur couleur réinitialisée
+            if (episodesActivated.length == 0) episodesActivated.push(e.target)
+            episodesActivated.forEach((li2) => {
+                let ep = parseInt(cardContainer.children[0].children[0].children[0].children[1].children[0].innerText.substring(10).replace(/[^\d+]/g, '')) //anime episodes
+                let range = li2.innerText.split('-')
+                const filterActivated = li2.classList.contains("episodes-children-active")
+                if (range.length == 2) {
+                    const min = parseInt(range[0])
+                    const max = parseInt(range[1])
+                    const withinRange = min <= ep && max >= ep
+                    if (!withinRange && filterActivated) histogram[nb]++;
+                    else if (!withinRange && !filterActivated && histogram[nb] != 0) histogram[nb]--;
+                }
+                else {
+                    const n = parseInt(range[0])
+                    const withinRange = n < ep
+                    if (!withinRange && filterActivated) histogram[nb]++;
+                    else if (!withinRange && !filterActivated && histogram[nb] != 0) histogram[nb]--;
+                }
+            })
+            
+        }
 
         //increment the histogram elements if a card does not contain one of the filter
-        const includedInCard = g.includes(word) || t.includes(word)
-        if (filterActivated && !includedInCard) histogram[nb]++;
-        else if (!filterActivated && !includedInCard && histogram[nb] != 0) histogram[nb]--;
     
         //if the histogram elements are equal to 0, it means that all the filters match with the card
         if (histogram[nb] == 0) {
             newCardsInDom.push(ANIMES_CARDS[nb])
         }
-
     } 
-    CURRENT_ANIMES_CARDS = newCardsInDom;
-    //recreate the dom based on the new list
-    fragment.RemoveDomFragment(container);
-    newFragment.CreateDomFragment(container, newCardsInDom);
-    //update scroll animation
-    window.removeEventListener('scroll', windowScrollListener)  
-    windowScrollListener = () => cardsAnimations(newCardsInDom)
-    window.addEventListener('scroll', windowScrollListener)
-    cardsAnimations(newCardsInDom)  
+    console.table(histogram)
+    updateDomCards(newFragment, newCardsInDom) 
+}
+
+function episodeFilter(e, cardContainer, nb) {
+    
 }
 
 //fait le tri entre les genres que veut l'utilisateurs et les cartes qui correspondent
 function filtersSelect(e) {
     inputTextDeleter();
-    selectCategorie(e);
+    applyFilter(e);
 }; 
-
-//met la couleur des thèmes et des genres à l'initiale comme il n'y a plus de tri de leur côté
-function colorCategoriesNone () {
-    genreChild.forEach((g) => g.classList.remove("themeGenre-children-active"));
-    themeChild.forEach((t) => t.classList.remove("themeGenre-children-active"));
-} 
 
 /* SORT BY EPISODES */
 
@@ -155,10 +208,6 @@ class triEpisodes {
 
         arrangement (e) {
                 e.stopPropagation();
-                cardsRemoveAnimation();
-                colorCategoriesNone();
-                resetArray();
-                episodesLiRemoveColor();
                 inputTextDeleter();
 
                 /*on fait apparaître l'animation*/
@@ -252,6 +301,7 @@ class triEpisodes {
                         $(window).off("mouseup", onWindowMouseup);
                     }
                 })();  
+
             //réinitialise toutes les cartes
             cards = document.querySelectorAll("div.card");
             cardsAnimationContainer = document.querySelectorAll("div.card--animate");
@@ -286,44 +336,18 @@ const order = new triEpisodes();
     episodesClickEvent();
     window.addEventListener("resize", episodesClickEvent);
 })();
-//gère la couleur des li de la catégorie "Episodes" et s'occupe de trier les cartes en fonction de quel élément est cliqué
-function episodesSelect (ep, v1, v2) {
-    ep.addEventListener("click", (e) => {        
-        e.stopPropagation();
-        colorCategoriesNone(); //retire la couleur de catégories genres et themes sélectionnées
-        cardsRemoveAnimation (); //retire l'animation des cartes sur les latéraux
-        inputTextDeleter();
-       
-        e.target.classList.toggle("episodes-children-active"); //met l'élément de couleur noir
-        //tous les éléments du sous-menu sauf le cliqué ont leur couleur réinitialisée
-        episodesChild.forEach((li2) => {
-            if (li2.classList.contains("episodes-children-active") && li2 !== e.target ) li2.classList.remove("episodes-children-active");
-        })
-       
-        for (let i = 0; i<cardLength; i++) {
-           let n = Number(cards[i].children[0].children[1].innerText.substring(10)); //le nombre d'épisodes
-            n >= v1 && n <= v2 ? cardsApparition(cardsAnimationContainer[i]) : e.target.classList.contains("episodes-children-active") ? cardsDisparition(cardsAnimationContainer[i]) : cardsApparition(cardsAnimationContainer[i]);
-        }
-    })
-}
-//supprime la couleur des li de la catégorie "épisodes"
-function episodesLiRemoveColor() {
-    episodesChild.forEach(li => li.classList.remove("episodes-children-active"));
- }
+
 
 /* SEARCH Feature */
 
 //action de la barre de recherche: on recherche si ce que l'utilisateur a écrit se trouve quelque part dans les titres des animes
 search.addEventListener("input", (e) => {
-    episodesLiRemoveColor(); //retire la couleur de la tranche sélectionnée du sous-menu
-    colorCategoriesNone(); //retire les couleurs des catégories sélectionnées
     let value = e.target.value; //ce que l'on cherche 
     if (value === "") { //si le formulaire est vide
         cardsAnimationContainer.forEach((c) => cardsApparition(c)); //on fait apparaître toutes les cartes
         window.addEventListener("scroll", cardsAnimations); //et on remet les apparitions continuelles des cartes lors du scroll
     }
     if (value !== "") { //si le formulaire est rempli
-        cardsRemoveAnimation(); //on retire les animations aux cartes (celles lors du scroll)
         //et on fait apparaître les animes qui correspondent à la recherche
         cardsAnimationContainer.forEach((c) => c.children[0].children[0].textContent.toString().toLowerCase().indexOf(value.toLowerCase()) !== -1 ? cardsApparition(c): cardsDisparition(c));
     }
