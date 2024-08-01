@@ -16,6 +16,16 @@ class Card {
         if (this.cardContainer != null) return this.cardContainer
     }
 
+    GetGenres() {
+        if (this.cardContainer != null) return this.cardContainer.children[0].children[0].children[0].children[1].children[1].innerText
+    }
+    GetStudios() {
+        if (this.cardContainer != null) return this.cardContainer.children[0].children[0].children[0].children[1].children[2].innerText
+    }
+    GetEpisodes() {
+        if (this.cardContainer != null) return this.cardContainer.children[0].children[0].children[0].children[1].children[0].innerText.substring(10).replace('+', '')
+    }
+
     SetIndex(value) {
         this.index = value
     }
