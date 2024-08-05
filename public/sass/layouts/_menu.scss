@@ -235,24 +235,23 @@
     }
 }
 
-.menu_aside {
-    @include flex(row, flex-end, baseline);
-    .theme {
-        @extend %categorie-div;
-        background: $back_theme;
-        max-height: 135px;
-        justify-self: flex-end;
-        font-size: 1.1rem;
-        text-transform: none;
-        animation: translate2000 350ms ease-out;
-        p {
-            margin: 10px;
-        }
-        b {
-            margin: auto;
-        }
+.theme {
+    @extend %categorie-div;
+    background: $back_theme;
+    margin-left:auto;
+    max-height: 135px;
+    justify-self: flex-end;
+    font-size: 1.1rem;
+    text-transform: none;
+    animation: translate2000 350ms ease-out;
+    p {
+        margin: 10px;
+    }
+    b {
+        margin: auto;
     }
 }
+
 
 .genre {
     @extend %categorie-div;
@@ -326,6 +325,7 @@
 /*media*/
 @media screen and (max-width: 1007px) {
     .menu {
+        overflow: scroll;
         background: linear-gradient(45deg, #006b8b, darkcyan);
         width: 50%;
         height: 100%;
@@ -340,10 +340,9 @@
             opacity: .9;
         }
         & nav {
-            height: calc(100% - 80px);
+            height: 80%;
             & ul {
                 padding-left: 24px;
-                height: 80%;
                 margin-top: 100px;
                 flex-direction: column;
                 justify-content: space-between;
@@ -379,88 +378,55 @@
         display: block;
     }
 
-    .genre {
+    .genre, .theme {
+        top: 125px;
         margin: 0;
         font-size: 1em;
         position: fixed;
         z-index: 10002;
-        top: 22%;
-    }
-
-    .menu_aside {
-        justify-content: flex-start;
-        & .theme {
-            font-size: 1rem;
-            position: fixed;
-            z-index: 10002;
-            top: 44%;
-            animation: translate-2000 250ms ease-in;
-        }
-    }
-    
-    .genre, .menu_aside .theme {
+        background: transparent;
+        width: 45%;
+        height: 30%;
         & p {
             margin: 10px 0 10px 12px;
         }
         b {
-            margin: 10px 0 0px 12px;
+            display: none;
         }
     }
+    
+    .theme {
+        @media screen and (max-height: 600px) {
+            top: 125px;
+        }
+        top: calc(150px + 35%);
+        max-height: none;
+        animation: translate-2000 250ms ease-in;
+    }
+
+    @media screen and (max-height: 600px) {
+        .menu {
+            width: 100%;
+        }
+        .genre, .theme {
+            width: 100%;
+        } 
+    }
+    
 }
 
 @media screen and (max-width: 815px) {
-    .menu nav ul .sous-menu-animation {
-        transform: translate3d(110%, 0, 0);
-    }
-    .menu nav ul #tierList, #episodes {
-        display: block;
-        transform: translate3d(0, 40px, 0);
-    }
-    #theme {
-        display: block;
-        transform: translate3d(0, 25px, 0);
-    }
-    .genre, .menu_aside .theme {
-        & p {
-            margin: 5px 0 10px 12px;
-        }
-        b {
-            margin: 5px 0 0px 12px;
-        }
-    }
-    .menu_aside .theme {
-        top: 48%;
+    .menu nav ul .sous-menu {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+        background: transparent;
     }
 }
 @media screen and (max-width: 600px) {
     .menu {
         width: 100%;
     }
-    
-    .genre, .menu_aside .theme {
+    .genre, .theme {
         width: 100%;
-
     }      
-}
-@media screen and (max-width: 480px) {
-    .genre {
-        top: 22%;
-    }
-
-    #genre {
-        transform: translate3d(0, -40px, 0);
-    }      
-    #theme {
-        transform: translate3d(0, 30px, 0);
-    }      
-
-    .genre, .menu_aside .theme {
-        & p {
-            font-size: .9em;
-            margin: 5px 0 5px 12px;
-        }
-        b {
-            margin: 5px 0 0px 12px;
-        }
-    }
 }

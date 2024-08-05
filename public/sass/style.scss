@@ -104,6 +104,8 @@ body {
         height: $card-height;
         transition: transform 350ms ease-in-out;
         backface-visibility: hidden;
+        min-height: 225px;
+        min-width: 150px;
         &:hover {
             & .card > .card-front > .card_forward {
                 animation: description 250ms ease-in-out forwards;
@@ -196,6 +198,10 @@ body {
 
     .empty-star-container {
         @extend %abs;
+        @media screen and (max-width: 1007px) {
+            height: 30px;
+            width: 30px;
+        }
         height: 36px;
         width: 36px;
         top: 1%;

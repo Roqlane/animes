@@ -18,6 +18,7 @@ const search = document.querySelector("div.form input");
 let sortingActivated = false;
 let sortedByAsc = true;
 
+
 let histogram = [];
 for (let i =0; i<CURRENT_ANIMES_CARDS.length; i++) {
     histogram.push(0);
@@ -33,7 +34,16 @@ genreContainer.addEventListener("click", filtersSelect);
 themeContainer.addEventListener("click", filtersSelect);
 episodesContainer.addEventListener('click', filtersSelect)
 
-
+function listEquals(card1, card2) {
+    if (card2.length !== card1.length) return false;
+    let i = 0;
+    let isEqual = true;
+    while (isEqual && i < card1.length) {
+        if (card1[i].name !== card2[i].name) isEqual = false
+        i++
+    }
+    return isEqual
+}
 
 function updateDomCards(newFragment, newCardsInDom) {
     CURRENT_ANIMES_CARDS = newCardsInDom;
@@ -74,7 +84,7 @@ function clicMenuThemeGenre(text1, container, animation) {
         text1.classList.toggle("menu-li-active");
         if (container.style.display =='flex') {
             container.style.animation = animation;
-            setTimeout(() => container.style.display = 'none', 350);
+            setTimeout(() => container.style.display = 'none', 300);
         }
         else {
             container.style.display = 'flex';
@@ -105,12 +115,10 @@ function themeGenreContainerDarkMode() {
 
 
 
-//affichera toutes les cartes possédant ce mot
+//filters cards according to the menu choices
 function applyFilter(e) {
     let word = e.target.innerText.toLowerCase()
     if (word == '-') return
-
-    //
 
     const genresStudiosFilterClicked = e.target.classList.contains("genresStudiosChildren")
     const episodesFilterClicked = e.target.classList.contains("episodesChildren")
@@ -185,7 +193,6 @@ function applyFilter(e) {
 //fait le tri entre les genres que veut l'utilisateurs et les cartes qui correspondent
 function filtersSelect(e) {
     if (e.target == genreContainer || e.target == themeContainer || e.target == episodesContainer) return
-    inputTextDeleter();
     applyFilter(e);
 }; 
 
@@ -193,7 +200,6 @@ function filtersSelect(e) {
 
 //s'occupe de ranger les cartes au nombre croissant d'épisodes au 1er clic et au nombre décroissant d'épisodes au 2e clic
 function sortCardsByEpisodes () {
-        inputTextDeleter();
         //range les cartes dans l'ordre qui convient
         let newCardsInDom = [];
         let newFragment = new Fragment();
@@ -249,25 +255,29 @@ window.addEventListener("resize", episodesClickEvent);
 
 //action de la barre de recherche: on recherche si ce que l'utilisateur a écrit se trouve quelque part dans les titres des animes
 search.addEventListener("input", (e) => {
-    let value = e.target.value; //ce que l'on cherche 
-    if (value === "") { //si le formulaire est vide
-        cardsAnimationContainer.forEach((c) => cardsApparition(c)); //on fait apparaître toutes les cartes
-        window.addEventListener("scroll", cardsAnimations); //et on remet les apparitions continuelles des cartes lors du scroll
+    let value = e.target.value.toLowerCase(); //ce que l'on cherche 
+
+    const newCardsInDom = []
+    const newFragment = new Fragment()
+
+    for (let i = 0; i < ANIMES_CARDS.length; i++) {
+        const card = ANIMES_CARDS[i];
+        const title = card.GetTitle().toLowerCase()
+        
+        const valueMatchesWithTitle = title.includes(value)
+
+        if (valueMatchesWithTitle && histogram[i] == 0) {
+            newCardsInDom.push(ANIMES_CARDS[i])
+        }
     }
-    if (value !== "") { //si le formulaire est rempli
-        //et on fait apparaître les animes qui correspondent à la recherche
-        cardsAnimationContainer.forEach((c) => c.children[0].children[0].textContent.toString().toLowerCase().indexOf(value.toLowerCase()) !== -1 ? cardsApparition(c): cardsDisparition(c));
-    }
+    if (!listEquals(CURRENT_ANIMES_CARDS, newCardsInDom)) updateDomCards(newFragment, newCardsInDom)
     //on lance l'easter egg ou on le retire
-    value === "Black Clover" ? BlackClover() : removeBlackClover();
+    value === "black clover" ? BlackClover() : removeBlackClover();
     //si l'anime qu'a recherché l'utilisateur est introuvable, le fond de l'input est alors en rouge
-    main.childElementCount == 0 && value != "Black Clover" ? search.style.background = "linear-gradient(to left, rgb(245, 12, 183), rgb(255, 71, 81))" : search.style.background = "transparent";
+    container.childElementCount == 0 && value != "black clover" ? search.style.background = "linear-gradient(to left, rgb(245, 12, 183), rgb(255, 71, 81))" : search.style.background = "transparent";
+    
 });
 
-//supprime le texte de l'input
-function inputTextDeleter() {
-    search.value = "";
-}
 
 /*easter egg*/
 function BlackClover() {

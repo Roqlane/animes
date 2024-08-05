@@ -3,11 +3,11 @@ import { createCookie, readCookie } from "./module/cookie_handler.js";
 (function () {
   "use strict";
   //no scrollbar for devices other than computer
-  if (media1007.matches) return;
+  const DOM_SCROLLBAR = document.querySelector(".clickScrollbar");
+  if (DOM_SCROLLBAR.style.display == "none") return;
 
     /* dom elements */
     const DOM_CONTAINER = document.documentElement;
-    const DOM_SCROLLBAR = document.querySelector(".clickScrollbar");
     const DOM_ELEVATOR = document.querySelector(".scrollbar");
     const DOM_LOGIN_ICON = document.getElementById('profile');
     const DOM_ARROW_UP = document.getElementById("arrowUp")

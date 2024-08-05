@@ -15,7 +15,9 @@ class Card {
     GetCard() {
         if (this.cardContainer != null) return this.cardContainer
     }
-
+    GetTitle() {
+        if (this.cardContainer != null) return this.cardContainer.children[0].children[0].children[0].children[0].innerText
+    }
     GetGenres() {
         if (this.cardContainer != null) return this.cardContainer.children[0].children[0].children[0].children[1].children[1].innerText
     }
@@ -89,8 +91,6 @@ class Card {
     }
 
     IndexCard() {
-        if (window.matchMedia('screen and (max-width: 1007px)').matches || this.index == null) return
-        //index the card container wether it is inside an odd or even row for card animation
         const ARROW_INDEX =  Math.floor(this.index / NUMBER_OF_CARDS_IN_ROW)
         if (ARROW_INDEX % 2 == 0) {
             this.cardContainer.removeAttribute("odd")
@@ -187,6 +187,7 @@ container.addEventListener('click', function(event) {
         targetElement.children[1].children[0].style.overflow = "hidden"
     }
 });
+
 let windowScrollListener = () => cardsAnimations(CURRENT_ANIMES_CARDS);
 window.addEventListener('scroll', windowScrollListener)
 
@@ -200,7 +201,10 @@ function shuffleCards(animesCards) {
     }
 }
 
-function cardsAnimations (animesCards) {    
+function cardsAnimations (animesCards) { 
+    //no animations if the device is not a computer
+    if (window.matchMedia('screen and (max-width: 1007px)').matches) return;
+
     const scroll_top = document.documentElement.scrollTop
     const user_position = document.documentElement.clientHeight + scroll_top    
     
