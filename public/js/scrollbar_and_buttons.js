@@ -62,15 +62,7 @@ import { createCookie, readCookie } from "./module/cookie_handler.js";
     function onThemeModeClick(e) {
       e.preventDefault();
       e.stopPropagation();
-      if (readCookie("mode") == "light") {
-        darkMode();
-        
-      }
-      else {
-        lightMode();
-
-      }
-
+      readCookie("mode") == "light" ? darkMode() : lightMode();
     }
 
     function darkMode() {
@@ -81,8 +73,8 @@ import { createCookie, readCookie } from "./module/cookie_handler.js";
         DOM_PARTICLES_CONTAINER.style.background = "rgb(10, 10, 10)";
         
         //change the cards background 
-        cards.forEach((c) => {
-          c.classList.add("dark-mode");
+        ANIMES_CARDS.forEach((c) => {
+          c.GetCard().classList.add("dark-mode");
         });
         
         //change the fav-list components opacity
@@ -100,8 +92,8 @@ import { createCookie, readCookie } from "./module/cookie_handler.js";
         DOM_PARTICLES_CONTAINER.style.background = "rgb(200, 200, 200)";
   
         //change the cards background
-        cards.forEach((c) => {
-          c.classList.remove("dark-mode");
+        ANIMES_CARDS.forEach((c) => {
+          c.GetCard().classList.remove("dark-mode");
         });         
   
         //change the fav-list components opacity

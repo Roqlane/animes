@@ -8,10 +8,10 @@ const container = document.getElementById("container")
 let fragment;
 
 //numeric values
-const HEADER_HEIGHT = document.getElementsByTagName("header")[0].offsetHeight
-const CARD_HEIGHT = 480
-const CARD_WIDTH = 320
-const THIRD_OF_CARD_HEIGHT = CARD_HEIGHT / 3
+let HEADER_HEIGHT = document.getElementsByTagName("header")[0].offsetHeight
+let CARD_HEIGHT = 480
+let CARD_WIDTH = 320
+let THIRD_OF_CARD_HEIGHT = CARD_HEIGHT / 3
 let NUMBER_OF_CARDS_IN_ROW = Math.floor(window.innerWidth / (CARD_WIDTH + 20))
 //cards features
 const ANIMES_CARDS = []

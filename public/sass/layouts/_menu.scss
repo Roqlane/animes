@@ -269,12 +269,12 @@
     }
 }
 
-.themeGenre--darkMode {
-    p {
-        color: #ddd;
-    }
-    background: linear-gradient(353deg, rgba(86, 86, 86, 0.8), rgba(62, 62, 62, 0.8), rgba(18, 18, 18, 0.4) 50%), linear-gradient(703deg, rgba(78, 77, 77, 0.8), rgba(41, 44, 44, 0.8), rgba(126, 115, 115, 0.4) 70%);
-}
+// .themeGenre--darkMode {
+//     p {
+//         color: #ddd;
+//     }
+//     background: linear-gradient(353deg, rgba(86, 86, 86, 0.8), rgba(62, 62, 62, 0.8), rgba(18, 18, 18, 0.4) 50%), linear-gradient(703deg, rgba(78, 77, 77, 0.8), rgba(41, 44, 44, 0.8), rgba(126, 115, 115, 0.4) 70%);
+// }
 
 //active classes
 .menu-li-active {
@@ -284,10 +284,10 @@
 .themeGenre-children-active {
     color: rgb(243, 162, 35) !important;
 }
-.themeGenre-children-active--darkMode {
-    color: rgb(114, 229, 250) !important;
-    text-shadow: 2px 2px 15px rgb(90, 230, 255);
-}
+// .themeGenre-children-active--darkMode {
+//     color: rgb(114, 229, 250) !important;
+//     text-shadow: 2px 2px 15px rgb(90, 230, 255);
+// }
 .episodes-children-active {
     color: #000 !important;
 }
@@ -411,6 +411,7 @@
         .genre, .theme {
             width: 100%;
         } 
+
     }
     
 }

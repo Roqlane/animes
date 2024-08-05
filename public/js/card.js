@@ -118,6 +118,7 @@ class Card {
             this.backwardAnimation = "reverse-translate-2000"
         }
         this.Disappear()
+        
     }
 
     Appear() {
@@ -166,6 +167,8 @@ CURRENT_ANIMES_CARDS = ANIMES_CARDS
 //add card
 fragment.CreateDomFragment(container, CURRENT_ANIMES_CARDS)
 
+let windowScrollListener = () => cardsAnimations(CURRENT_ANIMES_CARDS);
+window.addEventListener('scroll', windowScrollListener)
 // Event delegation: add a single event listener to the container
 container.addEventListener('click', function(event) {
     //flip the card
@@ -188,9 +191,6 @@ container.addEventListener('click', function(event) {
     }
 });
 
-let windowScrollListener = () => cardsAnimations(CURRENT_ANIMES_CARDS);
-window.addEventListener('scroll', windowScrollListener)
-
 
 function shuffleCards(animesCards) {
     for (let i = animesCards.length - 1; i > 0; i--) {
@@ -202,13 +202,11 @@ function shuffleCards(animesCards) {
 }
 
 function cardsAnimations (animesCards) { 
-    //no animations if the device is not a computer
-    if (window.matchMedia('screen and (max-width: 1007px)').matches) return;
-
     const scroll_top = document.documentElement.scrollTop
     const user_position = document.documentElement.clientHeight + scroll_top    
+    const gap = getComputedStyle(container).display == "grid" ? 20 : 0;
     
-    const CURRENT_ROW = Math.round((user_position + HEADER_HEIGHT - 2 * THIRD_OF_CARD_HEIGHT ) / (CARD_HEIGHT + 20))
+    const CURRENT_ROW = Math.round((user_position + HEADER_HEIGHT - 2 * THIRD_OF_CARD_HEIGHT ) / (CARD_HEIGHT + gap))
     
     let i = 0
     while (i < animesCards.length && i < CURRENT_ROW * NUMBER_OF_CARDS_IN_ROW) {

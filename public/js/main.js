@@ -1,7 +1,7 @@
 let resizeTimeout;
 window.onload = function() {
 
-
+    
     //lorsque l'on vient de la page "tier list" et que l'on a cliqué sur le lien d'un anime, on redirige l'utilisateur vers celui-ci
     // let params = new URLSearchParams(document.location.search); //on récupère les paramètres de l'url
     // let animeName = params.get("anime"); //on récupère le nom de l'anime
@@ -49,31 +49,18 @@ function responsiveResize() {
     
     //add animation on resize if device is of computer screen size 
     resizeTimeout = setTimeout(() => {
-        if (!media1007.matches) {
-            CURRENT_ANIMES_CARDS.forEach(c => {
-                c.IndexCard()
-                c.SetAnimationAndDelay()
-            })
-            cardsAnimations(CURRENT_ANIMES_CARDS)
-        };
+        CURRENT_ANIMES_CARDS.forEach(c => {
+            c.IndexCard()
+            c.SetAnimationAndDelay()
+        })
+        cardsAnimations(CURRENT_ANIMES_CARDS)
     }, 300);
 }
 
 function responsiveLoading() {
     responsiveCardSize()
-    
-    //mobile
-    //on retire l'animation des cartes pour en mettre une autre plus simple
-    if (media1007.matches) {
-        CURRENT_ANIMES_CARDS.forEach(c => {
-            c.RemoveAnimations()
-            c.GetCard().classList.add("anim_card")
-        })
-    }
-    //ordinateur
-    else {
-        //applique le nombre de cartes par lignes par rapport à la largeur de l'écran
-        NUMBER_OF_CARDS_IN_ROW = Math.floor(window.innerWidth / (CARD_WIDTH + 20))
+    NUMBER_OF_CARDS_IN_ROW = Math.floor(window.innerWidth / CARD_WIDTH)
+    if (!media1007.matches) {
         container.style.gridTemplateColumns = `repeat(${NUMBER_OF_CARDS_IN_ROW}, 1fr)`
     }
 }
@@ -83,15 +70,25 @@ function responsiveCardSize() {
     if (media1007.matches) {
         let width = 0.3 * document.documentElement.offsetWidth;
         let height = 1.5 * width;
-        CURRENT_ANIMES_CARDS.forEach(c => {
+
+        HEADER_HEIGHT = 0
+        CARD_WIDTH = width <= 150 ? 150 : width; 
+        CARD_HEIGHT = height <= 225 ? 225 : height;
+        THIRD_OF_CARD_HEIGHT = CARD_HEIGHT / 3
+
+        ANIMES_CARDS.forEach(c => {
             c.GetCard().style.width = width + "px";
             c.GetCard().style.height = height + "px";
         });
         return;
     }
-        CURRENT_ANIMES_CARDS.forEach(c => {
-            c.GetCard().style.width = CARD_WIDTH + "px";
-            c.GetCard().style.height = CARD_HEIGHT + "px";
+        HEADER_HEIGHT = document.getElementsByTagName("header")[0].offsetHeight
+        CARD_HEIGHT = 480
+        CARD_WIDTH = 320
+        THIRD_OF_CARD_HEIGHT = CARD_HEIGHT / 3
+        ANIMES_CARDS.forEach(c => {
+            c.GetCard().style.width = 320 + "px";
+            c.GetCard().style.height = 480 + "px";
     })
 }
 

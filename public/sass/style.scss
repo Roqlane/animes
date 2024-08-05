@@ -112,6 +112,16 @@ body {
             }
             
         }
+        &.dark-mode .card-front, &.dark-mode .card-back {
+            box-shadow: $darkMode-shade;
+            opacity: .9;
+        }
+        &.dark-mode .card-front {
+            opacity: .9;
+            &:hover {
+                opacity: 1;
+            }
+        }
         .card {
             @include card_front_background($anime);
             @extend %rel;
@@ -149,9 +159,6 @@ body {
                 border-radius: 5%;
                 backface-visibility: hidden;
                 transition: transform 350ms ease-in-out;
-                &.dark-mode {
-                    box-shadow: $darkMode-shade;
-                }
                 /*le rectangle noir qui décrit rapidement les critères de l'anime*/
                 & .card_forward {
                     @include flex(column, center, flex-start);
@@ -311,8 +318,12 @@ body {
     .glowing {
         height: 100vh;
     }
-    .container .card_forward {
-        display: none !important;
+    .card-front:active .card_forward {
+        opacity: .7;
+    }
+    .container .card-container .card-front .card_forward {
+        height: clamp(225px, 30%, 225px);
+
     }
     .fullscreen {
         grid-template-rows: 30% 40% 30%;
@@ -455,18 +466,5 @@ $p-back-bis-3: rgba(0, 226, 255, .1);
     }
     to {
         transform: rotate(0deg);
-    }
-}
-
-.dark-mode {
-    &::after {
-        @extend %pseudo-elt;
-        background: rgba(0, 0, 0, .2);
-        z-index: 2;
-    }
-    &:hover {
-        &::after {
-            background: rgba(0, 0, 0, 0);
-        }
     }
 }

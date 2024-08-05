@@ -183,7 +183,6 @@ function applyFilter(e) {
             newCardsInDom.push(ANIMES_CARDS[nb])
         }
     } 
-    console.table(histogram)
     updateDomCards(newFragment, newCardsInDom) 
     if (sortingActivated) {
         sortCardsByEpisodes();
