@@ -24,8 +24,6 @@ import { createCookie, readCookie } from "./module/cookie_handler.js";
     /* listeners */
     window.addEventListener("resize", scrollbarHeight);
     window.addEventListener("scroll", scrollbarHeight);
-    //redirect to the login form when the login icon is clicked
-    if (DOM_LOGIN_ICON != undefined) DOM_LOGIN_ICON.addEventListener('click', () => document.location = '../html/form.php');
     DOM_THEME_MODE.addEventListener("click", onThemeModeClick);
     DOM_ARROW_UP.addEventListener("click", onArrowUpClick);
     window.addEventListener("scroll", elevatorScroll);

@@ -1,6 +1,4 @@
-import {getPseudoAlreadyTaken} from "../module/get_usernames_taken.js";
-import { pseudoNotTaken, checkPseudoValidity, checkEmailValidity, checkPasswordValidity, checkPasswordConfirmationValidity } from "../module/form_verification.js";
-getPseudoAlreadyTaken(); 
+import {checkPseudoValidity, checkEmailValidity, checkPasswordValidity, checkPasswordConfirmationValidity } from "../module/form_verification.js";
 
 // les éléments du formulaire
 //l'image
@@ -23,7 +21,6 @@ const labelPasswordConfirmation = document.querySelector("#change-passwordConfir
 
 //les messages d'éerreurs
 const incorrectPseudo = document.getElementById("pseudo-error")
-const pseudoTaken = document.getElementById("pseudo-taken")
 const incorrectEmail = document.getElementById("email-error")
 const incorrectPassword = document.getElementById("password-error")
 const incorrectPasswordConfirmation = document.getElementById("passwordConfirmation-error")
@@ -54,6 +51,7 @@ const removeAllErrorClass = (label, input) => {
 
 const checkPseudo = () => {
     //pseudo incorrect
+    console.log(checkPseudoValidity(pseudo), pseudo.value)
     if (!checkPseudoValidity(pseudo)) {
         block(incorrectPseudo)
         addAllErrorClass(labelPseudo, pseudo)
@@ -62,17 +60,6 @@ const checkPseudo = () => {
 
     //pseudo correct
     none(incorrectPseudo)
-    removeAllErrorClass(labelPseudo, pseudo)
-    
-    //pseudo déjà pris
-    if (!pseudoNotTaken(pseudo) && pseudo.value != pseudoValue) {
-        block(pseudoTaken)
-        addAllErrorClass(labelPseudo, pseudo)
-        return
-    }
-
-    //pseudo disponible
-    none(pseudoTaken)
     removeAllErrorClass(labelPseudo, pseudo)
 }
 
@@ -91,14 +78,14 @@ const checkInput = (func, input, errorMessage, label) => {
 }
 
 
-pseudo.addEventListener("input", checkPseudo)
-email.addEventListener("input", () => checkInput(checkEmailValidity, email, incorrectEmail, labelEmail))
-password.addEventListener("input", () => checkInput(checkPasswordValidity, password, incorrectPassword, labelPassword))
-passwordConfirmation.addEventListener("input", () => checkInput(checkPasswordConfirmationValidity, passwordConfirmation, incorrectPasswordConfirmation, labelPasswordConfirmation))
+pseudo.addEventListener("blur", checkPseudo)
+email.addEventListener("blur", () => checkInput(checkEmailValidity, email, incorrectEmail, labelEmail))
+password.addEventListener("blur", () => checkInput(checkPasswordValidity, password, incorrectPassword, labelPassword))
+passwordConfirmation.addEventListener("blur", () => checkInput(checkPasswordConfirmationValidity, passwordConfirmation, incorrectPasswordConfirmation, labelPasswordConfirmation))
 
 document.changes.addEventListener("submit", (e) => {
     e.preventDefault()
-    if ((pseudoNotTaken(pseudo) || pseudo.value == pseudoValue) && checkPseudoValidity(pseudo) && checkEmailValidity(email) && checkPasswordValidity(password) && checkPasswordConfirmationValidity(password, passwordConfirmation))
+    if (checkPseudoValidity(pseudo) && checkEmailValidity(email) && checkPasswordValidity(password) && checkPasswordConfirmationValidity(password, passwordConfirmation))
     document.changes.submit();
 })
 
