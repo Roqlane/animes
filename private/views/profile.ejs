@@ -10,26 +10,45 @@
 <body>
     <!--les informations de l'utilisateurs -->
     <main>
-        <!-- <style> .user-info--profileImage-logo { background-image: <?php if ($image != "") echo "url($image)"; ?>; } </style> -->
-        <form action="/user/update" method="post" name="changes" enctype="multipart/form-data">
+        <% if (locals.jwt) { %>
+            <% if (jwt.avatar != "") { %>
+        <style> 
+            .user-info--profileImage-logo { 
+                background-image: url(/image/avatars/<%=jwt.avatar%>); 
+            }
+        
+        </style>
+            <% } %>
+        <% } %>
         <div class="user-info">
-            <div class="user-info--profileImage">
-                <div class="user-info--profileImage-logo">
-                    <input type="file" name="avatar" id="avatar">
-                    <span class="vertical-bar"></span>
-                    <span class="horizontal-bar"></span>
-                </div>
-            </div>
+         <form action="/user/image" id="uploadForm" method="post" enctype="multipart/form-data">
+             <div class="user-info--profileImage">
+                 <div class="user-info--profileImage-logo">
+                     <input type="file" name="avatar" id="avatar" onchange="submitForm()">
+                     <span class="vertical-bar"></span>
+                     <span class="horizontal-bar"></span>
+                 </div>
+             </div>
+         </form>
+
+         <script>
+            function submitForm() {
+                const form = document.getElementById('uploadForm');
+                form.submit();
+            }
+        </script>
+
+        <form action="/user/update" method="post" name="changes">
             
             <div class="inputs">
                 <div class="input-container user-info--pseudo">
-                    <input type="text" name="username" id="change-pseudo" value="" placeholder="Nouveau pseudo">
+                    <input type="text" name="username" id="change-pseudo" value="<%if(locals.jwt){%><%=jwt.username%><%}%>" placeholder="Nouveau pseudo">
                     <label>Pseudo:</label>
                     <span></span>
                     <p class="error-message" id="pseudo-error">Pseudo entre 4 à 40 caractères</p>
                 </div>
                     <div class="input-container user-info--email">
-                        <input type="email" name="email" id="change-email" value="" placeholder="Nouveau mail">
+                        <input type="email" name="email" id="change-email" value="<%if(locals.jwt){%><%=jwt.email%><%}%>" placeholder="Nouveau mail">
                         <label>Email:</label>
                         <span></span>
                         <p class="error-message" id="email-error">Format requis: exemple@gmail.com</p>
@@ -41,7 +60,7 @@
                         <p class="error-message" id="password-error">Doit faire 8 caractères minimum</p>
                     </div>
                     <div class="input-container user-info--passwordConfirmation">
-                        <input type="text" name="password-confirmation" id="change-passwordConfirmation" placeholder="confirmation mot de passe">
+                        <input type="text" name="passwordConfirmation" id="change-passwordConfirmation" placeholder="confirmation mot de passe">
                         <label>Confirmer le mot de passe: </label>
                         <span></span>
                         <p class="error-message" id="passwordConfirmation-error">Ne correspond pas au mot de passe</p>
@@ -49,10 +68,35 @@
                     <div class="input-container submit">
                         <input type="submit" value="Sauvegarder" id="">
                     </div>
+                    <div id="result" style="color: green; text-align: center;">
+                        <% if (locals.result) { %>
+                                <p><%= result %></p>
+                        <% } %>
+                    </div>
+                    <div id="error-container" style="color: red; text-align: center;">
+                        <% if (locals.error) { %>
+                            <% error.forEach(e => { %>
+                                    <p><%= e %></p>
+                            <% }) %>
+                        <% } %>
+                    </div>
+                </div>
+                <div id="buttons">
+                    <div id="arrow">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="up" x="0px" y="0px" width="100%" viewBox="0 0 500 500" xml:space="preserve">
+                            <g>
+                                <path d="M437.2,178.7c12.8,12.8,12.8,33.4,0,46.2c-6.4,6.4-14.7,9.6-23.1,9.6s-16.7-3.2-23.1-9.6L277.7,111.5v345.8   c0,18-14.6,32.7-32.7,32.7s-32.7-14.6-32.7-32.7V111.5L99,224.9c-12.8,12.8-33.4,12.8-46.2,0s-12.8-33.4,0-46.2L221.9,9.6   C228,3.4,236.3,0,245,0c8.7,0,17,3.4,23.1,9.6L437.2,178.7z"/>
+                            </g>
+                        </svg>
+                    </div>  
+                    <div id="logout">
+                        <img src="../image/logout_button.png" alt="" srcset="" style="height: 100%;width: 100%;">
+                    </div>
                 </div>
             </div>
         </form>
     </main>
+
 
     <style>
     

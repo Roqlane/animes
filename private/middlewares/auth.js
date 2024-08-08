@@ -11,7 +11,6 @@ const JWT_SECRET = process.env.JWT_SECRET
 
 function accessAuthentication(req, res, next) {
   const token = req.cookies.jwt; 
-
   if (!token) {
         return res.redirect('/user/login')
     }
@@ -21,7 +20,6 @@ function accessAuthentication(req, res, next) {
         return res.redirect('/user/login')
     }
 
-    req.user = user;
     next();
   });
 }

@@ -5,6 +5,19 @@
 @import "../Utils/mixin";
 @import "../Utils/animations";
 
+%icon-size {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    @extend %pointer;
+}
+%ps-elt {
+    content: "";
+    @extend %abs;
+    @extend %icon-size;
+    @extend %opc-0;
+}
+
 %transition {
     transition: all 0.25s cubic-bezier(.53,.01,.35,1.5);
 }
@@ -42,7 +55,7 @@ main {
     background-color: rgba(255, 255, 255, .3);
 
     .inputs {
-        @extend %height;
+        height: 90%;
         @include flex(column, center, normal);
 
         label {
@@ -51,10 +64,8 @@ main {
     }
 
     &--profileImage {
-        @extend %abs;
         @extend %center;
         @extend %width;
-        top: -10%;
         &-logo {
             max-height: 125px;
             max-width: 125px;
@@ -155,13 +166,13 @@ main {
                 color: darkred;
             }
         }    
-        &:not([type="submit"]):not(:focus) {
-            @include animation(neon);
-            //lorsque l'input est incorrect
-            &.input-error {
-                @include animation(neon-red);
-            }    
-        }
+        // &:not([type="submit"]):not(:focus) {
+        //     @include animation(neon);
+        //     //lorsque l'input est incorrect
+        //     &.input-error {
+        //         @include animation(neon-red);
+        //     }    
+        // }
         &[type="submit"] {
             transition: all 300ms ease;
             background: gainsboro;
@@ -170,9 +181,46 @@ main {
             }
         }
     }
+}
 
+#buttons {
+    @include flex(row, space-around, flex-start);
+    #arrow {
+        @extend %icon-size;
+        @extend %center;
+        background-color: rgb(88, 228, 233);
+        @extend %transition;
+        @extend %opc-9;
+        transform: rotate(-90deg);
+        &::after {
+            @extend %ps-elt;
+            background: rgb(8, 155, 240);
+            @extend %transition;
+        }
+        &:hover::after {
+            @extend %opc-1;
+            transform: scale(1);
+        }
+        #up {
+            fill: #fff;
+            z-index: 10000;
+            & path {
+                transform: translate3d(3px, 3px, 0);
+            }
+        }
+    }
+    
+    #logout {
+        @extend %icon-size;
+        @extend %opc-9;
+        @extend %pointer;
+        &:hover {
+            @extend %opc-1;
+        }
+    }
 
 }
+
 
 @keyframes neon {
     10%, 90% {

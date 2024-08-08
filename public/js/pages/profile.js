@@ -1,17 +1,17 @@
 import {checkPseudoValidity, checkEmailValidity, checkPasswordValidity, checkPasswordConfirmationValidity } from "../module/form_verification.js";
 
+//les boutons qui permettent de revenir à la page d'accueil ou de se déconnecter
+const arrow= document.getElementById('arrow')
+const logout = document.getElementById('logout')
+arrow.addEventListener('click', () => document.location = '/')
+logout.addEventListener('click', () => document.location = '/user/logout')
+
 // les éléments du formulaire
 //l'image
 const pseudo = document.getElementById('change-pseudo');
 const email = document.getElementById('change-email');
 const password = document.getElementById('change-password');
 const passwordConfirmation = document.getElementById('change-passwordConfirmation');
-
-//les infos de l'utilisateur
-const pseudoValue = pseudo.value;
-// const emailValue = email.value;
-// const passwordValue = password.value;
-// const passwordConfirmationValue = pseudo.value;
 
 //les labels
 const labelPseudo = document.querySelector("#change-pseudo + label")
@@ -48,21 +48,6 @@ const removeAllErrorClass = (label, input) => {
     removeInputErrorClass(input)
 }
 
-
-const checkPseudo = () => {
-    //pseudo incorrect
-    console.log(checkPseudoValidity(pseudo), pseudo.value)
-    if (!checkPseudoValidity(pseudo)) {
-        block(incorrectPseudo)
-        addAllErrorClass(labelPseudo, pseudo)
-        return
-    }
-
-    //pseudo correct
-    none(incorrectPseudo)
-    removeAllErrorClass(labelPseudo, pseudo)
-}
-
 const checkInput = (func, input, errorMessage, label) => {
     //l'input n'est pas valide 
     //on rajoute un argument pour la fonction qui doit comparer les mots de passe
@@ -78,7 +63,7 @@ const checkInput = (func, input, errorMessage, label) => {
 }
 
 
-pseudo.addEventListener("blur", checkPseudo)
+pseudo.addEventListener("blur", () => checkInput(checkPseudoValidity, pseudo, incorrectPseudo, labelPseudo))
 email.addEventListener("blur", () => checkInput(checkEmailValidity, email, incorrectEmail, labelEmail))
 password.addEventListener("blur", () => checkInput(checkPasswordValidity, password, incorrectPassword, labelPassword))
 passwordConfirmation.addEventListener("blur", () => checkInput(checkPasswordConfirmationValidity, passwordConfirmation, incorrectPasswordConfirmation, labelPasswordConfirmation))
