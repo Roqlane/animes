@@ -65,9 +65,21 @@ app.set('views', path.join(__dirname, "private/views"))
  })); 
 
 //main page
-app.get('/', (req, res) => {
-    
-    res.sendFile(path.join(__dirname, 'public/html/index.html'))
+app.get('/', (req, res, next) => {
+    const token = req.cookies.jwt; 
+    if (!token) {
+        return res.render('index')
+      }
+  
+    jwt.verify(token, JWT_SECRET, (err, user) => {
+      if (err) {
+        return res.render('index')
+      }
+  
+      next();
+    });
+}, (req, res) => {
+    res.render('index', {jwt: jwt.decode(req.cookies.jwt)})
 })
 
 //render the login page that is also the signin page
@@ -253,37 +265,61 @@ app.get('/user/logout', accessAuthentication, (req, res) => {
 
 //add a card to the user list
 app.get('/cards/add/:name', accessAuthentication, (req, res) => {
-    connection.query("SELECT name from cards", (err, cardsName) => {
-        if (err) return databaseError(err, res);
-        if (cardsName) {
-            const cardName = req.params.name;
-            const userData = jwt.decode(req.cookies.jwt);
-            //check if cardName is not already in list
-            if (!userData.animes.includes(cardName)) {
+    //check if cardName is not already in list
+    const userData = jwt.decode(req.cookies.jwt);
+    const cardName = req.params.name;
+    if (userData.animes.includes(cardName)) return res.status(500).send('Name already in');
+
+    try {
+        connection.query("SELECT name from cards", (err, cardsName) => {
+            if (cardsName) {
                 for (let i = 0; i < cardsName.length; i++) {
                     //check if the card name is valid
-                    if (cardsName.name === cardName) {
+                    if (cardsName[i].name === cardName) {
                         console.log('found', cardName)
                         userData.animes.push(cardName);
                         i = cardsName.length;
+                        //update db
+                        connection.query("SELECT id from users where username=? UNION SELECT id from cards WHERE name=?", [userData.username, cardName], (err, ids) => {
+                            const userId = ids[0].id;
+                            const cardId = ids[1].id;
+                            connection.query("INSERT INTO users_cards (user_id, cards_id) VALUES (?, ?)", [userId, cardId])
+                        })
                     }
                 }
+    
+                //update jwt
+                const token = CreateToken(userData.username, userData.email, userData.animes, userData.avatar)
+                res.cookie('jwt', token, {maxAge: 3600000}).send("Added")
             }
-            //update jwt
-            const token = CreateToken(userData.username, userData.email, userData.animes, userData.avatar)
-            res.cookie('jwt', token, {maxAge: 3600000})
-        }
-    })
+        })
+        
+    } catch (error) {
+        return databaseError(err, res);
+    }
+
 })
 
 //delete a card from a user list
 app.get('/cards/delete/:name', accessAuthentication, (req, res) => {
     const cardName = req.params.name;
     const userData = jwt.decode(req.cookies.jwt);
-    userData.animes.remove(cardName)
+
+    //update db
+    try { 
+        connection.query("SELECT id from users where username=? UNION SELECT id from cards WHERE name=?", [userData.username, cardName], (err, ids) => {
+            const userId = ids[0].id;
+            const cardId = ids[1].id;
+            connection.query("DELETE FROM users_cards WHERE user_id=? AND cards_id=?", [userId, cardId])
+        })
+    } catch (error) {
+        return databaseError(err, res)
+    }
+    
     //update jwt
-    const token = CreateToken(userData.username, userData.email, userData.animes, userData.avatar)
-    res.cookie('jwt', token, {maxAge: 3600000})
+    const token = CreateToken(userData.username, userData.email, userData.animes.filter(e => e !== cardName), userData.avatar)
+    console.log("Updated. Name:", cardName, userData.animes)
+    res.cookie('jwt', token, {maxAge: 3600000}).send("Deleted if found")
 })
 
 //404 handler

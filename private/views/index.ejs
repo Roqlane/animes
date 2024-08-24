@@ -144,33 +144,54 @@
         <div class="scrollbar"></div>
         <div class="clickScrollbar"></div>
 
-        <!-- <?php if ($userDefined) {
-            ?> -->
-            
-        <!-- le conteneur de la fav-list-->
-        <section id="fav-list-ctr" class="reverse-translate2000">
-            <!-- <?php echo '<h2 > Yahallo ' . $pseudo . '!!!</h2>';?> -->
-
-            <div id="fav-list-ctr-animes"></div>
-            <div id="fav-list-ctr-cross">
-                <svg height="100%" width="100%" version="1.1" viewbox='0 0 36 36'>
-                    <path d="M2 2 L4 0 L30 28 L28 30 M2 28 L28 0 L30 2 L4 30"></path>
-                </svg>
-            </div>
-        </section>
-
         <div id="icon-ctr">
-            <!-- l'icon  avec le masque de renard -->
-            <div id="kitsune"><img src="../image/kitsune.png" alt="kitsune" srcset="" width="100%" height="100%"></div>
-            <script>
-                const kitsune = document.getElementById("kitsune")
-                const favListContainer = document.getElementById("fav-list-ctr")
-                kitsune?.addEventListener('click', () => {
-                    favListContainer.classList.remove("reverse-translate2000")
-                    favListContainer.classList.add("translate2000")
-                })
+            <% if (locals.jwt) { %>
+                
+                <!-- l'icon  avec le masque de renard -->
+                <div id="kitsune"><img src="../image/kitsune.png" alt="kitsune" srcset="" width="100%" height="100%"></div>
+                <script>
+                    window.addEventListener("load", () => {
+                        /* this code is supposed to work based on what has already been written inside the js files */
+                        // retrieve user animes list  
+                        const ANIMES_PICKED = <%- JSON.stringify(jwt.animes) %>;
+                
+                        // display stars of the cards 
+                        ANIMES_CARDS.forEach(c => {
+                            c.GetCard().children[0].style.display = "block"
+                            //display filled card
+                            ANIMES_PICKED?.forEach(e => {
+                                if (c.GetCard().children[1].children[0].id === e) c.GetCard().children[0].classList.add("filled-star-triggered")
+                            })
+                        })
+        
+                        //this code doesn't work correctly if the user decides to change the content of their list         
+                        const kitsune = document.getElementById("kitsune")
+                        kitsune?.addEventListener('click', () => {
+                            kitsune.classList.toggle("triggered")
+                            let newCardsInDom = [];
+                            let newFragment = new Fragment();
+                            for (let nb = 0; nb < ANIMES_CARDS.length; nb++) {
+                                const card = ANIMES_CARDS[nb]
+                                if (kitsune.classList.contains("triggered")) {
+                                    if (!ANIMES_PICKED.includes(card.name)) histogram[nb]++;
+                                }
+                                else {
+                                    if (!ANIMES_PICKED.includes(card.name)&& histogram[nb] !== 0) histogram[nb]--;
+                                }
+
+                                if (histogram[nb] == 0) {
+                                    newCardsInDom.push(ANIMES_CARDS[nb])
+                                }
+                            } 
+                            updateDomCards(newFragment, newCardsInDom) 
+                            if (sortingActivated) {
+                                sortCardsByEpisodes();
+                            }
+                        })
+                    })
             </script>
                 
+            <% } %>
                 
             <!--l'icon de profile-->
             <div id="profile">

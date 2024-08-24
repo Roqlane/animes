@@ -84,8 +84,21 @@ class Card {
     
         cardDiv.appendChild(cardFront)
         cardDiv.appendChild(cardBack)
+
+        //création de l'étoile "vide"
+        const starContainer = document.createElement('div');
+        starContainer.classList.add('star-container');
+        starContainer.style.display = "none"
+
+        //création de l'étoile "remplie"
+        const filledStar = document.createElement('div');
+        filledStar.classList.add('filled-star');
+
+        starContainer.appendChild(filledStar);
+
+        this.GetCard().appendChild(starContainer)
     
-        this.cardContainer.appendChild(cardDiv)
+        this.GetCard().appendChild(cardDiv)
 
 
     }
@@ -173,6 +186,12 @@ window.addEventListener('scroll', windowScrollListener)
 container.addEventListener('click', function(event) {
     //flip the card
     var targetElement = event.target;
+    console.log(targetElement)
+
+    //card star
+    if (targetElement.classList.contains("filled-star")) {
+        triggerStar(targetElement.parentElement, targetElement.parentElement.nextSibling.children[0].id)
+    }
 
     while (targetElement.parentElement != null && !targetElement.classList.contains("card")) {
         targetElement = targetElement.parentElement
@@ -191,6 +210,23 @@ container.addEventListener('click', function(event) {
     }
 });
 
+function triggerStar(starContainer, animeName) {
+    //change the state of the star container
+    starContainer.classList.toggle("filled-star-triggered")
+
+    //if the star is triggered add the anime name to the user list
+    let url;
+    if (starContainer.classList.contains('filled-star-triggered')) {
+        url = "/cards/add/" + animeName;
+    }
+    //else remove it
+    else {
+        url = "/cards/delete/" + animeName;
+    }
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', url)
+    xhr.send();
+}
 
 function shuffleCards(animesCards) {
     for (let i = animesCards.length - 1; i > 0; i--) {

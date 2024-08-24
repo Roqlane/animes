@@ -203,31 +203,34 @@ body {
         }
     }
 
-    .empty-star-container {
-        @extend %abs;
+    .star-container {
         @media screen and (max-width: 1007px) {
             height: 30px;
             width: 30px;
         }
+        @extend %abs;
+        background-size: cover;
         height: 36px;
         width: 36px;
         top: 1%;
         right: 1%;
         z-index: 3;
-        & img {
-            @extend %size;
-        }
+        background-image: url("../image/empty-star.png");
 
-        &:hover {
-            @extend %opc-9;
+        .filled-star {
+            @extend .star-container;
+            @extend %opc-0;
+            top:0;
+            right:0;
+            background-image: url("../image/filled-star.png");
+            &:hover {
+                @extend %opc-9;
+            }
         }
     }
-
-    .filled-star-container {
-        @extend .empty-star-container;
-        @extend %opc-0;
+    .filled-star-triggered {
+        background-image: url("../image/filled-star.png");
     }
-    
 }
 
 .fullscreen {
