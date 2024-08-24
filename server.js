@@ -6,14 +6,13 @@ var jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser')
 const path = require('path');
 const multer = require("multer");
-
+const fs = require('fs')
 
 const {accessAuthentication, alreadyAuthenticated} = require('./private/middlewares/auth')
 const { databaseError, bcryptError } = require('./private/utils/errors')
 const {loginValidator, signinValidator, updateValidator} = require('./private/utils/validators')
 const {validatorError} = require('./private/middlewares/errors')
 const {connection} = require('./private/utils/database');
-const { profile } = require("console");
 
 const app = express()
 dotenv.config()
@@ -54,6 +53,7 @@ function CreateToken(username, email, animes, imagePath) {
 
 
 
+
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, "private/views"))
  
@@ -73,10 +73,18 @@ app.get('/', (req, res) => {
 //render the login page that is also the signin page
 app.get('/user/login', alreadyAuthenticated, (req, res) => {
     //render the page
-    res.sendFile(path.join(__dirname, 'public/html/form.html'))
+    res.render('form')
 }) 
 //handle the login process
-app.post('/user/login', alreadyAuthenticated, loginValidator(), validatorError, (req, res) => {
+app.post('/user/login', alreadyAuthenticated, loginValidator(), validatorError,
+(err, req, res, next) => {
+    if (err) {
+        return res.render('form', {error: err})
+    }
+
+    next()
+},
+(req, res) => {
     //retrieve database information with the req body
     const query = "SELECT * from users where username=? LIMIT 1";
     connection.query(query, [req.body.username], (err, result) => {
@@ -113,18 +121,28 @@ app.post('/user/login', alreadyAuthenticated, loginValidator(), validatorError, 
                 
             }
             else {
-                res.json({error: "Les informations envoyés ne sont pas valides, veuillez réessayer"})
+                res.render('form', {error: ["Les informations envoyés ne sont pas valides, veuillez réessayer."]})
             }
         }
         else {
-            res.json({error: "Les informations envoyés ne sont pas valides, veuillez réessayer"})
+            res.render('form', {error: ["Les informations envoyés ne sont pas valides, veuillez réessayer."]})
         }
     })
 })
 
 
 //handle the signin process
-app.post('/user/signin', alreadyAuthenticated, signinValidator(), validatorError, (req, res) => {
+app.post('/user/signin', alreadyAuthenticated, signinValidator(), validatorError,
+(err, req, res, next) => {
+    if (err) {
+        return res.render('form', {error: err, signin: true,
+            signUsername: req.body.username, signEmail: req.body.email, signPassword: req.body.password, signPasswordConfirmation: req.body.passwordConfirmation
+        })
+    }
+
+    next()
+},
+ (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     const email = req.body.email;
@@ -155,12 +173,8 @@ app.post('/user/update', accessAuthentication, updateValidator(), validatorError
 (err, req, res, next) => {
     //render the page in case there are errors in the data sent
     if (err) {
-        console.log(err.errors)
         const token = jwt.decode(req.cookies.jwt)
-        const errors = []
-        for (let i = 0; i < err.errors.length; i++) errors.push(err.errors[i])
-        if (err.errors) return res.render('profile', {jwt: token, error: errors})
-        return res.render('profile', {jwt: token, error: ["Le serveur a un problème"]})
+        return res.render('profile', {jwt: token, error: err})
     }
     
     next()
@@ -196,16 +210,28 @@ app.post('/user/image', accessAuthentication, upload.single('avatar'),
         // An unknown error occurred when uploading.
         res.render('profile', {jwt: userData, error: ["Quelque chose s'est mal passé, veuillez réessayer ultérieurement."]})
     }
-    next()
+    else {
+        next()
+    }
 },
 (req, res) => {     
     const userData = jwt.decode(req.cookies.jwt)
     if (!req.file) {
         console.error('File refused')
-        return res.render('profile', {jwt: token, error: ["Le fichier n'est pas valide !"]});
+        return res.render('profile', {jwt: userData, error: ["Le fichier n'est pas valide !"]});
     }
 
     console.log("file uploaded with filename", req.file.filename)
+
+    //remove previous image from storage
+    if (userData.avatar !== '') {
+        try {
+            fs.unlinkSync(path.join(__dirname, "public/image/avatars", userData.avatar))
+            console.log(`File ${path.join(__dirname, "public/image/avatars", userData.avatar)} successfully deleted.`)
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     //update path
     const query = "UPDATE users SET imagePath = ? WHERE username = ?"
@@ -214,7 +240,7 @@ app.post('/user/image', accessAuthentication, upload.single('avatar'),
         if (result) {
             //update jwt
             const token = CreateToken(userData.username, userData.email, userData.animes, req.file.filename)
-            res.cookie('jwt', token, {maxAge: 3600000}).render('profile', {jwt: token, result: "Le fichier a été envoyé."})
+            res.cookie('jwt', token, {maxAge: 3600000}).render('profile', {jwt: jwt.decode(token), result: "Le fichier a été envoyé."})
         }
     })
 
@@ -224,6 +250,42 @@ app.post('/user/image', accessAuthentication, upload.single('avatar'),
 app.get('/user/logout', accessAuthentication, (req, res) => {
     res.clearCookie('jwt').redirect('/')
 })
+
+//add a card to the user list
+app.get('/cards/add/:name', accessAuthentication, (req, res) => {
+    connection.query("SELECT name from cards", (err, cardsName) => {
+        if (err) return databaseError(err, res);
+        if (cardsName) {
+            const cardName = req.params.name;
+            const userData = jwt.decode(req.cookies.jwt);
+            //check if cardName is not already in list
+            if (!userData.animes.includes(cardName)) {
+                for (let i = 0; i < cardsName.length; i++) {
+                    //check if the card name is valid
+                    if (cardsName.name === cardName) {
+                        console.log('found', cardName)
+                        userData.animes.push(cardName);
+                        i = cardsName.length;
+                    }
+                }
+            }
+            //update jwt
+            const token = CreateToken(userData.username, userData.email, userData.animes, userData.avatar)
+            res.cookie('jwt', token, {maxAge: 3600000})
+        }
+    })
+})
+
+//delete a card from a user list
+app.get('/cards/delete/:name', accessAuthentication, (req, res) => {
+    const cardName = req.params.name;
+    const userData = jwt.decode(req.cookies.jwt);
+    userData.animes.remove(cardName)
+    //update jwt
+    const token = CreateToken(userData.username, userData.email, userData.animes, userData.avatar)
+    res.cookie('jwt', token, {maxAge: 3600000})
+})
+
 //404 handler
 app.use((req, res, next) => {
     res.status(404).send("Cette page n'existe pas")

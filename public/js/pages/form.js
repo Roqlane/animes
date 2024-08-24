@@ -41,6 +41,13 @@ let signEmailChecker;
 let signPassChecker;
 let signPassConfirmationChecker;
 
+window.onload = () => {
+    signPseudoChecker = checkPseudoValidity(signPseudo);
+    signEmailChecker = checkEmailValidity(signEmail);
+    signPassChecker = checkPasswordValidity(signPass);
+    signPassConfirmationChecker = checkPasswordConfirmationValidity(signPassConfirmation, signPass);
+}
+
 const checkPseudo = () => {
     signPseudoChecker = checkPseudoValidity(signPseudo) 
     !signPseudoChecker ? addInputError(signPseudo) : removeInputError(signPseudo);
